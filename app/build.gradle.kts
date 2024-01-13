@@ -1,13 +1,19 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("plugin.serialization") version "1.9.21"
 }
-
 android {
     namespace = "com.enjot.materialweather"
     compileSdk = 34
+    
+    buildFeatures {
+        buildConfig = true
+    }
     
     defaultConfig {
         applicationId = "com.enjot.materialweather"
@@ -19,6 +25,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        
+        // Read API Key from local.properties
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            val localProperties = Properties().apply {
+                load(localPropertiesFile.inputStream())
+            }
+            
+            // Adding API key to the build config
+            buildConfigField(
+                "String",
+                "API_KEY",
+                "\"${localProperties.getProperty("api_key")}\""
+            )
         }
     }
     
@@ -69,12 +90,13 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     
-    // Okhttp, Retrofit and Moshi
+    // Okhttp, Retrofit and Kotlin Serialization + Converter for Retrofit
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     
-    // Room
+    // Room (change to ksp in the future)
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -85,4 +107,17 @@ dependencies {
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    
+    // Play services
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    
+    // Accompanist
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    
+    // Pull refresh
+    implementation("eu.bambooapps:compose-material3-pullrefresh:1.0.1")
 }
