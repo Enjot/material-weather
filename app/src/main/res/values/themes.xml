@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
-    <style name="Theme.MaterialWeather" parent="android:Theme.Material.NoActionBar" />
+<!--
+     Double themes.xml allows to set up correct status bar icon colors
+     right off the bat, otherwise on light theme, during splash screen
+     (with white background) icons are dark, then switch to light ones
+     and then switch to dark ones again. Delay is visible and distracting.
+     I tried to set up it in onCreate function of MainActivity but delay
+     still existed. Second themes.xml for dark theme allows system
+     to set correct colors before activity starts. Then composable
+     code from accompanist library has control over system bars and
+     change everything when system theme changes.
+-->
+
+<resources>
+    <style name="Theme.materialweather" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:windowLightNavigationBar" >true</item>
+    </style>
+
 </resources>

@@ -1,28 +1,18 @@
 package com.enjot.materialweather
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import com.enjot.materialweather.data.location.LocationPermissionChecker
 import com.enjot.materialweather.presentation.theme.MaterialWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var permissionChecker: LocationPermissionChecker
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

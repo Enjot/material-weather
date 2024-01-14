@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -32,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -43,19 +43,22 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherOverview(
+fun OverviewScreen(
     viewModel: OverviewViewModel = hiltViewModel()
 ) {
+    val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
     val state = viewModel.state
+    val air = state.airPollution
     val scrollState = rememberScrollState()
     var isRefreshing by remember { mutableStateOf(false) }
     val refreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
         onRefresh = {
             coroutineScope.launch {
+                focusManager.clearFocus()
                 isRefreshing = true
-                viewModel.getWeather()
+                viewModel.getWeatherInfo()
                 delay(1000)
                 isRefreshing = false
             }
@@ -73,16 +76,25 @@ fun WeatherOverview(
                 .pullRefresh(refreshState)
         ) {
             DockedSearchBar(
-                query = viewModel.city,
-                onQueryChange = { viewModel.city = it },
-                onSearch = { viewModel.getWeather() },
+                query = viewModel.query,
+                onQueryChange = { viewModel.query = it },
+                onSearch = {
+                    coroutineScope.launch {
+                        focusManager.clearFocus()
+                        isRefreshing = true
+                        viewModel.getWeatherInfo()
+                        delay(1000)
+                        isRefreshing = false
+                    }
+                },
                 active = false,
                 onActiveChange = {},
                 trailingIcon = {
                     IconButton(onClick = {
                         coroutineScope.launch {
+                            focusManager.clearFocus()
                             isRefreshing = true
-                            viewModel.getWeather()
+                            viewModel.getWeatherInfo()
                             delay(1000)
                             isRefreshing = false
                         }
@@ -93,10 +105,9 @@ fun WeatherOverview(
                         )
                     }
                 },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-            
-            }
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                content = {}
+            )
             AnimatedVisibility(
                 visible = !isRefreshing,
                 enter = fadeIn(),
@@ -108,87 +119,49 @@ fun WeatherOverview(
                         .padding(4.dp)
                         .verticalScroll(scrollState)
                 ) {
-                    
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("lat: ${state.coord?.lat}")
-                        Text("lon: ${state.coord?.lon}")
-                    }
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("base: ${state.base}")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("weather id: ${state.weather?.get(0)?.id}")
-                    Text("weather main: ${state.weather?.get(0)?.main}")
-                    Text("weather description: ${state.weather?.get(0)?.description}")
                     AsyncImage(
-                        model = "https://openweathermap.org/img/wn/${state.weather?.get(0)?.icon}@2x.png",
+                        model = "https://openweathermap.org/img/wn/${
+                            state.current?.icon
+                        }@2x.png",
                         contentDescription = null,
                         modifier = Modifier.size(75.dp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("visibility: ${state.visibility}")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column {
-                            Text("main")
-                            Text("temp: ${state.main?.temp}")
-                            Text("feelsLike: ${state.main?.temp}")
-                            Text("pressure: ${state.main?.pressure}")
-                            Text("humidity: ${state.main?.humidity}")
-                            Text("tempMin: ${state.main?.tempMin}")
-                            Text("tempMax: ${state.main?.tempMax}")
-                            Text("seaLevel: ${state.main?.seaLevel}")
-                            Text("grndLevel: ${state.main?.grndLevel}")
-                            Text("")
-                            Text("clouds all: ${state.clouds?.all}")
-                        }
-                        Column {
-                            Text("wind")
-                            Text("speed: ${state.wind?.speed}")
-                            Text("deg: ${state.wind?.deg}")
-                            Text("gust: ${state.wind?.gust}")
-                            Text("")
-                            Text("rain")
-                            Text("lastHour: ${state.rain?.lastHour}")
-                            Text("lastThreeHour: ${state.rain?.lastThreeHours}")
-                            Text("")
-                            Text("snow")
-                            Text("lastHour: ${state.snow?.lastHour}")
-                            Text("lastThreeHours: ${state.snow?.lastThreeHours}")
-                        }
+                    if (state.current != null) {
+                        Text("temp: ${state.current.temp}")
+                        Text("feelsLike: ${state.current.feelsLike}")
+                        Text("description: ${state.current.description}")
+                        Text("description: ${state.current.description}")
+                        Text("description: ${state.current.description}")
                     }
+                    
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column {
-                            Text("dt: ${state.dt}")
-                            Text("timezone: ${state.timezone}")
-                            Text("id: ${state.id}")
-                            Text("name: ${state.name}")
-                            Text("cod: ${state.cod}")
-                        }
-                        Column {
-                            Text("sys")
-                            Text("type: ${state.sys?.type}")
-                            Text("id: ${state.sys?.id}")
-                            Text("message: ${state.sys?.message}")
-                            Text("country: ${state.sys?.country}")
-                            Text("sunrise: ${state.sys?.sunrise}")
-                            Text("sunset: ${state.sys?.sunset}")
+                    if (air != null) {
+                        Text("Air")
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column {
+                                Text("aqi: ${air.aqi}")
+                                Text("nh3: ${air.nh3}")
+                                Text("co: ${air.co}")
+                                Text("no: ${air.no}")
+                            }
+                            Column {
+                                Text("no2: ${air.no2}")
+                                Text("o3: ${air.o3}")
+                                Text("so2: ${air.so2}")
+                                Text("pm25: ${air.pm25}")
+                                Text("pm10: ${air.pm10}")
+                            }
                         }
                     }
-                    Spacer(modifier = Modifier.systemBarsPadding())
-            }
-
+                    Text(
+                        text = "openweathermap.org",
+                        modifier = Modifier.padding(32.dp)
+                    )
+                }
             }
         }
         PullRefreshIndicator(
@@ -199,4 +172,3 @@ fun WeatherOverview(
         )
     }
 }
-
