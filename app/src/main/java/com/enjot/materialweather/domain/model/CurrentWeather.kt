@@ -8,6 +8,8 @@ data class CurrentWeather(
     val sunrise: LocalTime,
     val sunset: LocalTime,
     val temp: Double,
+    val minTemp: Double,
+    val maxTemp: Double,
     val feelsLike: Double,
     val pressure: Int,
     val humidity: Int,

@@ -2,7 +2,6 @@ package com.enjot.materialweather.data.remote.openweathermap.api
 
 import com.enjot.materialweather.BuildConfig
 import com.enjot.materialweather.data.remote.openweathermap.dto.AirPollutionDto
-import com.enjot.materialweather.data.remote.openweathermap.dto.CurrentWeatherDto
 import com.enjot.materialweather.data.remote.openweathermap.dto.GeocodingDto
 import com.enjot.materialweather.data.remote.openweathermap.dto.OneCallDto
 import retrofit2.http.GET
@@ -17,14 +16,6 @@ interface OpenWeatherMapApi {
         @Query("q") query: String = "Sieniawa",
         @Query("limit") limit: String = "5"
     ): List<GeocodingDto>
-    
-    @GET("data/2.5/weather?appid=$apiKey")
-    suspend fun getCurrentWeatherApi(
-        @Query("lat") lat: String,
-        @Query("lon") lon: String,
-        @Query("lang") lang: String = "eng",
-        @Query("units") units: String = "metric"
-    ): CurrentWeatherDto
     
     @GET("data/3.0/onecall?exclude=minutely&exclude=alerts&appid=$apiKey")
     suspend fun getOneCallApi(

@@ -28,6 +28,8 @@ class OverviewViewModel @Inject constructor(
             val result = weatherRepository.getWeatherInfo(query)
             state = state.copy(
                 current = result.data?.current,
+                hourly = result.data?.hourly,
+                daily = result.data?.daily,
                 airPollution = result.data?.airPollution
             )
         }
@@ -38,6 +40,8 @@ class OverviewViewModel @Inject constructor(
                 val result = weatherRepository.getWeatherInfo(query)
             state = state.copy(
                 current = result.data?.current,
+                hourly = result.data?.hourly,
+                daily = result.data?.daily,
                 airPollution = result.data?.airPollution
             )
         }
