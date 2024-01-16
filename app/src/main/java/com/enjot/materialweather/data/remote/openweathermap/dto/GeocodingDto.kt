@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GeocodingDto(
-    @SerialName("name") val name: String? = null,
+    @SerialName("name") val name: String,
     @SerialName("local_names") val localNames: LocalNames? = null,
     @SerialName("lat") val lat: Double,
     @SerialName("lon") val lon: Double,

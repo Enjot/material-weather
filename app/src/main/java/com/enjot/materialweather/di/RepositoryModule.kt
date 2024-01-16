@@ -1,8 +1,6 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.data.location.DefaultLocationTracker
 import com.enjot.materialweather.data.repository.WeatherRepositoryImpl
-import com.enjot.materialweather.domain.location.LocationTracker
 import com.enjot.materialweather.domain.repository.WeatherRepository
 import dagger.Binds
 import dagger.Module

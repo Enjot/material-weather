@@ -4,16 +4,17 @@ import com.enjot.materialweather.data.remote.openweathermap.dto.OneCallDto
 import com.enjot.materialweather.domain.model.CurrentWeather
 import com.enjot.materialweather.domain.model.DailyWeather
 import com.enjot.materialweather.domain.model.HourlyWeather
+import kotlin.math.roundToInt
 
 fun OneCallDto.toCurrentWeather(): CurrentWeather {
     return CurrentWeather(
         localDateTime = this.current.dt.toLocalDateTime(),
         sunrise = this.current.sunrise.toLocalTime(),
         sunset = this.current.sunset.toLocalTime(),
-        temp = this.current.temp,
-        minTemp = this.daily[0].temp.min,
-        maxTemp = this.daily[0].temp.max,
-        feelsLike = this.current.feelsLike,
+        temp = this.current.temp.roundToInt(),
+        minTemp = this.daily[0].temp.min.roundToInt(),
+        maxTemp = this.daily[0].temp.max.roundToInt(),
+        feelsLike = this.current.feelsLike.roundToInt(),
         pressure = this.current.pressure,
         humidity = this.current.humidity,
         dewPoint = this.current.dewPoint,
@@ -21,7 +22,7 @@ fun OneCallDto.toCurrentWeather(): CurrentWeather {
         uvi = this.current.uvi,
         visibility = this.current.visibility,
         windSpeed = this.current.windSpeed,
-        windGust = this.current.windGust!!,
+        windGust = this.current.windGust,
         windDeg = this.current.windDeg,
         rainPrecipitation = this.current.rain?.precipitation,
         snowPrecipitation = this.current.snow?.precipitation,
@@ -35,7 +36,7 @@ fun OneCallDto.toHourlyWeatherList(): List<HourlyWeather> {
     return this.hourly.map {
         HourlyWeather(
             localTime = it.dt.toLocalTime(),
-            temp = it.temp,
+            temp = it.temp.roundToInt(),
             humidity = it.humidity,
             windSpeed = it.windSpeed,
             windDeg = it.windDeg,
@@ -57,8 +58,8 @@ fun OneCallDto.toDailyWeatherList(): List<DailyWeather> {
             moonset = it.moonset.toLocalTime(),
             moonPhase = it.moonPhase,
             summary = it.summary,
-            tempDay = it.temp.day,
-            tempNight = it.temp.night,
+            tempDay = it.temp.day.roundToInt(),
+            tempNight = it.temp.night.roundToInt(),
             pressure = it.pressure,
             humidity = it.humidity,
             dewPoint = it.dewPoint,

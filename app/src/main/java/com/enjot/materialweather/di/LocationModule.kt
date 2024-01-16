@@ -1,7 +1,7 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.data.location.DefaultLocationTracker
-import com.enjot.materialweather.domain.location.LocationTracker
+import com.enjot.materialweather.data.location.DefaultLocationProvider
+import com.enjot.materialweather.domain.location.LocationProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ abstract class LocationModule {
 
     @Binds
     @Singleton
-    abstract fun bindLocationTracker(defaultLocationTracker: DefaultLocationTracker): LocationTracker
+    abstract fun bindLocationTracker(defaultLocationTracker: DefaultLocationProvider): LocationProvider
 }

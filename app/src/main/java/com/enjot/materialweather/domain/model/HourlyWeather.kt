@@ -4,7 +4,7 @@ import java.time.LocalTime
 
 data class HourlyWeather(
     val localTime: LocalTime,
-    val temp: Double,
+    val temp: Int,
     val humidity: Int,
     val windSpeed: Double,
     val windDeg: Int,

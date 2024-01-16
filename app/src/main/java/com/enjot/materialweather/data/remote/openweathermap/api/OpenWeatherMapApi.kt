@@ -13,8 +13,15 @@ interface OpenWeatherMapApi {
     
     @GET("geo/1.0/direct?appid=$apiKey")
     suspend fun getGeocodingApi(
-        @Query("q") query: String = "Sieniawa",
-        @Query("limit") limit: String = "5"
+        @Query("q") query: String,
+        @Query("limit") limit: String? = null
+    ): List<GeocodingDto>
+    
+    @GET("geo/1.0/reverse?appid=$apiKey")
+    suspend fun getReversedGeocodingApi(
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
+        @Query("limit") limit: String = "1"
     ): List<GeocodingDto>
     
     @GET("data/3.0/onecall?exclude=minutely&exclude=alerts&appid=$apiKey")
