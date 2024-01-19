@@ -3,6 +3,7 @@ package com.enjot.materialweather.presentation.overviewscreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -45,7 +46,9 @@ fun OverviewScreen(
     )
     Box {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .fillMaxWidth()
                 .pullRefresh(pullRefreshState)
         ) {
             ExpandableSearchBanner(
@@ -55,8 +58,10 @@ fun OverviewScreen(
                 onSearch = { onEvent(OverviewEvent.SearchBanner.OnSearch(state.query))},
                 isActive = state.isSearchBarActive,
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-                onLocationIconClick = { onEvent(OverviewEvent.SearchBanner.OnLocationIconClick) },
+                onUseCurrentLocationClick = { onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick) },
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
+                onAddToFavorites = { result -> onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(result)) },
+                onSearchResultClick = { result -> onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(result))},
                 searchResults = viewModel.state.searchResults
             )
             Column(
@@ -73,7 +78,7 @@ fun OverviewScreen(
                     )
                 }
                 state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
-                if (!state.isLoading) {
+                if (!state.isLoading && state.weatherInfo != null) {
                     Text(
                         text = "openweathermap.org",
                         style = MaterialTheme.typography.labelSmall,

@@ -48,15 +48,22 @@ class OverviewViewModel @Inject constructor(
             
             }
             
-            is OverviewEvent.SearchBanner.OnLocationIconClick -> {
+            is OverviewEvent.SearchBanner.OnCurrentLocationButtonClick -> {
                 getWeatherInfoForGpsLocation()
             }
             
             is OverviewEvent.SearchBanner.OnArrowBackClick -> {
                 state = state.copy(
                     isSearchBarActive = false,
+                    searchResults = emptyList(),
                     query = ""
                 )
+            }
+            
+            is OverviewEvent.SearchBanner.OnSearchResultClick -> {
+                viewModelScope.launch {
+                    getWeatherInfo(event.searchResult)
+                }
             }
             
             is OverviewEvent.OnPullRefresh -> {
@@ -78,12 +85,19 @@ class OverviewViewModel @Inject constructor(
     }
     
     private fun getWeatherInfo(searchResult: SearchResult) {
+        state = state.copy(
+            isSearchBarActive = false,
+            isLoading = true,
+            searchResults = emptyList(),
+            query = ""
+        )
         viewModelScope.launch {
             val result =
                 weatherRepository.getWeatherInfo(searchResult.coordinates)
             if (result.data != null) {
                 state = state.copy(
-                    weatherInfo = result.data
+                    weatherInfo = result.data,
+                    isLoading = false
                 )
             }
         }
@@ -126,6 +140,7 @@ class OverviewViewModel @Inject constructor(
     private fun getWeatherInfoForGpsLocation() {
         viewModelScope.launch {
             state = state.copy(
+                isSearchBarActive = false,
                 isLoading = true,
                 error = null
             )
@@ -158,7 +173,4 @@ class OverviewViewModel @Inject constructor(
         }
     }
     
-    init {
-        getWeatherInfoForGpsLocation()
-    }
 }
