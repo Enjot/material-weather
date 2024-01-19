@@ -26,7 +26,7 @@ data class OneCallDto(
         @SerialName("dew_point") val dewPoint: Double,
         @SerialName("clouds") val clouds: Int,
         @SerialName("uvi") val uvi: Double,
-        @SerialName("visibility") val visibility: Int,
+        @SerialName("visibility") val visibility: Int = -1,
         @SerialName("wind_speed") val windSpeed: Double,
         @SerialName("wind_gust") val windGust: Double? = null,
         @SerialName("wind_deg") val windDeg: Int,

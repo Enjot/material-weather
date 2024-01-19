@@ -34,11 +34,16 @@ android {
                 load(localPropertiesFile.inputStream())
             }
             
-            // Adding API key to the build config
+            // Adding API keys to the build config
             buildConfigField(
                 "String",
-                "API_KEY",
-                "\"${localProperties.getProperty("api_key")}\""
+                "API_KEY_OPENWEATHERMAP",
+                "\"${localProperties.getProperty("api_key_openweathermap")}\""
+            )
+            buildConfigField(
+                "String",
+                "API_KEY_GEOAPIFY",
+                "\"${localProperties.getProperty("api_key_geoapify")}\""
             )
         }
     }
@@ -50,6 +55,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -76,7 +82,10 @@ dependencies {
     
     // Core
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation ("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -121,7 +130,11 @@ dependencies {
     
     // Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     
     // Pull refresh gesture for M3
     implementation("eu.bambooapps:compose-material3-pullrefresh:1.0.1")
+    
+    // Shimmer KMP
+    implementation("com.valentinilk.shimmer:compose-shimmer:1.2.0")
 }

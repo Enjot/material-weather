@@ -29,3 +29,12 @@ fun Int.toLocalTime(): LocalTime {
         .atZone(ZoneId.systemDefault())
         .toLocalTime()
 }
+
+fun Int.toDayOfWeek(): String {
+    val timestampInMillis = this * 1000L
+    val day = Instant.ofEpochMilli(timestampInMillis)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate().dayOfWeek.toString()
+    
+    return day.first().uppercase() + day.substring(1).lowercase()
+}

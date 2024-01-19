@@ -2,65 +2,90 @@ package com.enjot.materialweather.domain.model
 
 class AirPollution(
     val aqi: Int,
-    val nh3: Double,
-    val no: Double,
-    val co: Double,
-    val no2: Double,
-    val o3: Double,
-    val pm10: Double,
-    val pm25: Double,
-    val so2: Double
+    val nh3: Int,
+    val no: Int,
+    val co: Int,
+    val no2: Int,
+    val o3: Int,
+    val pm10: Int,
+    val pm25: Int,
+    val so2: Int
 ) {
-    val aqiRange = 1..5
-    val nh3Range = 0.1..200.0
-    val noRange = 0.1..100.0
     
-    val coIndex = when {
-        co in 0.0 ..< 4400.0 -> 1
-        co in 4400.0 ..< 9400.0 -> 2
-        co in 9400.0 ..< 12400.0 -> 3
-        co in 12400.0 ..< 15400.0 -> 4
+    // every range starts from 0
+    val aqiRange = 5
+    val nh3Range = 200
+    val noRange = 100
+    val coRange = 15400
+    val no2Range = 200
+    val o3Range = 180
+    val pm10Range = 200
+    val pm25Range = 75
+    val so2Range = 350
+    
+    val coIndex = when (co) {
+        in 0..<4400 -> 1
+        in 4400..<9400 -> 2
+        in 9400..<12400 -> 3
+        in 12400..<15400 -> 4
         else -> 5
     }
     
-    val no2Index = when {
-        no2 in 0.0 ..< 40.0 -> 1
-        no2 in 40.0 ..< 70.0 -> 2
-        no2 in 70.0 ..< 150.0 -> 3
-        no2 in 150.0 ..< 200.0 -> 4
+    val no2Index = when (no2) {
+        in 0..<40 -> 1
+        in 40..<70 -> 2
+        in 70..<150 -> 3
+        in 150..<200 -> 4
         else -> 5
     }
     
-    val o3Index = when {
-        o3 in 0.0 ..< 60.0 -> 1
-        o3 in 60.0 ..< 100.0 -> 2
-        o3 in 100.0 ..< 140.0 -> 3
-        o3 in 140.0 ..< 180.0 -> 4
+    val o3Index = when (o3) {
+        in 0..<60 -> 1
+        in 60..<100 -> 2
+        in 100..<140 -> 3
+        in 140..<180 -> 4
         else -> 5
     }
     
-    val pm10Index = when {
-        pm10 in 0.0 ..< 20.0 -> 1
-        pm10 in 20.0 ..< 50.0 -> 2
-        pm10 in 50.0 ..< 100.0 -> 3
-        pm10 in 100.0 ..< 200.0 -> 4
+    val pm10Index = when (pm10) {
+        in 0..<20 -> 1
+        in 20..<50 -> 2
+        in 50..<100 -> 3
+        in 100..<200 -> 4
         else -> 5
     }
     
-    val pm25Index = when {
-        pm25 in 0.0 ..< 10.0 -> 1
-        pm25 in 10.0 ..< 25.0 -> 2
-        pm25 in 25.0 ..< 50.0 -> 3
-        pm25 in 50.0 ..< 75.0 -> 4
+    val pm25Index = when (pm25) {
+        in 0..<10 -> 1
+        in 10..<25 -> 2
+        in 25..<50 -> 3
+        in 50..<75 -> 4
         else -> 5
     }
     
     val so2Index = when (so2) {
-        in 0.0 ..< 20.0 -> 1
-        in 20.0 ..< 80.0 -> 2
-        in 80.0  ..< 250.0 -> 3
-        in 250.0 ..< 350.0 -> 4
+        in 0..<20 -> 1
+        in 20..<80 -> 2
+        in 80..<250 -> 3
+        in 250..<350 -> 4
         else -> 5
     }
     
+    val list = listOf(
+        AirSingleParameter("PM2.5", pm25, pm25Range),
+        AirSingleParameter("PM10", pm10, pm10Range),
+        AirSingleParameter("CO", co, coRange),
+        AirSingleParameter("O3", o3, o3Range),
+        AirSingleParameter("NO", no, noRange),
+        AirSingleParameter("NO2", no2, no2Range),
+        AirSingleParameter("SO2", so2, so2Range),
+        AirSingleParameter("NH3", nh3, nh3Range),
+    )
 }
+
+data class AirSingleParameter(
+    val name: String,
+    val value: Int,
+    val range: Int,
+    val progression: Float = (value * 100f / range) / 100f
+)

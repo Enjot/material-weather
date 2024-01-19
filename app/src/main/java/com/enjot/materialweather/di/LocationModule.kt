@@ -1,10 +1,11 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.data.location.DefaultLocationProvider
-import com.enjot.materialweather.domain.location.LocationProvider
+import com.enjot.materialweather.data.location.DefaultLocationTracker
+import com.enjot.materialweather.domain.location.LocationTracker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -15,5 +16,7 @@ abstract class LocationModule {
 
     @Binds
     @Singleton
-    abstract fun bindLocationTracker(defaultLocationTracker: DefaultLocationProvider): LocationProvider
+    abstract fun providesLocationTracker(
+        defaultLocationTracker: DefaultLocationTracker
+    ): LocationTracker
 }

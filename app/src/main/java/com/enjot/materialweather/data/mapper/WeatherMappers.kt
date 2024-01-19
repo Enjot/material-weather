@@ -20,7 +20,6 @@ fun OneCallDto.toCurrentWeather(): CurrentWeather {
         dewPoint = this.current.dewPoint,
         clouds = this.current.clouds,
         uvi = this.current.uvi,
-        visibility = this.current.visibility,
         windSpeed = this.current.windSpeed,
         windGust = this.current.windGust,
         windDeg = this.current.windDeg,
@@ -51,7 +50,7 @@ fun OneCallDto.toHourlyWeatherList(): List<HourlyWeather> {
 fun OneCallDto.toDailyWeatherList(): List<DailyWeather> {
     return this.daily.map {
         DailyWeather(
-            localDate = it.dt.toLocalDate(),
+            dayOfWeek = it.dt.toDayOfWeek(),
             sunrise = it.sunrise.toLocalTime(),
             sunset = it.sunset.toLocalTime(),
             moonrise = it.moonrise.toLocalTime(),

@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 data class DailyWeather(
-    val localDate: LocalDate,
+    val dayOfWeek: String,
     val sunrise: LocalTime,
     val sunset: LocalTime,
     val moonrise: LocalTime,
