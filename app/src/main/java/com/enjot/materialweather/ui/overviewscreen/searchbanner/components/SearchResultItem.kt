@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen.searchbanner.components
+package com.enjot.materialweather.ui.overviewscreen.searchbanner.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -54,7 +51,7 @@ fun SearchResultItem(
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.inversePrimary)
+                    .background(MaterialTheme.colorScheme.tertiaryContainer)
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
@@ -64,7 +61,7 @@ fun SearchResultItem(
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.inversePrimary)
+                .background(MaterialTheme.colorScheme.tertiaryContainer)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))

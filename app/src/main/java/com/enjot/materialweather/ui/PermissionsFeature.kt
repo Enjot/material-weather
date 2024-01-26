@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation
+package com.enjot.materialweather.ui
 
 import android.Manifest
 import android.content.Context

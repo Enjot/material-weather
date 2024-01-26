@@ -18,7 +18,7 @@ interface GeoapifyApi {
     
     @GET("v1/geocode/search?limit=5&type=city&format=json&apiKey=$API_KEY_GEOAPIFY")
     suspend fun callGeocodingApi(
-    @Query("text") query: String
+        @Query("text") query: String
     ): GeocodingDto
     
     @GET("v1/geocode/reverse?type=street&format=json&apiKey=$API_KEY_GEOAPIFY")

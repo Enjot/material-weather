@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface OpenWeatherMapApi {
     
-    @GET("data/3.0/onecall?exclude=minutely&exclude=alerts&appid=$API_KEY_OPENWEATHERMAP")
+    @GET("data/3.0/onecall?&appid=$API_KEY_OPENWEATHERMAP")
     suspend fun callOneCallApi(
         @Query("lat") lat: String,
         @Query("lon") lon: String,

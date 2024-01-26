@@ -10,6 +10,7 @@ data class GeocodingDto(
 ) {
     @Serializable
     data class Result(
+        
         @SerialName("lon") val lon: Double,
         @SerialName("lat") val lat: Double,
     )

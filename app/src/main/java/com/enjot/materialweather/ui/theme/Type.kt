@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.theme
+package com.enjot.materialweather.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen.components
+package com.enjot.materialweather.ui.overviewscreen.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen
+package com.enjot.materialweather.ui.overviewscreen
 
 import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo

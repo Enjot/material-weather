@@ -1,9 +1,14 @@
-package com.enjot.materialweather.presentation.overviewscreen
+package com.enjot.materialweather.ui.overviewscreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -18,12 +23,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.enjot.materialweather.presentation.overviewscreen.components.AirPollutionBanner
-import com.enjot.materialweather.presentation.overviewscreen.components.ConditionsBanner
-import com.enjot.materialweather.presentation.overviewscreen.components.DailyBanner
-import com.enjot.materialweather.presentation.overviewscreen.components.HourlyBanner
-import com.enjot.materialweather.presentation.overviewscreen.components.SummaryBanner
-import com.enjot.materialweather.presentation.overviewscreen.searchbanner.ExpandableSearchBanner
+import com.enjot.materialweather.ui.overviewscreen.components.AirPollutionBanner
+import com.enjot.materialweather.ui.overviewscreen.components.ConditionsBanner
+import com.enjot.materialweather.ui.overviewscreen.components.DailyBanner
+import com.enjot.materialweather.ui.overviewscreen.components.HourlyBanner
+import com.enjot.materialweather.ui.overviewscreen.components.SummaryBanner
+import com.enjot.materialweather.ui.overviewscreen.searchbanner.ExpandableSearchBanner
 import eu.bambooapps.material3.pullrefresh.PullRefreshIndicator
 import eu.bambooapps.material3.pullrefresh.pullRefresh
 import eu.bambooapps.material3.pullrefresh.rememberPullRefreshState
@@ -39,7 +44,7 @@ fun OverviewScreen(
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewModel.state.isLoading,
         onRefresh = {
-                viewModel.onEvent(OverviewEvent.OnPullRefresh)
+            viewModel.onEvent(OverviewEvent.OnPullRefresh)
         },
         refreshThreshold = 50.dp,
         refreshingOffset = 200.dp
@@ -51,34 +56,61 @@ fun OverviewScreen(
                 .fillMaxWidth()
                 .pullRefresh(pullRefreshState)
         ) {
+            
             ExpandableSearchBanner(
                 query = state.query,
-                onQueryChange = { onEvent(OverviewEvent.SearchBanner.OnQueryChange(it)) },
-                selectedCity = state.weatherInfo?.searchResult?.city ?: "Search",
-                onSearch = { onEvent(OverviewEvent.SearchBanner.OnSearch(state.query))},
+                onQueryChange = {
+                    onEvent(
+                        OverviewEvent.SearchBanner.OnQueryChange(
+                            it
+                        )
+                    )
+                },
+                selectedCity = state.weatherInfo?.searchResult?.city
+                    ?: "Search",
+                onSearch = { onEvent(OverviewEvent.SearchBanner.OnSearch(state.query)) },
                 isActive = state.isSearchBarActive,
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
                 onUseCurrentLocationClick = { onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick) },
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
-                onAddToFavorites = { result -> onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(result)) },
-                onSearchResultClick = { result -> onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(result))},
+                onAddToFavorites = { result ->
+                    onEvent(
+                        OverviewEvent.SearchBanner.OnAddToFavorites(
+                            result
+                        )
+                    )
+                },
+                onSearchResultClick = { result ->
+                    onEvent(
+                        OverviewEvent.SearchBanner.OnSearchResultClick(
+                            result
+                        )
+                    )
+                },
                 searchResults = viewModel.state.searchResults
             )
-            Column(
-                modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .padding(16.dp)
+            
+            AnimatedVisibility(
+                enter = fadeIn(),
+                exit = fadeOut(),
+                visible = !state.isLoading && state.weatherInfo != null
             ) {
-                state.weatherInfo?.current?.let { SummaryBanner(it) }
-                state.weatherInfo?.hourly?.let { HourlyBanner(it) }
-                state.weatherInfo?.daily?.let { DailyBanner(it) }
-                state.weatherInfo?.current?.conditions?.let {
-                    ConditionsBanner(
-                        it
-                    )
-                }
-                state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
-                if (!state.isLoading && state.weatherInfo != null) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(scrollState)
+                        .padding(16.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    state.weatherInfo?.current?.let { SummaryBanner(it) }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    state.weatherInfo?.hourly?.let { HourlyBanner(it) }
+                    state.weatherInfo?.daily?.let { DailyBanner(it) }
+                    state.weatherInfo?.current?.conditions?.let {
+                        ConditionsBanner(
+                            it
+                        )
+                    }
+                    state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
                     Text(
                         text = "openweathermap.org",
                         style = MaterialTheme.typography.labelSmall,

@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen.searchbanner
+package com.enjot.materialweather.ui.overviewscreen.searchbanner
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateIntAsState
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.SearchResult
-import com.enjot.materialweather.presentation.overviewscreen.searchbanner.components.SearchResultItem
-import com.enjot.materialweather.presentation.overviewscreen.searchbanner.components.UseCurrentLocationButton
+import com.enjot.materialweather.ui.overviewscreen.searchbanner.components.SearchResultItem
+import com.enjot.materialweather.ui.overviewscreen.searchbanner.components.CurrentLocationButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +83,7 @@ fun ExpandableSearchBanner(
             .padding(
                 start = padding.dp,
                 end = padding.dp,
-                top = padding.dp,
+                top = padding.dp
             )
             .fillMaxWidth()
     ) {
@@ -105,7 +104,7 @@ fun ExpandableSearchBanner(
                 )
             }
             
-            UseCurrentLocationButton(
+            CurrentLocationButton(
                 onClick = onUseCurrentLocationClick,
                 modifier = Modifier.padding(16.dp)
             )

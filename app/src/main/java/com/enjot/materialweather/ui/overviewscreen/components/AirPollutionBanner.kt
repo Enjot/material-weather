@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen.components
+package com.enjot.materialweather.ui.overviewscreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -40,13 +39,12 @@ fun AirPollutionBanner(
             }
             Text(
                 text = "μg/m³",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .padding(bottom = 16.dp, top = 8.dp)
                     .align(Alignment.CenterHorizontally)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.tertiaryContainer)
                     .padding(8.dp)
             )
         }
@@ -70,8 +68,8 @@ private fun AirItem(
             modifier = Modifier.weight(1f)
         )
         LinearProgressIndicator(
-            color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.inversePrimary,
+            color = MaterialTheme.colorScheme.tertiary,
+            trackColor = MaterialTheme.colorScheme.tertiaryContainer,
             progress = item.progression,
             modifier = Modifier
                 .weight(5f)

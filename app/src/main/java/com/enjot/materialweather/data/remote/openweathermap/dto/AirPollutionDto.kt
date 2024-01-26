@@ -6,17 +6,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AirPollutionDto(
-    @SerialName("coord") val coord: Coord? = null,
-    @SerialName("list") val innerList: List<InnerList?>?  = null
+    @SerialName("list") val innerList: List<InnerList> = emptyList()
 ) {
     @Serializable
-    data class Coord(
-        @SerialName("lat") val lat: Double? = null,
-        @SerialName("lon") val lon: Double? = null,
-    )
-    @Serializable
     data class InnerList(
-        @SerialName("dt") val dt: Int? = null,
         @SerialName("main") val main: Main? = null,
         @SerialName("components") val components: Components? = null
     ) {

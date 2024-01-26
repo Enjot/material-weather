@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.overviewscreen
+package com.enjot.materialweather.ui.overviewscreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,7 +67,7 @@ class OverviewViewModel @Inject constructor(
             }
             
             is OverviewEvent.OnPullRefresh -> {
-                getWeatherInfoForGpsLocation()
+                refreshWeatherInfo()
             }
             
             is OverviewEvent.OnSnackbarSettingsClick -> {
@@ -122,6 +122,10 @@ class OverviewViewModel @Inject constructor(
     
     private fun refreshWeatherInfo() {
         viewModelScope.launch {
+            state = state.copy(
+                isLoading = true,
+                error = null
+            )
             val result = state.weatherInfo?.searchResult?.let {
                 weatherRepository.getWeatherInfo(
                     it.coordinates
@@ -130,7 +134,8 @@ class OverviewViewModel @Inject constructor(
             if (result != null) {
                 if (result.data != null) {
                     state = state.copy(
-                        weatherInfo = result.data
+                        weatherInfo = result.data,
+                        isLoading = false
                     )
                 }
             }
@@ -142,7 +147,8 @@ class OverviewViewModel @Inject constructor(
             state = state.copy(
                 isSearchBarActive = false,
                 isLoading = true,
-                error = null
+                error = null,
+                query = ""
             )
             locationTracker.getCurrentLocation()?.let { coordinates ->
                 when (val result =
