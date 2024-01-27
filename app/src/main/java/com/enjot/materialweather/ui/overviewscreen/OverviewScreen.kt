@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,17 +22,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.enjot.materialweather.ui.overviewscreen.components.AirPollutionBanner
-import com.enjot.materialweather.ui.overviewscreen.components.ConditionsBanner
+import com.enjot.materialweather.ui.overviewscreen.components.air.AirPollutionBanner
+import com.enjot.materialweather.ui.overviewscreen.components.conditions.ConditionsBanner
 import com.enjot.materialweather.ui.overviewscreen.components.DailyBanner
 import com.enjot.materialweather.ui.overviewscreen.components.HourlyBanner
 import com.enjot.materialweather.ui.overviewscreen.components.SummaryBanner
 import com.enjot.materialweather.ui.overviewscreen.searchbanner.ExpandableSearchBanner
-import eu.bambooapps.material3.pullrefresh.PullRefreshIndicator
-import eu.bambooapps.material3.pullrefresh.pullRefresh
-import eu.bambooapps.material3.pullrefresh.rememberPullRefreshState
+import com.enjot.materialweather.ui.pullrefresh.PullRefreshIndicator
+import com.enjot.materialweather.ui.pullrefresh.pullRefresh
+import com.enjot.materialweather.ui.pullrefresh.rememberPullRefreshState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OverviewScreen(
     viewModel: OverviewViewModel = hiltViewModel()
@@ -41,22 +39,24 @@ fun OverviewScreen(
     val state = viewModel.state
     val scrollState = rememberScrollState()
     val onEvent = viewModel::onEvent
+    
+    
+    // onRefresh function is activated only from pull gesture
+    // if refreshing gets true by other way, onRefresh is not getting called
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewModel.state.isLoading,
-        onRefresh = {
-            viewModel.onEvent(OverviewEvent.OnPullRefresh)
-        },
+        onRefresh = { viewModel.onEvent(OverviewEvent.OnPullRefresh) },
         refreshThreshold = 50.dp,
         refreshingOffset = 200.dp
     )
-    Box {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .pullRefresh(pullRefreshState)
-        ) {
-            
+    
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .pullRefresh(pullRefreshState)
+    ) {
+        
+        Column {
             ExpandableSearchBanner(
                 query = state.query,
                 onQueryChange = {
@@ -66,12 +66,20 @@ fun OverviewScreen(
                         )
                     )
                 },
-                selectedCity = state.weatherInfo?.searchResult?.city
+                selectedCity = state.weatherInfo?.place?.city
                     ?: "Search",
-                onSearch = { onEvent(OverviewEvent.SearchBanner.OnSearch(state.query)) },
+                onSearch = {
+                    onEvent(
+                        OverviewEvent.SearchBanner.OnSearch(
+                            state.query
+                        )
+                    )
+                },
                 isActive = state.isSearchBarActive,
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-                onUseCurrentLocationClick = { onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick) },
+                onUseCurrentLocationClick = {
+                    onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick)
+                },
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
                 onAddToFavorites = { result ->
                     onEvent(
@@ -87,16 +95,18 @@ fun OverviewScreen(
                         )
                     )
                 },
-                searchResults = viewModel.state.searchResults
+                searchResults = viewModel.state.searchResults,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
-            
             AnimatedVisibility(
                 enter = fadeIn(),
                 exit = fadeOut(),
                 visible = !state.isLoading && state.weatherInfo != null
             ) {
                 Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
+                        .fillMaxWidth()
                         .verticalScroll(scrollState)
                         .padding(16.dp)
                 ) {
@@ -110,7 +120,11 @@ fun OverviewScreen(
                             it
                         )
                     }
-                    state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
+                    state.weatherInfo?.airPollution?.let {
+                        AirPollutionBanner(
+                            it
+                        )
+                    }
                     Text(
                         text = "openweathermap.org",
                         style = MaterialTheme.typography.labelSmall,
@@ -125,13 +139,10 @@ fun OverviewScreen(
                 }
             }
         }
-        
         PullRefreshIndicator(
-            refreshing = viewModel.state.isLoading,
+            refreshing = state.isLoading,
             state = pullRefreshState,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
+            modifier = Modifier.align(Alignment.TopCenter)
         )
     }
-    
 }

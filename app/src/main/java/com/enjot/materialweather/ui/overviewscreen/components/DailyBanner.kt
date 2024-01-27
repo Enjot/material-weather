@@ -70,8 +70,8 @@ private fun DailyItem(
                 .drawBehind {
                     val bounds = this.size
                     val path = Path().apply {
-                        moveTo(bounds.width / 2 - 100.dp.toPx(), bounds.height)
-                        lineTo(bounds.width / 2 + 48.dp.toPx(), 0f)
+                        moveTo(bounds.width / 2 - 88.dp.toPx(), bounds.height)
+                        lineTo(bounds.width / 2 + 24.dp.toPx(), 0f)
                         lineTo(bounds.width, 0f)
                         lineTo(bounds.width, bounds.height)
                         close()

@@ -1,4 +1,8 @@
-package com.example.compose
+package com.enjot.materialweather.ui.theme
+
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF00658D)
@@ -63,5 +67,15 @@ val md_theme_dark_surfaceTint = Color(0xFF81CFFF)
 val md_theme_dark_outlineVariant = Color(0xFF41484D)
 val md_theme_dark_scrim = Color(0xFF000000)
 
-
 val seed = Color(0xFFC6E7FF)
+
+
+val ColorScheme.onProgressContainer: Color
+    @Composable
+    get() = MaterialTheme.colorScheme.primary.copy(
+        alpha = 0.5f
+    )
+
+val ColorScheme.progressContainer: Color
+    @Composable
+    get() = MaterialTheme.colorScheme.surface

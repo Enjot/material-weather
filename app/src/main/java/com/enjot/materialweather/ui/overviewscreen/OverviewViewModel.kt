@@ -126,7 +126,7 @@ class OverviewViewModel @Inject constructor(
                 isLoading = true,
                 error = null
             )
-            val result = state.weatherInfo?.searchResult?.let {
+            val result = state.weatherInfo?.place?.let {
                 weatherRepository.getWeatherInfo(
                     it.coordinates
                 )

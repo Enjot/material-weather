@@ -136,9 +136,6 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     
-    // Pull refresh gesture for M3
-    implementation("eu.bambooapps:compose-material3-pullrefresh:1.0.1")
-    
     // Shimmer KMP
     implementation("com.valentinilk.shimmer:compose-shimmer:1.2.0")
 }
