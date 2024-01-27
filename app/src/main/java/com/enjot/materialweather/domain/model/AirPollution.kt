@@ -76,6 +76,7 @@ class AirPollution(
         AirSingleParameter("PM10", pm10, pm10Range),
         AirSingleParameter("CO", co, coRange),
         AirSingleParameter("O3", o3, o3Range),
+        AirSingleParameter("AQI", aqi, aqiRange),
         AirSingleParameter("NO", no, noRange),
         AirSingleParameter("NO2", no2, no2Range),
         AirSingleParameter("SO2", so2, so2Range),

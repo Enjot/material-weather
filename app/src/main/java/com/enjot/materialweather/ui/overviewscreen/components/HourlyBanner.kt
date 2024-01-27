@@ -14,6 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.HourlyWeather
 import kotlin.math.roundToInt
@@ -28,11 +32,29 @@ fun HourlyBanner(
         modifier = modifier
     ) {
         TitleText(text = "Hourly")
+        
+        val color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+            alpha = 0.05f
+        )
+        
         Card {
             Row(
                 modifier = Modifier
                     .horizontalScroll(scrollState)
                     .fillMaxWidth()
+                    .drawBehind {
+                        drawRect(
+                            color = color,
+                            topLeft = Offset(
+                                x = 0f,
+                                y = this.size.height - (this.size.height / 3)
+                            ),
+                            size = Size(
+                                width = this.size.width,
+                                height = this.size.height / 3
+                            )
+                        )
+                    }
             ) {
                 hourly.forEachIndexed { index, item ->
                     HourlyItem(item, index == 0)

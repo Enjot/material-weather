@@ -13,6 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.DailyWeather
@@ -55,12 +59,30 @@ private fun DailyItem(
         ),
         modifier = modifier.padding(2.dp)
     ) {
+        val color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+            alpha = 0.05f
+        )
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
+                .drawBehind {
+                    val bounds = this.size
+                    val path = Path().apply {
+                        moveTo(bounds.width / 2 - 100.dp.toPx(), bounds.height)
+                        lineTo(bounds.width / 2 + 48.dp.toPx(), 0f)
+                        lineTo(bounds.width, 0f)
+                        lineTo(bounds.width, bounds.height)
+                        close()
+                    }
+                    drawPath(
+                        path = path,
+                        color = color
+                    )
+                }
                 .padding(vertical = 8.dp, horizontal = 16.dp)
+
         ) {
             Text(
                 text = if (isFirst) "Today" else item.dayOfWeek,
