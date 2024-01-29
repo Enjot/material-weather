@@ -75,6 +75,7 @@ private fun DailyItem(
                         lineTo(bounds.width, 0f)
                         lineTo(bounds.width, bounds.height)
                         close()
+                        
                     }
                     drawPath(
                         path = path,
