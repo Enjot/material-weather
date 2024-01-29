@@ -8,9 +8,9 @@ import kotlin.math.roundToInt
 
 fun OneCallDto.toCurrentWeather(): CurrentWeather {
     return CurrentWeather(
-        localDateTime = this.current.dt.toLocalDateTime(),
-        sunrise = this.current.sunrise.toLocalTime(),
-        sunset = this.current.sunset.toLocalTime(),
+        localFormattedTime = this.current.dt.toFormattedLocalTime(),
+        sunrise = this.current.sunrise.toFormattedLocalTime(),
+        sunset = this.current.sunset.toFormattedLocalTime(),
         temp = this.current.temp.roundToInt(),
         minTemp = this.daily[0].temp.min.roundToInt(),
         maxTemp = this.daily[0].temp.max.roundToInt(),
@@ -34,7 +34,7 @@ fun OneCallDto.toCurrentWeather(): CurrentWeather {
 fun OneCallDto.toHourlyWeatherList(): List<HourlyWeather> {
     return this.hourly.map {
         HourlyWeather(
-            localTime = it.dt.toLocalTime(),
+            localFormattedTime = it.dt.toFormattedLocalTime(),
             temp = it.temp.roundToInt(),
             humidity = it.humidity,
             windSpeed = it.windSpeed,
@@ -51,10 +51,10 @@ fun OneCallDto.toDailyWeatherList(): List<DailyWeather> {
     return this.daily.map {
         DailyWeather(
             dayOfWeek = it.dt.toDayOfWeek(),
-            sunrise = it.sunrise.toLocalTime(),
-            sunset = it.sunset.toLocalTime(),
-            moonrise = it.moonrise.toLocalTime(),
-            moonset = it.moonset.toLocalTime(),
+            sunrise = it.sunrise.toFormattedLocalTime(),
+            sunset = it.sunset.toFormattedLocalTime(),
+            moonrise = it.moonrise.toFormattedLocalTime(),
+            moonset = it.moonset.toFormattedLocalTime(),
             moonPhase = it.moonPhase,
             summary = it.summary,
             tempDay = it.temp.day.roundToInt(),

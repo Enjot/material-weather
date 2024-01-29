@@ -28,7 +28,13 @@ fun ArcProgressBar(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
-        ArcProgressBarIndicator(value, range, unit)
+        ArcProgressIndicator(
+            value = value,
+            range = range,
+            unit = unit,
+            valueText = value.toString(),
+            rangeText = range.toString()
+        )
     }
 }
 

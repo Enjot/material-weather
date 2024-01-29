@@ -1,14 +1,10 @@
 package com.enjot.materialweather.ui.reusable
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -23,10 +19,13 @@ import com.enjot.materialweather.ui.theme.onProgressContainer
 import com.enjot.materialweather.ui.theme.progressContainer
 
 @Composable
-fun ArcProgressBarIndicator(
+fun ArcProgressIndicator(
     value: Int,
     range: Int,
+    valueText: String,
+    rangeText: String,
     unit: String,
+    modifier: Modifier = Modifier,
     height: Dp = 80.dp
 ) {
     val textMeasurer = rememberTextMeasurer()
@@ -38,8 +37,9 @@ fun ArcProgressBarIndicator(
     val textStyle = MaterialTheme.typography.labelSmall.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
+    
     Canvas(
-        modifier = Modifier
+        modifier = modifier
             .height(height)
             .width(height * 1.4f)
     ) {
@@ -58,21 +58,6 @@ fun ArcProgressBarIndicator(
             width = arcDiameter,
             height = arcDiameter
         )
-        val valueTextBounds = textMeasurer.measure(value.toString(), canvasTextStyle)
-        val rangeTextBounds = textMeasurer.measure(range.toString(), canvasTextStyle)
-        val unitTextBounds = textMeasurer.measure(unit, canvasTextStyle)
-        val valueTextTopLeft = Offset(
-            x = this.size.width * 0.35f - valueTextBounds.size.width,
-            y = arcDiameter + this.size.height * 0.1f
-        )
-        val rangeTextTopLeft = Offset(
-            x = this.size.width - this.size.width * 0.35f,
-            y = arcDiameter + this.size.height * 0.1f
-        )
-        val unitTextTopLeft = Offset(
-            x = this.center.x - unitTextBounds.size.width / 2,
-            y = this.center.y - unitTextBounds.size.height / 2
-        )
         drawArc(
             color = trackColor,
             topLeft = progressArcTopLeft,
@@ -83,8 +68,7 @@ fun ArcProgressBarIndicator(
             style = Stroke(
                 width = strokeWidth,
                 cap = StrokeCap.Round
-            ),
-            alpha = 0.3f
+            )
         )
         drawArc(
             color = color,
@@ -98,23 +82,39 @@ fun ArcProgressBarIndicator(
                 cap = StrokeCap.Round
             )
         )
-        drawText(
-            textMeasurer = textMeasurer,
-            text = value.toString(),
-            style = canvasTextStyle,
-            topLeft = valueTextTopLeft
-        )
-        drawText(
-            textMeasurer = textMeasurer,
-            text = range.toString(),
-            style = canvasTextStyle,
-            topLeft = rangeTextTopLeft
+        
+        val unitTextBounds = textMeasurer.measure(unit, canvasTextStyle)
+        val unitTextTopLeft = Offset(
+            x = this.center.x - unitTextBounds.size.width / 2,
+            y = this.center.y - unitTextBounds.size.height / 2
         )
         drawText(
             textMeasurer = textMeasurer,
             text = unit,
             style = canvasTextStyle,
             topLeft = unitTextTopLeft
+        )
+        val valueTextBounds =
+            textMeasurer.measure(value.toString(), canvasTextStyle)
+        val valueTextTopLeft = Offset(
+            x = this.size.width * 0.35f - valueTextBounds.size.width,
+            y = arcDiameter + this.size.height * 0.1f
+        )
+        val rangeTextTopLeft = Offset(
+            x = this.size.width - this.size.width * 0.35f,
+            y = arcDiameter + this.size.height * 0.1f
+        )
+        drawText(
+            textMeasurer = textMeasurer,
+            text = rangeText,
+            style = canvasTextStyle,
+            topLeft = rangeTextTopLeft
+        )
+        drawText(
+            textMeasurer = textMeasurer,
+            text = valueText,
+            style = canvasTextStyle,
+            topLeft = valueTextTopLeft
         )
     }
 }
@@ -127,5 +127,11 @@ private fun getProgressValue(value: Int, range: Int): Float {
 @Preview(showBackground = true, backgroundColor = 0xFFDBE2E8)
 @Composable
 fun PressureArcProgressBarPreview() {
-        ArcProgressBarIndicator(value = 3323, range = 75222, unit = "μg/m³")
+    ArcProgressIndicator(
+        value = 7723,
+        range = 75222,
+        valueText = "Low",
+        rangeText = "High",
+        unit = ""
+    )
 }

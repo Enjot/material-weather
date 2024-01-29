@@ -3,7 +3,7 @@ package com.enjot.materialweather.domain.model
 import java.time.LocalTime
 
 data class HourlyWeather(
-    val localTime: LocalTime,
+    val localFormattedTime: String,
     val temp: Int,
     val humidity: Int,
     val windSpeed: Double,

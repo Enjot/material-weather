@@ -1,4 +1,4 @@
-package com.enjot.materialweather.ui.overviewscreen.components.air
+package com.enjot.materialweather.ui.overviewscreen.air
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -7,14 +7,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.model.AirPollution
+import com.enjot.materialweather.ui.overviewscreen.components.Banner
 import com.enjot.materialweather.ui.overviewscreen.components.TitleText
 import com.enjot.materialweather.ui.reusable.ArcProgressBar
 
@@ -64,21 +63,14 @@ fun AirPollutionBanner(
         ),
         label = ""
     )
-    val localDensity = LocalDensity.current
     
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TitleText(text = "Air Quality")
-        Card(
-            modifier = Modifier.fillMaxSize()
-        ) {
+    Banner(title = "Air Quality") {
+        Card {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .height(360.dp)
-                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .heightIn(min = 400.dp)
+                    .padding(12.dp)
             ) {
                 ArcProgressBar(
                     name = airPollution.pm25Name,
@@ -119,22 +111,18 @@ fun AirPollutionBanner(
                         .drawBehind {
                             
                             val circleBounds = zigzagCirclePath.getBounds()
-                            val circleCenter = Offset(
-                                x = circleBounds.left + circleBounds.width / 2,
-                                y = circleBounds.top + circleBounds.height / 2
-                            )
                             
-                            scale(
-                                (this.size.width / 100f) / 1.3f
+                            translate(
+                                left = (this.size.width - circleBounds.width) / 2,
+                                top = (this.size.height - circleBounds.height) / 2 + 5.dp.toPx()
                             ) {
-                                translate(
-                                    left = (this.size.width - circleBounds.width) / 2,
-                                    // TODO 1.85f fits better with my screen but I have to make it scalable with dp
-                                    top = (this.size.height - circleBounds.height) / 1.85f
+                                scale(
+                                    scale = (this.size.width / 100f) / 1.3f,
+                                    pivot = circleBounds.center
                                 ) {
                                     rotate(
                                         degrees = rotationDegree,
-                                        pivot = circleCenter
+                                        pivot = circleBounds.center
                                     ) {
                                         drawPath(
                                             path = zigzagCirclePath,
@@ -182,9 +170,8 @@ fun AirPollutionBanner(
 
 @Preview(
     apiLevel = 33,
-    showBackground = false,
     device = "spec:width=1080px,height=2340px,dpi=440,isRound=true",
-    backgroundColor = 0xFF000000
+    backgroundColor = 0xFFFEFAFE, showBackground = true
 )
 @Composable
 private fun AirPollutionCardPreview() {

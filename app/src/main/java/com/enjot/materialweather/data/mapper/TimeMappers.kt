@@ -3,8 +3,8 @@ package com.enjot.materialweather.data.mapper
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 fun Int.toLocalDateTime(): LocalDateTime {
     val timestampInMillis = this * 1000L
@@ -22,12 +22,14 @@ fun Int.toLocalDate(): LocalDate {
         .toLocalDate()
 }
 
-fun Int.toLocalTime(): LocalTime {
+fun Int.toFormattedLocalTime(): String {
     val timestampInMillis = this * 1000L
-    
-    return Instant.ofEpochMilli(timestampInMillis)
+    val localTime = Instant.ofEpochMilli(timestampInMillis)
         .atZone(ZoneId.systemDefault())
         .toLocalTime()
+    val pattern = "H:mm"
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return localTime.format(formatter)
 }
 
 fun Int.toDayOfWeek(): String {

@@ -127,9 +127,7 @@ class OverviewViewModel @Inject constructor(
                 error = null
             )
             val result = state.weatherInfo?.place?.let {
-                weatherRepository.getWeatherInfo(
-                    it.coordinates
-                )
+                weatherRepository.getWeatherInfo(it.coordinates)
             }
             if (result != null) {
                 if (result.data != null) {

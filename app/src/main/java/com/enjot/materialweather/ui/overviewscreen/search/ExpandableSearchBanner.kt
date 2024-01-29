@@ -1,4 +1,4 @@
-package com.enjot.materialweather.ui.overviewscreen.searchbanner
+package com.enjot.materialweather.ui.overviewscreen.search
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateIntAsState
@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.SearchResult
-import com.enjot.materialweather.ui.overviewscreen.searchbanner.components.SearchResultItem
-import com.enjot.materialweather.ui.overviewscreen.searchbanner.components.CurrentLocationButton
+import com.enjot.materialweather.ui.overviewscreen.search.components.SearchResultItem
+import com.enjot.materialweather.ui.overviewscreen.search.components.CurrentLocationButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

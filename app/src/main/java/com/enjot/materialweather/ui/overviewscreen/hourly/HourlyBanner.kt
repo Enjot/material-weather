@@ -1,4 +1,4 @@
-package com.enjot.materialweather.ui.overviewscreen.components
+package com.enjot.materialweather.ui.overviewscreen.hourly
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
@@ -17,26 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.HourlyWeather
+import com.enjot.materialweather.ui.overviewscreen.components.AsyncIcon
+import com.enjot.materialweather.ui.overviewscreen.components.Banner
 import kotlin.math.roundToInt
 
 @Composable
 fun HourlyBanner(
-    hourly: List<HourlyWeather>,
-    modifier: Modifier = Modifier
+    hourly: List<HourlyWeather>
 ) {
     val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-    ) {
-        TitleText(text = "Hourly")
-        
-        val color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-            alpha = 0.05f
-        )
-        
+    val color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+        alpha = 0.05f
+    )
+    Banner(title ="Hourly") {
         Card {
             Row(
                 modifier = Modifier
@@ -88,7 +83,7 @@ private fun HourlyItem(
         )
         AsyncIcon(iconCode = item.icon)
         Text(
-            text = if (isNow) "Now" else "${item.localTime}",
+            text = if (isNow) "Now" else item.localFormattedTime,
             style = MaterialTheme.typography.labelMedium
         )
     }

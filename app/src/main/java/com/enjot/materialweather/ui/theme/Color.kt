@@ -78,4 +78,6 @@ val ColorScheme.onProgressContainer: Color
 
 val ColorScheme.progressContainer: Color
     @Composable
-    get() = MaterialTheme.colorScheme.surface
+    get() = MaterialTheme.colorScheme.surface.copy(
+        alpha = 0.3f
+    )

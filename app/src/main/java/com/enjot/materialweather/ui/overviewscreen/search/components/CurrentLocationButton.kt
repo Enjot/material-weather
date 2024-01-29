@@ -1,4 +1,4 @@
-package com.enjot.materialweather.ui.overviewscreen.searchbanner.components
+package com.enjot.materialweather.ui.overviewscreen.search.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size

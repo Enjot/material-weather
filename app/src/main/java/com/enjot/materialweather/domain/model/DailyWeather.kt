@@ -5,10 +5,10 @@ import java.time.LocalTime
 
 data class DailyWeather(
     val dayOfWeek: String,
-    val sunrise: LocalTime,
-    val sunset: LocalTime,
-    val moonrise: LocalTime,
-    val moonset: LocalTime,
+    val sunrise: String,
+    val sunset: String,
+    val moonrise: String,
+    val moonset: String,
     val moonPhase: Double,
     val summary: String,
     val tempDay: Int,

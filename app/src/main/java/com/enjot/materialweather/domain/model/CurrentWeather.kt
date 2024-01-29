@@ -1,13 +1,12 @@
 package com.enjot.materialweather.domain.model
 
-import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
 data class CurrentWeather(
-    val localDateTime: LocalDateTime,
-    val sunrise: LocalTime,
-    val sunset: LocalTime,
+    val localFormattedTime: String,
+    val sunrise: String,
+    val sunset: String,
     val temp: Int,
     val minTemp: Int,
     val maxTemp: Int,
@@ -38,8 +37,8 @@ data class CurrentWeather(
 )
 
 data class WeatherConditions(
-    val sunrise: LocalTime,
-    val sunset: LocalTime,
+    val sunrise: String,
+    val sunset: String,
     val windSpeed: Int,
     val windDeg: Int,
     val humidity: Int,
