@@ -98,9 +98,9 @@ private fun DailyItem(
                 val popPercent = (item.pop * 100).roundToInt()
                 Text(
                     text = if (popPercent > 0) "$popPercent%" else "",
-                    textAlign = TextAlign.Start,
+                    textAlign = TextAlign.End,
                     style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.weight(1.5f)
+                    modifier = Modifier.weight(2f).padding(end = 12.dp)
                 )
                 AsyncIcon(iconCode = item.icon, modifier = Modifier.weight(2f))
                 Text(
