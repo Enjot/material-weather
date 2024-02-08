@@ -20,8 +20,9 @@ fun ConditionsBanner(
         title = "Conditions"
     ) {
         Row {
-            PressureCard(
-                pressure = conditions.pressure,
+            WindCard(
+                speed = conditions.windSpeed,
+                degree = conditions.windDeg,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(innerPadding))
@@ -33,8 +34,8 @@ fun ConditionsBanner(
         }
         Spacer(modifier = Modifier.height(innerPadding))
         Row {
-            PressureCard(
-                pressure = conditions.pressure,
+            UviCard(
+                uvi = conditions.uvi,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(innerPadding))

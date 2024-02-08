@@ -6,28 +6,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.enjot.materialweather.ui.reusable.CapsuleProgressIndicator
+import com.enjot.materialweather.ui.reusable.CircleProgressIndicator
 
 @Composable
-fun HumidityCard(
-    humidity: Int,
-    dewPoint: Int,
+fun UviCard(
+    uvi: Int,
     modifier: Modifier = Modifier
 ) {
+    val level = when (uvi) {
+        in 0..2 -> "low"
+        in 3..5 -> "moderate"
+        in 6..7 -> "high"
+        else -> "very high"
+    }
+    
     ConditionCard(
-        title = "Humidity",
-        headline = humidity.toString(),
-        headlineExtra = "%",
-        description = "dew point $dewPoint°",
+        title = "UV Index",
+        headline = uvi.toString(),
+        description = level,
         modifier = modifier
     ) {
-        
-        CapsuleProgressIndicator(
-            value = humidity,
-            range = 100,
-            valueText = "0",
-            rangeText = "100",
-            unit = "",
+        CircleProgressIndicator(
+            progress = uvi,
+            range = 11,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(12.dp)
@@ -35,9 +36,8 @@ fun HumidityCard(
     }
 }
 
-
 @Preview
 @Composable
-fun HumidityCardPreview() {
-    HumidityCard(humidity = 23, dewPoint = 1)
+fun UviCardPreview() {
+    UviCard(uvi = 3)
 }

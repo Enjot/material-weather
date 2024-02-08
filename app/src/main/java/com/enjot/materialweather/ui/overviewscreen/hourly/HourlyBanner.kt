@@ -74,7 +74,7 @@ private fun HourlyItem(
     ) {
         Text(
             text = "${item.temp}°",
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleSmall
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -84,7 +84,7 @@ private fun HourlyItem(
         AsyncIcon(iconCode = item.icon)
         Text(
             text = if (isNow) "Now" else item.localFormattedTime,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.bodySmall
         )
     }
 }

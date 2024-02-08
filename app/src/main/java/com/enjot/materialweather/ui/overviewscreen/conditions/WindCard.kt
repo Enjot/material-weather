@@ -6,28 +6,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.enjot.materialweather.ui.reusable.CapsuleProgressIndicator
+import com.enjot.materialweather.ui.reusable.ArrowDegreeIndicator
 
 @Composable
-fun HumidityCard(
-    humidity: Int,
-    dewPoint: Int,
+fun WindCard(
+    speed: Int,
+    degree: Int,
     modifier: Modifier = Modifier
 ) {
+    
+    
     ConditionCard(
-        title = "Humidity",
-        headline = humidity.toString(),
-        headlineExtra = "%",
-        description = "dew point $dewPoint°",
+        title = "Wind",
+        headline = speed.toString(),
+        description = "km/h",
+        headlineExtra = "",
         modifier = modifier
     ) {
-        
-        CapsuleProgressIndicator(
-            value = humidity,
-            range = 100,
-            valueText = "0",
-            rangeText = "100",
-            unit = "",
+    
+        ArrowDegreeIndicator(
+            degree = degree,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(12.dp)
@@ -35,9 +33,8 @@ fun HumidityCard(
     }
 }
 
-
 @Preview
 @Composable
-fun HumidityCardPreview() {
-    HumidityCard(humidity = 23, dewPoint = 1)
+fun WindCardPreview() {
+    WindCard(speed = 13, degree = 230)
 }

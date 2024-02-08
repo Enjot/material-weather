@@ -32,7 +32,7 @@ fun PressureCard(
             range = 100,
             valueText = "Low",
             rangeText = "High",
-            height = 70.dp,
+            height = 80.dp,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(

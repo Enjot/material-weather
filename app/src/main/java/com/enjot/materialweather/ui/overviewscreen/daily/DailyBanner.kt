@@ -70,12 +70,11 @@ private fun DailyItem(
                 .drawBehind {
                     val bounds = this.size
                     val path = Path().apply {
-                        moveTo(bounds.width / 2 - 72.dp.toPx(), bounds.height)
+                        moveTo(bounds.width / 2 - bounds.width * 0.2f, bounds.height)
                         lineTo(bounds.width / 2 - 12.dp.toPx(), 0f)
                         lineTo(bounds.width, 0f)
                         lineTo(bounds.width, bounds.height)
                         close()
-                        
                     }
                     drawPath(
                         path = path,
@@ -87,7 +86,7 @@ private fun DailyItem(
         ) {
             Text(
                 text = if (isFirst) "Today" else item.dayOfWeek,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.weight(3f)
             )
             Row(
@@ -99,14 +98,14 @@ private fun DailyItem(
                 Text(
                     text = if (popPercent > 0) "$popPercent%" else "",
                     textAlign = TextAlign.End,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.weight(2f).padding(end = 12.dp)
                 )
                 AsyncIcon(iconCode = item.icon, modifier = Modifier.weight(2f))
                 Text(
                     text = "${item.tempDay}°/${item.tempNight}°",
                     textAlign = TextAlign.End,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(3f)
                 )
             }

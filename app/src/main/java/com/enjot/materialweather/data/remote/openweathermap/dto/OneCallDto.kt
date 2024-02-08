@@ -70,8 +70,7 @@ data class OneCallDto(
         @SerialName("pop") val pop: Double,
         @SerialName("rain") val rain: Rain? = null,
         @SerialName("snow") val snow: Snow? = null,
-        @SerialName("weather") val weather: List<Weather>,
-        
+        @SerialName("weather") val weather: List<Weather>
         ) {
         @Serializable
         data class Rain(

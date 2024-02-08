@@ -8,9 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
@@ -40,7 +43,7 @@ fun CapsuleProgressIndicator(
     
     val color = MaterialTheme.colorScheme.onProgressContainer
     val trackColor = MaterialTheme.colorScheme.progressContainer
-    val textStyle = MaterialTheme.typography.labelSmall.copy(
+    val textStyle = MaterialTheme.typography.bodySmall.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
     
@@ -57,11 +60,9 @@ fun CapsuleProgressIndicator(
             .height(height)
             .width(height * 0.4f)
     ) {
-        val canvasTextStyle = textStyle.copy(
-            fontSize = (this.size.height * 0.15f).toSp()
-        )
+        
         val rangeTextBounds =
-            textMeasurer.measure(rangeText, canvasTextStyle)
+            textMeasurer.measure(rangeText, textStyle)
         val rangeTextTopLeft = Offset(
             x = (this.size.width - rangeTextBounds.size.width) / 2,
             y = 0f
@@ -69,12 +70,12 @@ fun CapsuleProgressIndicator(
         drawText(
             textMeasurer = textMeasurer,
             text = rangeText,
-            style = canvasTextStyle,
+            style = textStyle,
             topLeft = rangeTextTopLeft
         )
         
         val valueTextBounds =
-            textMeasurer.measure(valueText, canvasTextStyle)
+            textMeasurer.measure(valueText, textStyle)
         val valueTextTopLeft = Offset(
             x = (this.size.width - valueTextBounds.size.width) / 2,
             y = this.size.height - valueTextBounds.size.height
@@ -82,14 +83,14 @@ fun CapsuleProgressIndicator(
         drawText(
             textMeasurer = textMeasurer,
             text = valueText,
-            style = canvasTextStyle,
+            style = textStyle,
             topLeft = valueTextTopLeft
         )
         
-        val width = this.size.width * 0.7f
+        val width = this.size.width * 0.8f
         val centerX = this.center.x
-        val startY = this.size.height - valueTextBounds.size.height * 1.7f
-        val endY = valueTextBounds.size.height * 1.7f
+        val startY = this.size.height - valueTextBounds.size.height * 2f
+        val endY = valueTextBounds.size.height * 2f
         val capsuleHeight = this.size.height - valueTextBounds.size.height - rangeTextBounds.size.height // good
         val lineStart = Offset(centerX, startY)
         val lineEnd = Offset(centerX, endY)
@@ -98,20 +99,54 @@ fun CapsuleProgressIndicator(
             y = startY - (startY - endY) * progress
         )
         val arrowScale = 0.2f
-        drawLine(
+
+        val trackLine = Path().apply {
+            moveTo(lineStart.x ,lineStart.y)
+            lineTo(lineEnd.x, lineEnd.y)
+        }
+        drawPath(
+            path = trackLine,
             color = trackColor,
-            start = lineStart,
-            end = lineEnd,
-            strokeWidth = width,
-            cap = StrokeCap.Round
+            style = Stroke(
+                width = width,
+                cap = StrokeCap.Round
+            )
         )
-        drawLine(
-            color = color,
-            start = lineStart,
-            end = lineCurrent,
-            strokeWidth = width,
-            cap = StrokeCap.Round
-        )
+        val currentLine = Path(). apply {
+            moveTo(lineStart.x ,lineStart.y)
+            lineTo(lineCurrent.x, lineCurrent.y)
+        }
+        clipPath(
+            path = trackLine,
+            clipOp = ClipOp.Difference
+        ) {
+            drawPath(
+                path = currentLine,
+                color = color,
+                style = Stroke(
+                    width = width,
+                    cap = StrokeCap.Round
+                )
+            )
+        }
+        
+        
+        
+        val currentPathOp = Path().apply {
+            op(trackLine, currentLine, PathOperation.Difference)
+        }
+        clipPath(
+            path = trackLine
+        ) {
+
+        }
+//        drawLine(
+//            color = color,
+//            start = lineStart,
+//            end = lineCurrent,
+//            strokeWidth = width,
+//            cap = StrokeCap.Round
+//        )
         val arrowBounds = arrowPath.getBounds()
         
         translate(
@@ -127,10 +162,11 @@ fun CapsuleProgressIndicator(
                 translate(
                     top = arrowPosition
                 ) {
-                    drawPath(
-                        path = arrowPath,
-                        color = color
-                    )
+                    // TODO fix current progress so it's synced with arrow
+//                    drawPath(
+//                        path = arrowPath,
+//                        color = color
+//                    )
                 }
                 
             }
@@ -150,7 +186,7 @@ private fun getProgressValue(value: Int, range: Int): Float {
 @Composable
 fun CapsuleProgressIndicatorPreview() {
     CapsuleProgressIndicator(
-        value = 92,
+        value = 0,
         range = 100,
         valueText = "0",
         rangeText = "100",

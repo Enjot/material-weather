@@ -34,7 +34,7 @@ fun ArcProgressIndicator(
     
     val color = MaterialTheme.colorScheme.onProgressContainer
     val trackColor = MaterialTheme.colorScheme.progressContainer
-    val textStyle = MaterialTheme.typography.labelSmall.copy(
+    val textStyle = MaterialTheme.typography.bodySmall.copy(
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
     
@@ -43,9 +43,6 @@ fun ArcProgressIndicator(
             .height(height)
             .width(height * 1.4f)
     ) {
-        val canvasTextStyle = textStyle.copy(
-            fontSize = (this.size.height * 0.15f).toSp()
-        )
         val startAngle = -220f
         val sweepAngle = 260f
         val arcDiameter = this.size.height * 0.7f
@@ -83,7 +80,7 @@ fun ArcProgressIndicator(
             )
         )
         
-        val unitTextBounds = textMeasurer.measure(unit, canvasTextStyle)
+        val unitTextBounds = textMeasurer.measure(unit, textStyle)
         val unitTextTopLeft = Offset(
             x = this.center.x - unitTextBounds.size.width / 2,
             y = this.center.y - unitTextBounds.size.height / 2
@@ -91,11 +88,11 @@ fun ArcProgressIndicator(
         drawText(
             textMeasurer = textMeasurer,
             text = unit,
-            style = canvasTextStyle,
+            style = textStyle,
             topLeft = unitTextTopLeft
         )
         val valueTextBounds =
-            textMeasurer.measure(value.toString(), canvasTextStyle)
+            textMeasurer.measure(value.toString(), textStyle)
         val valueTextTopLeft = Offset(
             x = this.size.width * 0.35f - valueTextBounds.size.width,
             y = arcDiameter + this.size.height * 0.1f
@@ -107,13 +104,13 @@ fun ArcProgressIndicator(
         drawText(
             textMeasurer = textMeasurer,
             text = rangeText,
-            style = canvasTextStyle,
+            style = textStyle,
             topLeft = rangeTextTopLeft
         )
         drawText(
             textMeasurer = textMeasurer,
             text = valueText,
-            style = canvasTextStyle,
+            style = textStyle,
             topLeft = valueTextTopLeft
         )
     }
