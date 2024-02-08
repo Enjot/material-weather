@@ -86,6 +86,7 @@ class OverviewViewModel @Inject constructor(
     
     private fun getWeatherInfo(searchResult: SearchResult) {
         state = state.copy(
+            weatherInfo = null,
             isSearchBarActive = false,
             isLoading = true,
             searchResults = emptyList(),

@@ -50,7 +50,6 @@ fun RequestPermission(context: Context?, onPermissionsGranted:()->Unit) {
             context?.startActivity(intent)
         }
     }
-    
 }
 
 @Composable
