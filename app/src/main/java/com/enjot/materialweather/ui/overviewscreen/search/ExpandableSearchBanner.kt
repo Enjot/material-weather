@@ -39,7 +39,7 @@ fun ExpandableSearchBanner(
     searchResults: List<SearchResult>,
     isActive: Boolean,
     onUseCurrentLocationClick: () -> Unit,
-    onArrowBackClick: () -> Unit,
+    onBackAction: () -> Unit,
     onSearchBarClick: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onSearchResultClick: (SearchResult) -> Unit,
@@ -69,7 +69,7 @@ fun ExpandableSearchBanner(
         },
         leadingIcon = {
             if (isActive) {
-                IconButton(onClick = onArrowBackClick) {
+                IconButton(onClick = onBackAction) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null
@@ -105,6 +105,11 @@ fun ExpandableSearchBanner(
             )
             .fillMaxWidth()
     ) {
+        /*
+        It has to be in this ColumnScope, otherwise it override default back
+        action in overview screen
+         */
+        
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -128,14 +133,6 @@ fun ExpandableSearchBanner(
             )
             
             Text(text = "Saved locations", modifier = Modifier.padding(16.dp))
-        }
-        
-        /*
-        It has to be in this ColumnScope, otherwise it override default back
-        action in overview screen
-         */
-        BackHandler {
-            onArrowBackClick()
         }
     }
 }

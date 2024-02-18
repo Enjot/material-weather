@@ -1,5 +1,6 @@
 package com.enjot.materialweather.ui.overviewscreen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.enjot.materialweather.domain.model.DailyWeather
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
 import com.enjot.materialweather.ui.overviewscreen.conditions.ConditionsBanner
 import com.enjot.materialweather.ui.overviewscreen.daily.DailyBanner
@@ -83,7 +82,7 @@ fun OverviewScreen(
                 onUseCurrentLocationClick = {
                     onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick)
                 },
-                onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
+                onBackAction = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
                 onAddToFavorites = { result ->
                     onEvent(
                         OverviewEvent.SearchBanner.OnAddToFavorites(
@@ -153,5 +152,8 @@ fun OverviewScreen(
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter)
         )
+    }
+    BackHandler(enabled = state.isSearchBarActive) {
+        onEvent(OverviewEvent.SearchBanner.OnArrowBackClick)
     }
 }
