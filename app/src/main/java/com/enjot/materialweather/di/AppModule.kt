@@ -2,7 +2,8 @@ package com.enjot.materialweather.di
 
 import android.app.Application
 import androidx.room.Room
-import com.enjot.materialweather.data.database.WeatherDatabase
+import com.enjot.materialweather.data.local.WeatherDao
+import com.enjot.materialweather.data.local.WeatherDatabase
 import com.enjot.materialweather.data.remote.openweathermap.api.GeoapifyApi
 import com.enjot.materialweather.data.remote.openweathermap.api.OpenWeatherMapApi
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -74,4 +75,8 @@ object AppModule {
         ).build()
     }
 
+    @Provides
+    fun provideWeatherDao(database: WeatherDatabase): WeatherDao {
+        return database.dao
+    }
 }

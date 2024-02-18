@@ -1,6 +1,6 @@
 package com.enjot.materialweather.domain.model
 
-import java.time.LocalDateTime
+import androidx.room.Entity
 
 data class WeatherInfo(
     val place: SearchResult? = null,

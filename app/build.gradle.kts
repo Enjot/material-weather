@@ -6,6 +6,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     kotlin("plugin.serialization") version "1.9.21"
+    id("com.google.protobuf") version "0.9.4"
 }
 android {
     namespace = "com.enjot.materialweather"
@@ -91,7 +92,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     
     // Compose
-    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     implementation("androidx.compose.material3:material3")
@@ -100,6 +101,7 @@ dependencies {
     implementation("androidx.compose.animation:animation-core")
     implementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.navigation:navigation-compose")
     debugImplementation("androidx.compose.ui:ui-tooling")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
@@ -120,11 +122,18 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
     
+    // Gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+    
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    
+    // Proto DataStore
+    implementation  ("androidx.datastore:datastore:1.0.0")
+    implementation  ("com.google.protobuf:protobuf-javalite:3.25.3")
     
     // Location services
     implementation ("com.google.android.gms:play-services-location:21.1.0")
@@ -138,4 +147,20 @@ dependencies {
     
     // Shimmer KMP
     implementation("com.valentinilk.shimmer:compose-shimmer:1.2.0")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.3"
+    }
+    
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

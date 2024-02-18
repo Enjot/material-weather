@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.enjot.materialweather.domain.model.DailyWeather
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
 import com.enjot.materialweather.ui.overviewscreen.conditions.ConditionsBanner
 import com.enjot.materialweather.ui.overviewscreen.daily.DailyBanner
@@ -34,12 +36,13 @@ import com.enjot.materialweather.ui.pullrefresh.rememberPullRefreshState
 
 @Composable
 fun OverviewScreen(
+    onNavigateToDailyWeather: (Int) -> Unit,
+    onNavigateToSettings: () -> Unit,
     viewModel: OverviewViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
     val scrollState = rememberScrollState()
     val onEvent = viewModel::onEvent
-    
     
     // onRefresh function is activated only from pull gesture
     // if refreshing gets true by other way, onRefresh is not getting called
@@ -88,6 +91,7 @@ fun OverviewScreen(
                         )
                     )
                 },
+                onNavigateToSettings = onNavigateToSettings,
                 onSearchResultClick = { result ->
                     onEvent(
                         OverviewEvent.SearchBanner.OnSearchResultClick(
@@ -114,7 +118,12 @@ fun OverviewScreen(
                     state.weatherInfo?.current?.let { SummaryBanner(it) }
                     Spacer(modifier = Modifier.height(16.dp))
                     state.weatherInfo?.hourly?.let { HourlyBanner(it) }
-                    state.weatherInfo?.daily?.let { DailyBanner(it) }
+                    state.weatherInfo?.daily?.let {
+                        DailyBanner(
+                            it,
+                            onNavigateToDailyWeather
+                        )
+                    }
                     state.weatherInfo?.current?.conditions?.let {
                         ConditionsBanner(
                             it

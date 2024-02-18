@@ -94,7 +94,7 @@ class OverviewViewModel @Inject constructor(
         )
         viewModelScope.launch {
             val result =
-                weatherRepository.getWeatherInfo(searchResult.coordinates)
+                weatherRepository.updateLocalWeather(searchResult.coordinates)
             if (result.data != null) {
                 state = state.copy(
                     weatherInfo = result.data,
@@ -128,7 +128,7 @@ class OverviewViewModel @Inject constructor(
                 error = null
             )
             val result = state.weatherInfo?.place?.let {
-                weatherRepository.getWeatherInfo(it.coordinates)
+                weatherRepository.updateLocalWeather(it.coordinates)
             }
             if (result != null) {
                 if (result.data != null) {
@@ -144,6 +144,7 @@ class OverviewViewModel @Inject constructor(
     private fun getWeatherInfoForGpsLocation() {
         viewModelScope.launch {
             state = state.copy(
+                weatherInfo = null,
                 isSearchBarActive = false,
                 isLoading = true,
                 error = null,
@@ -151,7 +152,7 @@ class OverviewViewModel @Inject constructor(
             )
             locationTracker.getCurrentLocation()?.let { coordinates ->
                 when (val result =
-                    weatherRepository.getWeatherInfo(coordinates)) {
+                    weatherRepository.updateLocalWeather(coordinates)) {
                     is Resource.Success -> {
                         state = state.copy(
                             weatherInfo = result.data,
@@ -178,4 +179,12 @@ class OverviewViewModel @Inject constructor(
         }
     }
     
+    init {
+        viewModelScope.launch {
+            val result = weatherRepository.loadLocalWeather()
+            state = state.copy(
+                weatherInfo = result.data
+            )
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.enjot.materialweather.domain.model
 
-class AirPollution(
+data class AirPollution(
     val aqi: Int,
     val nh3: Int,
     val no: Int,

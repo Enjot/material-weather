@@ -25,14 +25,15 @@ import kotlin.math.roundToInt
 @Composable
 fun DailyBanner(
     daily: List<DailyWeather>,
-    onClick: () -> Unit = {}
+    onClick: (Int) -> Unit
 ) {
     Banner(title = "Daily") {
         daily.forEachIndexed { index, item ->
             DailyItem(
                 item = item,
                 isFirst = index == 0,
-                isLast = index == daily.size - 1
+                isLast = index == daily.size - 1,
+                onClick = { onClick(index) }
             )
         }
     }
@@ -44,10 +45,11 @@ private fun DailyItem(
     item: DailyWeather,
     isFirst: Boolean,
     isLast: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { },
+        onClick = onClick,
         shape = RoundedCornerShape(
             bottomStart = if (isLast) 16.dp else 4.dp,
             bottomEnd = if (isLast) 16.dp else 4.dp,

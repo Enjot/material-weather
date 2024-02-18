@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.enjot.materialweather.domain.model.WeatherConditions
+import com.enjot.materialweather.domain.model.CurrentWeather
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
 
 @Composable
 fun ConditionsBanner(
-    conditions: WeatherConditions
+    conditions: CurrentWeather.WeatherConditions
 ) {
    val innerPadding = 8.dp
     

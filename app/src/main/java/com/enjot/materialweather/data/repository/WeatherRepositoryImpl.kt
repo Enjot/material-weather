@@ -1,12 +1,14 @@
 package com.enjot.materialweather.data.repository
 
-import android.content.Context
-import androidx.compose.ui.platform.LocalContext
+import com.enjot.materialweather.data.local.WeatherDao
+import com.enjot.materialweather.data.local.WeatherEntity
 import com.enjot.materialweather.data.mapper.toAirPollutionOrNull
 import com.enjot.materialweather.data.mapper.toCurrentWeather
 import com.enjot.materialweather.data.mapper.toDailyWeatherList
+import com.enjot.materialweather.data.mapper.toDomainSearchResult
 import com.enjot.materialweather.data.mapper.toHourlyWeatherList
-import com.enjot.materialweather.data.mapper.toSearchResult
+import com.enjot.materialweather.data.mapper.toLocalSearchResult
+import com.enjot.materialweather.data.mapper.toWeatherInfo
 import com.enjot.materialweather.data.remote.openweathermap.api.GeoapifyApi
 import com.enjot.materialweather.data.remote.openweathermap.api.OpenWeatherMapApi
 import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocodingDto
@@ -18,43 +20,24 @@ import com.enjot.materialweather.domain.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
 class WeatherRepositoryImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
-    @Named("geoapify") private val geoapifyApi: GeoapifyApi
+    @Named("geoapify") private val geoapifyApi: GeoapifyApi,
+    private val dao: WeatherDao
 ) : WeatherRepository {
     
-    override suspend fun getSearchResults(query: String): Resource<List<SearchResult>> {
-        
-        val geocodingResults = geoapifyApi.callGeocodingApi(query).results
-        
-        return withContext(Dispatchers.IO) {
-            
-            val deferredResults = geocodingResults.map { result ->
-                async { getReverseGeocodingResult(result.lat, result.lon) }
-            }
-            
-            val reverseGeocodingResults =
-                deferredResults.awaitAll().filterNotNull()
-            
-            val results = reverseGeocodingResults.map { it.toSearchResult() }
-            
-            Resource.Success(results)
-        }
-    }
-    
-    override suspend fun getWeatherInfo(
-        coordinates: Coordinates
-    ): Resource<WeatherInfo> {
+    override suspend fun updateLocalWeather(coordinates: Coordinates): Resource<WeatherInfo?> {
         
         return withContext(Dispatchers.IO) {
             val searchResult = geoapifyApi.callReverseGeocodingApi(
                 coordinates.lat.toString(),
                 coordinates.lon.toString()
-            ).results[0].toSearchResult()
+            ).results[0]
             
             val oneCallDeferred = async {
                 openWeatherMapApi.callOneCallApi(
@@ -73,22 +56,47 @@ class WeatherRepositoryImpl @Inject constructor(
             val oneCallDto = oneCallDeferred.await()
             val airPollutionDto = airPollutionDeferred.await()
             
-            val weatherInfo = WeatherInfo(
-                place = searchResult,
+            val weatherEntity = WeatherEntity(
+                place = searchResult.toLocalSearchResult(),
                 current = oneCallDto.toCurrentWeather(),
                 hourly = oneCallDto.toHourlyWeatherList(),
                 daily = oneCallDto.toDailyWeatherList(),
                 airPollution = airPollutionDto.toAirPollutionOrNull()
             )
-            Resource.Success(weatherInfo)
+            dao.insertWeather(weatherEntity)
+            val weather = dao.getWeather().first()?.toWeatherInfo()
+            Resource.Success(weather)
         }
     }
     
+    override suspend fun loadLocalWeather(): Resource<WeatherInfo?> {
+        val weather = dao.getWeather().first()?.toWeatherInfo()
+        return Resource.Success(weather)
+    }
+    
+    override suspend fun getSearchResults(query: String): Resource<List<SearchResult>> {
+        
+        val geocodingResults = geoapifyApi.callGeocodingApi(query).results
+        
+        return withContext(Dispatchers.IO) {
+            
+            val deferredResults = geocodingResults.map { result ->
+                async { getReverseGeocodingResult(result.lat, result.lon) }
+            }
+            
+            val reverseGeocodingResults =
+                deferredResults.awaitAll().filterNotNull()
+            
+            val results = reverseGeocodingResults.map { it.toDomainSearchResult() }
+            
+            Resource.Success(results)
+        }
+    }
     
     /*
-    Api returns list of results even if I limit amount of them to 1
-    so I always need item with index 0
-    */
+Api returns list of results even if I limit amount of them to 1
+so I always need item with index 0
+*/
     
     private suspend fun getReverseGeocodingResult(
         lat: Double,

@@ -39,5 +39,5 @@ fun HumidityCard(
 @Preview
 @Composable
 fun HumidityCardPreview() {
-    HumidityCard(humidity = 23, dewPoint = 1)
+    HumidityCard(humidity = 100, dewPoint = 1)
 }

@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                     
                 ) {
-                    MaterialWeatherApp()
+                    AppNavigation()
                 }
             }
         }
