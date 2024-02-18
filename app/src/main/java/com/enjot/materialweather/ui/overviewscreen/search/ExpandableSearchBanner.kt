@@ -1,6 +1,5 @@
 package com.enjot.materialweather.ui.overviewscreen.search
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.fadeIn
@@ -39,7 +38,7 @@ fun ExpandableSearchBanner(
     searchResults: List<SearchResult>,
     isActive: Boolean,
     onUseCurrentLocationClick: () -> Unit,
-    onBackAction: () -> Unit,
+    onArrowBackClick: () -> Unit,
     onSearchBarClick: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onSearchResultClick: (SearchResult) -> Unit,
@@ -69,7 +68,7 @@ fun ExpandableSearchBanner(
         },
         leadingIcon = {
             if (isActive) {
-                IconButton(onClick = onBackAction) {
+                IconButton(onClick = onArrowBackClick) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null

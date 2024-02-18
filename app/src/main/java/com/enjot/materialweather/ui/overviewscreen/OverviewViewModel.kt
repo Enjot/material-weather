@@ -52,7 +52,7 @@ class OverviewViewModel @Inject constructor(
                 getWeatherInfoForGpsLocation()
             }
             
-            is OverviewEvent.SearchBanner.OnArrowBackClick -> {
+            is OverviewEvent.SearchBanner.OnBannerCollapse -> {
                 state = state.copy(
                     isSearchBarActive = false,
                     searchResults = emptyList(),

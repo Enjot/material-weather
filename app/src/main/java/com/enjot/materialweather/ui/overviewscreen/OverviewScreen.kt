@@ -62,27 +62,18 @@ fun OverviewScreen(
             ExpandableSearchBanner(
                 query = state.query,
                 onQueryChange = {
-                    onEvent(
-                        OverviewEvent.SearchBanner.OnQueryChange(
-                            it
-                        )
-                    )
+                    onEvent(OverviewEvent.SearchBanner.OnQueryChange(it))
                 },
-                selectedCity = state.weatherInfo?.place?.city
-                    ?: "Search",
+                selectedCity = state.weatherInfo?.place?.city ?: "Search",
                 onSearch = {
-                    onEvent(
-                        OverviewEvent.SearchBanner.OnSearch(
-                            state.query
-                        )
-                    )
+                    onEvent(OverviewEvent.SearchBanner.OnSearch(state.query))
                 },
                 isActive = state.isSearchBarActive,
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
                 onUseCurrentLocationClick = {
                     onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick)
                 },
-                onBackAction = { onEvent(OverviewEvent.SearchBanner.OnArrowBackClick) },
+                onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnBannerCollapse) },
                 onAddToFavorites = { result ->
                     onEvent(
                         OverviewEvent.SearchBanner.OnAddToFavorites(
@@ -154,6 +145,6 @@ fun OverviewScreen(
         )
     }
     BackHandler(enabled = state.isSearchBarActive) {
-        onEvent(OverviewEvent.SearchBanner.OnArrowBackClick)
+        onEvent(OverviewEvent.SearchBanner.OnBannerCollapse)
     }
 }
