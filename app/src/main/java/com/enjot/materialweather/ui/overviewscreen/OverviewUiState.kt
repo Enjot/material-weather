@@ -7,7 +7,7 @@ import com.enjot.materialweather.domain.model.WeatherInfo
 @Immutable
 data class OverviewUiState(
     val weatherInfo: WeatherInfo? = null,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val error: String? = null,
     
     // Expandable searchbar banner

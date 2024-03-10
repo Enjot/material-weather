@@ -38,7 +38,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 coordinates.lat.toString(),
                 coordinates.lon.toString()
             ).results[0]
-            
             val oneCallDeferred = async {
                 openWeatherMapApi.callOneCallApi(
                     coordinates.lat.toString(),
@@ -94,9 +93,9 @@ class WeatherRepositoryImpl @Inject constructor(
     }
     
     /*
-Api returns list of results even if I limit amount of them to 1
-so I always need item with index 0
-*/
+    Api returns list of results even if I limit amount of them to 1
+    so I always need item with index 0
+    */
     
     private suspend fun getReverseGeocodingResult(
         lat: Double,

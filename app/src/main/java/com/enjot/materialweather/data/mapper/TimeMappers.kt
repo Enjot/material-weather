@@ -7,36 +7,27 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 fun Int.toLocalDateTime(): LocalDateTime {
-    val timestampInMillis = this * 1000L
-    
-    return Instant.ofEpochMilli(timestampInMillis)
+    return Instant.ofEpochSecond(this.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalDateTime()
 }
 
 fun Int.toLocalDate(): LocalDate {
-    val timestampInMillis = this * 1000L
-    
-    return Instant.ofEpochMilli(timestampInMillis)
+    return Instant.ofEpochSecond(this.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
 }
 
 fun Int.toFormattedLocalTime(): String {
-    val timestampInMillis = this * 1000L
-    val localTime = Instant.ofEpochMilli(timestampInMillis)
+    val localTime = Instant.ofEpochSecond(this.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalTime()
-    val pattern = "H:mm"
-    val formatter = DateTimeFormatter.ofPattern(pattern)
-    return localTime.format(formatter)
+    return localTime.format(DateTimeFormatter.ofPattern("H:mm"))
 }
 
 fun Int.toDayOfWeek(): String {
-    val timestampInMillis = this * 1000L
-    val day = Instant.ofEpochMilli(timestampInMillis)
+    val day = Instant.ofEpochSecond(this.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalDate().dayOfWeek.toString()
-    
     return day.first().uppercase() + day.substring(1).lowercase()
 }

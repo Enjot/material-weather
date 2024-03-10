@@ -39,7 +39,6 @@ fun DailyBanner(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DailyItem(
     item: DailyWeather,

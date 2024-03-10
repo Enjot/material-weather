@@ -1,6 +1,11 @@
 package com.enjot.materialweather.ui.overviewscreen
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -16,12 +21,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
 import com.enjot.materialweather.ui.overviewscreen.conditions.ConditionsBanner
@@ -51,6 +60,8 @@ fun OverviewScreen(
         refreshThreshold = 50.dp,
         refreshingOffset = 200.dp
     )
+    
+    val uriHandler = LocalUriHandler.current
     
     Box(
         modifier = Modifier
@@ -95,7 +106,7 @@ fun OverviewScreen(
             AnimatedVisibility(
                 enter = fadeIn(),
                 exit = fadeOut(),
-                visible = !state.isLoading && state.weatherInfo != null
+                visible = state.isLoading.not() and (state.weatherInfo != null)
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -124,26 +135,29 @@ fun OverviewScreen(
                             it
                         )
                     }
-                    Text(
-                        text = "openweathermap.org",
-                        style = MaterialTheme.typography.labelSmall,
-                        textAlign = TextAlign.Center,
+                    TextButton(
+                        onClick = { uriHandler.openUri("https://openweathermap.org/") },
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .padding(24.dp)
-                            .clip(CircleShape)
-                            .clickable { }
-                            .padding(16.dp)
-                    )
+                    ) {
+                        Text(
+                            text = "openweathermap.org",
+                            style = MaterialTheme.typography.labelSmall,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
+        
         PullRefreshIndicator(
             refreshing = state.isLoading,
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter)
         )
     }
+    
     BackHandler(enabled = state.isSearchBarActive) {
         onEvent(OverviewEvent.SearchBanner.OnBannerCollapse)
     }

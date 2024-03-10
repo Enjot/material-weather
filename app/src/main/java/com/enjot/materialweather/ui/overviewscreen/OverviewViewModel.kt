@@ -10,6 +10,7 @@ import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.repository.WeatherRepository
 import com.enjot.materialweather.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -183,7 +184,8 @@ class OverviewViewModel @Inject constructor(
         viewModelScope.launch {
             val result = weatherRepository.loadLocalWeather()
             state = state.copy(
-                weatherInfo = result.data
+                weatherInfo = result.data,
+                isLoading = false
             )
         }
     }

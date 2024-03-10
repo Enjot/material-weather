@@ -19,16 +19,15 @@ fun AsyncIcon(
     /*
     I do this, because all images I get from openweathermap are 100x100px .pngs
     and I want them to be sharp on every screen and to occupy space even
-    before they are loaded or if they are not loaded at all
-    the solution is for now
+    before they are loaded or if they are not loaded at all.
+    The solution is for now
      */
     
     val density = LocalDensity.current
     val sizeInDp = with(density) { 100.toDp() }
     
     AsyncImage(
-        model =
-        "https://openweathermap.org/img/wn/$iconCode@2x.png",
+        model = "https://openweathermap.org/img/wn/$iconCode@2x.png",
         contentDescription = null,
         modifier = modifier
             .size(sizeInDp)

@@ -27,6 +27,4 @@ fun AirPollutionDto.toAirPollutionOrNull(): WeatherEntity.AirPollution? {
             no = no?.roundToInt() ?: return null
         )
     } else return null
-
-    
 }

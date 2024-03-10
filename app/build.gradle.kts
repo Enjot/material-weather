@@ -115,12 +115,12 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     
     // Room (change to ksp in the future)
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    testImplementation("androidx.room:room-testing:$room_version")
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
     
     // Gson
     implementation ("com.google.code.gson:gson:2.10.1")
@@ -129,14 +129,14 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     
     // Proto DataStore
     implementation  ("androidx.datastore:datastore:1.0.0")
     implementation  ("com.google.protobuf:protobuf-javalite:3.25.3")
     
     // Location services
-    implementation ("com.google.android.gms:play-services-location:21.1.0")
+    implementation ("com.google.android.gms:play-services-location:21.2.0")
     
     // Coil
     implementation("io.coil-kt:coil-compose:2.5.0")

@@ -1,5 +1,6 @@
 package com.enjot.materialweather.ui.overviewscreen.conditions
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,7 @@ fun ConditionCard(
     content: @Composable BoxScope. () -> Unit
 ) {
     Card(
-        modifier = modifier
+        modifier = modifier.clickable {  }
     ) {
         Box(
             modifier = Modifier

@@ -11,7 +11,7 @@ interface GeoapifyApi {
      Limit is for 5 results because free plan for this api let me
      make only 5 requests per second. If I exceed this limit, it leads
      to bugs for responses with let's say 9 results.
-     I make reversed geocoding calls calls asynchronously for every
+     I make reversed geocoding calls asynchronously for every
      result from this call to get postcode for every result.
      Checked many apis already and this is the only free solution I found.
      */
