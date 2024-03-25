@@ -92,19 +92,21 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     
     // Compose
-    implementation(enforcedPlatform("androidx.compose:compose-bom:2024.02.02"))
-    androidTestImplementation(enforcedPlatform("androidx.compose:compose-bom:2024.02.02"))
+    implementation(platform("androidx.compose:compose-bom:2024.03.00"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.animation:animation-core")
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.03.00"))
     debugImplementation("androidx.compose.ui:ui-tooling")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.3")
-    implementation("androidx.compose.material:material-icons-extended")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     
     // Okhttp, Retrofit and Kotlin Serialization + Converter for Retrofit

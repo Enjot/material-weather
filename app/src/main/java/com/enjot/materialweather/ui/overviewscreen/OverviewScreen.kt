@@ -1,15 +1,9 @@
 package com.enjot.materialweather.ui.overviewscreen
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,27 +11,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
+import com.enjot.materialweather.ui.overviewscreen.components.WeatherProviderButton
 import com.enjot.materialweather.ui.overviewscreen.conditions.ConditionsBanner
 import com.enjot.materialweather.ui.overviewscreen.daily.DailyBanner
 import com.enjot.materialweather.ui.overviewscreen.hourly.HourlyBanner
-import com.enjot.materialweather.ui.overviewscreen.summary.SummaryBanner
 import com.enjot.materialweather.ui.overviewscreen.search.ExpandableSearchBanner
+import com.enjot.materialweather.ui.overviewscreen.summary.SummaryBanner
 import com.enjot.materialweather.ui.pullrefresh.PullRefreshIndicator
 import com.enjot.materialweather.ui.pullrefresh.pullRefresh
 import com.enjot.materialweather.ui.pullrefresh.rememberPullRefreshState
@@ -61,8 +47,6 @@ fun OverviewScreen(
         refreshingOffset = 200.dp
     )
     
-    val uriHandler = LocalUriHandler.current
-    
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,39 +54,23 @@ fun OverviewScreen(
     ) {
         
         Column {
+            
             ExpandableSearchBanner(
                 query = state.query,
-                onQueryChange = {
-                    onEvent(OverviewEvent.SearchBanner.OnQueryChange(it))
-                },
+                onQueryChange = { onEvent(OverviewEvent.SearchBanner.OnQueryChange(it)) },
                 selectedCity = state.weatherInfo?.place?.city ?: "Search",
-                onSearch = {
-                    onEvent(OverviewEvent.SearchBanner.OnSearch(state.query))
-                },
+                onSearch = { onEvent(OverviewEvent.SearchBanner.OnSearch(state.query)) },
                 isActive = state.isSearchBarActive,
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-                onUseCurrentLocationClick = {
-                    onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick)
-                },
+                onUseCurrentLocationClick = { onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick) },
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnBannerCollapse) },
-                onAddToFavorites = { result ->
-                    onEvent(
-                        OverviewEvent.SearchBanner.OnAddToFavorites(
-                            result
-                        )
-                    )
-                },
+                onAddToFavorites = { onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(it)) },
                 onNavigateToSettings = onNavigateToSettings,
-                onSearchResultClick = { result ->
-                    onEvent(
-                        OverviewEvent.SearchBanner.OnSearchResultClick(
-                            result
-                        )
-                    )
-                },
+                onSearchResultClick = { onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(it))},
                 searchResults = viewModel.state.searchResults,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
+            
             AnimatedVisibility(
                 enter = fadeIn(),
                 exit = fadeOut(),
@@ -115,38 +83,22 @@ fun OverviewScreen(
                         .verticalScroll(scrollState)
                         .padding(16.dp)
                 ) {
+                    
                     Spacer(modifier = Modifier.height(16.dp))
+                    
                     state.weatherInfo?.current?.let { SummaryBanner(it) }
+                    
                     Spacer(modifier = Modifier.height(16.dp))
+                    
                     state.weatherInfo?.hourly?.let { HourlyBanner(it) }
-                    state.weatherInfo?.daily?.let {
-                        DailyBanner(
-                            it,
-                            onNavigateToDailyWeather
-                        )
-                    }
-                    state.weatherInfo?.current?.conditions?.let {
-                        ConditionsBanner(
-                            it
-                        )
-                    }
-                    state.weatherInfo?.airPollution?.let {
-                        AirPollutionBanner(
-                            it
-                        )
-                    }
-                    TextButton(
-                        onClick = { uriHandler.openUri("https://openweathermap.org/") },
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(24.dp)
-                    ) {
-                        Text(
-                            text = "openweathermap.org",
-                            style = MaterialTheme.typography.labelSmall,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    
+                    state.weatherInfo?.daily?.let { DailyBanner(it, onNavigateToDailyWeather) }
+                    
+                    state.weatherInfo?.current?.conditions?.let { ConditionsBanner(it) }
+                    
+                    state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
+                    
+                    WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(24.dp))
                 }
             }
         }
