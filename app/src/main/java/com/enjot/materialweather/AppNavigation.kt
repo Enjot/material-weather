@@ -1,5 +1,8 @@
 package com.enjot.materialweather
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,20 +20,30 @@ fun AppNavigation() {
     
     NavHost(
         navController = navController,
-        startDestination = "overview") {
-        composable("overview") {
+        enterTransition = { fadeIn(animationSpec = tween(300)) },
+        exitTransition = { fadeOut(animationSpec = tween(300)) },
+        startDestination = "overview"
+    ) {
+        
+        composable(
+            route = "overview"
+        ) {
             OverviewScreen(
                 onNavigateToDailyWeather = { index -> navController.navigate("daily/$index") },
                 onNavigateToSettings = { navController.navigate("settings") }
             )
         }
+        
         composable(
-            "daily/{dailyIndex}",
+            route = "daily/{dailyIndex}",
             arguments = listOf(navArgument("dailyIndex") { type = NavType.IntType })
         ) {
             DailyScreen(it.arguments?.getInt("dailyIndex"))
         }
-        composable("settings") {
+        
+        composable(
+            route = "settings"
+        ) {
             SettingsScreen()
         }
     }
