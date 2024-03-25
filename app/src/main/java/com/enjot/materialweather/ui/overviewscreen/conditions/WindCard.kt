@@ -14,8 +14,6 @@ fun WindCard(
     degree: Int,
     modifier: Modifier = Modifier
 ) {
-    
-    
     ConditionCard(
         title = "Wind",
         headline = speed.toString(),
@@ -23,7 +21,6 @@ fun WindCard(
         headlineExtra = "",
         modifier = modifier
     ) {
-    
         ArrowDegreeIndicator(
             degree = degree,
             modifier = Modifier

@@ -86,10 +86,23 @@ class WeatherRepositoryImpl @Inject constructor(
             val reverseGeocodingResults =
                 deferredResults.awaitAll().filterNotNull()
             
-            val results = reverseGeocodingResults.map { it.toDomainSearchResult() }
+            val results = reverseGeocodingResults
+                .map { it.toDomainSearchResult() }
+                .filterDuplicatesKeepNulls { it.postCode }
             
             Resource.Success(results)
         }
+    }
+    
+    private fun <T> List<SearchResult>.filterDuplicatesKeepNulls(
+        selector: (SearchResult) -> T?
+    ): List<SearchResult> {
+        return this
+            .groupBy(selector)
+            .flatMap { entry ->
+                if (entry.key == null) entry.value
+                else listOf(entry.value.first())
+            }
     }
     
     /*
@@ -109,3 +122,4 @@ class WeatherRepositoryImpl @Inject constructor(
         } else null
     }
 }
+
