@@ -33,9 +33,11 @@ Things I will do in the future:
 - banners for sun and moon data
 - various tests (unit, integration and end-to-end)
 
-Things that would be nice, but not currently planned:
+Things that would be nice, but not **currently** planned:
 - support for various screen sizes
 - support for accesibility
+- deploying to the Play Store
+- support for multi-languages
 - Wear OS version
 
 ![Group 21](https://github.com/Enjot/materialweather/assets/60782298/37cac4a4-5f7e-4c6d-b50c-b235b64f7dd2)
