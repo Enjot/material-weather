@@ -3,7 +3,7 @@ this is a Material Design Weather Android App, written using Jetpack Compose UI 
 The app runs on Android 12 and later. It's still in the early stage of development.
 
 My goal was to make something, that isn't in the Play Store yet, a weather app that combines those things:
-- material you design
+- Material You design
 - simple, straightforward and intuitive UI
 
 And the most unique thing:
