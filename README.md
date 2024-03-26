@@ -7,7 +7,7 @@ My goal was to make something, that isn't in the Play Store yet, a weather app t
 - simple, straightforward and intuitive UI
 
 And the most unique thing:
-- **getting zip codes for searched places (!), so there is an easy way to decide which place is which if they are named the same (other apps provide additional data like region, but for my area, quite often it's not enough)**
+- **getting zip codes for searched places, so there is an easy way to decide which place is which if they are named the same (other apps provide additional data like region, but for my area, quite often it's not enough, some places named the same can have the same region)**
 
 Things I did already:
 - support for dynamic system themes and dark mode
