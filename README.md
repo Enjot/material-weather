@@ -1,10 +1,13 @@
 Hello,
 this is a Material Design Weather Android App, written by myself, using Jetpack Compose UI Toolkit to consolidate the knowledge I learned from various sources.
 The app runs on Android 12 and later. It's still in the early stage of development.
+
 My goal was to make something, that isn't in the Play Store yet, a weather app that combines those things:
 - material you design
 - simple, straightforward and intuitive UI
-- unique functionality: getting zip codes for searched places (!), so there is an easy way to decide which place is which if they are named the same (other apps provide additional data like region, but for my area, quite often it's not enough)
+
+And the most unique thing:
+- **getting zip codes for searched places (!), so there is an easy way to decide which place is which if they are named the same (other apps provide additional data like region, but for my area, quite often it's not enough)**
 
 Things I did already:
 - support for dynamic system themes and dark mode
