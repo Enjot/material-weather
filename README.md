@@ -1,5 +1,5 @@
 Hello,
-this is a Material Design Weather Android App, written by myself, using Jetpack Compose UI Toolkit to consolidate the knowledge I learned from various sources.
+this is a Material Design Weather Android App, written using Jetpack Compose UI Toolkit to consolidate the knowledge I learned from various sources.
 The app runs on Android 12 and later. It's still in the early stage of development.
 
 My goal was to make something, that isn't in the Play Store yet, a weather app that combines those things:
