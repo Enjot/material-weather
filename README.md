@@ -1,43 +1,41 @@
-Hello,
-this is a Material Design Weather Android App, written using Jetpack Compose UI Toolkit to consolidate the knowledge I learned from various sources.
-The app runs on Android 12 and later. It's still in the early stage of development.
+# Material Design Weather Android App
+My main goal was to make a pleasant-looking app, that has some small unique functionality I didn't find in other weather apps in the Play Store:
+- getting info about postcodes in search results for the same-named places (other apps can put the region, but quite often it's not enough in my area to recognize which place I should choose from the list, some places can be named the same being in the same region)
 
-My goal was to make something, that isn't in the Play Store yet, a weather app that combines those things:
-- Material You design
-- simple, straightforward and intuitive UI
-
-And the most unique thing:
-- **getting zip codes for searched places, so there is an easy way to decide which place is which if they are named the same (other apps provide additional data like region, but for my area, quite often it's not enough, some places named the same can have the same region)**
-
-Things I did already:
-- support for dynamic system themes and dark mode
-- core functionality: searching for places, showing retrieved data
-- getting current location coordinates and weather data for them
-- offline-first functionality - app saves data to the database and loads it while user runs it, app always shows database data (data from the network is saved to the database)
-- pull to refresh functionality
-- fancy search banner animations
-- self-written indicators of weather parameters in Canvas Compose
-- navigation to daily weather and settings
-- separated data, domain and UI layers (dependency injection, inversion of control and mappers)
-
-Things I will do in the future:
-- support for polish language (currently english only)
-- adding cities to favorites
-- widgets and periodic updates in the background
-- handling location permissions (currently, user has to grant them in the settings app manually)
-- fill settings screen
-- fill the screen for the selected day from the daily list
-- more animations (when loading search results for example)
-- dialogs for different parameters to explain what they mean
-- weather images stored locally (currently they are always loaded from the network)
-- banners for sun and moon data
-- various tests (unit, integration and end-to-end)
-
-Things that would be nice, but not **currently** planned:
-- support for various screen sizes
-- support for accesibility
-- deploying to the Play Store
-- support for multi-languages
-- Wear OS version
-
+### Already in the app:  
+✅ light/dark mode  
+✅ dynamic themes  
+✅ current, hourly, and daily weather data  
+✅ air pollution data  
+✅ weather conditions data  
+✅ searching for places  
+✅ offline-first functionality  
+✅ getting data from the device location  
+✅ handling location permissions  
+✅ pull to refresh  
+✅ search bar edge-to-edge animations  
+### Functional to do:  
+➡️ support for the Polish language  
+➡️ managing favorite places  
+➡️ widgets  
+➡️ detailed daily weather data on another screen  
+➡️ settings screen  
+➡️ periodic background updates  
+➡️ dialogs with additional info about some weather data  
+➡️ moon and sun data  
+➡️ support for imperial units
+### Technical to do:
+➡️ weather images stored locally (currently they are always loaded from the network)  
+➡️ rework of pull to refresh  
+➡️ rework of loading weather and search results animations   
+➡️ unit, integration and end-to-end tests
+### Architecture:
+- separated data, domain, and UI layers (dependency injection, IoC, mappers)
+- MVI design
+- single module application
+### Tech Stack:
+- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit, ViewModel
+### Helpers:
+- KSP, Gson, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit  
+  
 ![Group 21](https://github.com/Enjot/materialweather/assets/60782298/37cac4a4-5f7e-4c6d-b50c-b235b64f7dd2)
