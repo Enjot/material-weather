@@ -1,7 +1,8 @@
 package com.enjot.materialweather.ui.overviewscreen.search.locationbutton
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.WrongLocation
+import androidx.compose.material.icons.outlined.LocationOff
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -39,7 +40,9 @@ fun PermissionDialog(
             }
         },
         icon = {
-               Icon(imageVector = Icons.Default.WrongLocation, contentDescription = null)
+               Icon(
+                   imageVector = if (isPermanentlyDeclined) Icons.Outlined.LocationOff else Icons.Outlined.LocationOn,
+                   contentDescription = null)
         },
         title = { Text(text = "Permission required") },
         text = {

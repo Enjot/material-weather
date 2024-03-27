@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -109,7 +109,7 @@ fun CurrentLocationButton(
         )
         Spacer(modifier = Modifier.width(16.dp))
         Icon(
-            imageVector = Icons.Outlined.LocationOn,
+            imageVector = Icons.Outlined.MyLocation,
             contentDescription = null,
             modifier = Modifier.size(style.fontSize.value.dp * iconScaleFactor)
         )
