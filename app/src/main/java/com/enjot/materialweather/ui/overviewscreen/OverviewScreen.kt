@@ -52,7 +52,7 @@ fun OverviewScreen(
             .fillMaxWidth()
             .pullRefresh(pullRefreshState)
     ) {
-        
+
         Column {
             
             ExpandableSearchBanner(
@@ -66,11 +66,11 @@ fun OverviewScreen(
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnBannerCollapse) },
                 onAddToFavorites = { onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(it)) },
                 onNavigateToSettings = onNavigateToSettings,
-                onSearchResultClick = { onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(it))},
+                onSearchResultClick = { onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(it)) },
                 searchResults = viewModel.state.searchResults,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            
+
             AnimatedVisibility(
                 enter = fadeIn(),
                 exit = fadeOut(),
@@ -98,7 +98,11 @@ fun OverviewScreen(
                     
                     state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
                     
-                    WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(24.dp))
+                    WeatherProviderButton(
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(24.dp)
+                    )
                 }
             }
         }

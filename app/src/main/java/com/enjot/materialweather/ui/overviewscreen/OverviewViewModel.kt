@@ -10,7 +10,6 @@ import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.repository.WeatherRepository
 import com.enjot.materialweather.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
