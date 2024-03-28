@@ -1,4 +1,5 @@
 # Material Design Weather Android App
+![Group 2](https://github.com/Enjot/material-weather/assets/60782298/7739e742-05d1-4c12-a473-71311059db58)
 My main goal was to make a pleasant-looking app, that has some small unique functionality I didn't find in other weather apps in the Play Store:
 - getting info about postcodes in search results for the same-named places (other apps can put the region, but quite often it's not enough in my area to recognize which place I should choose from the list, some places can be named the same being in the same region)
 
@@ -37,5 +38,3 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 - Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit
 ### Helpers:
 - KSP, Gson, ViewModel, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit  
-  
-![Group 21](https://github.com/Enjot/materialweather/assets/60782298/37cac4a4-5f7e-4c6d-b50c-b235b64f7dd2)
