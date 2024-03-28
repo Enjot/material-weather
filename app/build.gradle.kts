@@ -132,10 +132,6 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.51")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     
-    // Proto DataStore
-    implementation  ("androidx.datastore:datastore:1.0.0")
-    implementation  ("com.google.protobuf:protobuf-javalite:4.26.0")
-    
     // Location services
     implementation ("com.google.android.gms:play-services-location:21.2.0")
     
@@ -144,24 +140,4 @@ dependencies {
     
     // Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
-    
-    // Shimmer KMP
-    implementation("com.valentinilk.shimmer:compose-shimmer:1.2.0")
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.3"
-    }
-    
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }
