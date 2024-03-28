@@ -25,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.SearchResult
-import com.enjot.materialweather.ui.overviewscreen.search.locationbutton.CurrentLocationButton
 import com.enjot.materialweather.ui.overviewscreen.search.components.SearchResultItem
+import com.enjot.materialweather.ui.overviewscreen.search.locationbutton.CurrentLocationButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

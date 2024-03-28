@@ -67,10 +67,11 @@ fun OverviewScreen(
                 onAddToFavorites = { onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(it)) },
                 onNavigateToSettings = onNavigateToSettings,
                 onSearchResultClick = { onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(it)) },
-                searchResults = viewModel.state.searchResults,
-                modifier = Modifier.padding(bottom = 8.dp)
+                searchResults = viewModel.state.searchResults
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+            
             AnimatedVisibility(
                 enter = fadeIn(),
                 exit = fadeOut(),
