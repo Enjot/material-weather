@@ -1,6 +1,6 @@
 package com.enjot.materialweather.data.mapper
 
-import com.enjot.materialweather.data.local.WeatherEntity
+import com.enjot.materialweather.data.database.weather.WeatherEntity
 import com.enjot.materialweather.data.remote.openweathermap.dto.AirPollutionDto
 import kotlin.math.roundToInt
 

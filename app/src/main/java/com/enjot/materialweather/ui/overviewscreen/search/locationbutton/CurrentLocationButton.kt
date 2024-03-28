@@ -39,7 +39,6 @@ fun CurrentLocationButton(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
     )
-    val dialogQueue = viewModel.visiblePermissionDialogQueue
     
     val multiplePermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
@@ -53,35 +52,29 @@ fun CurrentLocationButton(
         }
     )
     
-    dialogQueue
+    viewModel.visiblePermissionDialogQueue
         .reversed()
         .forEach { permission ->
+            
             if (permission == Manifest.permission.ACCESS_COARSE_LOCATION &&
                 isCoarseLocationAlreadyGranted(context)
             ) viewModel.dismissDialog()
+            
             if (permission == Manifest.permission.ACCESS_FINE_LOCATION &&
                 isFineLocationAlreadyGranted(context)
             ) viewModel.dismissDialog()
+            
             PermissionDialog(
                 permissionTextProvider = when (permission) {
-                    Manifest.permission.ACCESS_COARSE_LOCATION -> {
-                        CoarseLocationPermissionTextProvider()
-                    }
-                    
-                    Manifest.permission.ACCESS_FINE_LOCATION -> {
-                        FineLocationPermissionTextProvider()
-                    }
+                    Manifest.permission.ACCESS_COARSE_LOCATION -> CoarseLocationPermissionTextProvider()
+                    Manifest.permission.ACCESS_FINE_LOCATION -> FineLocationPermissionTextProvider()
                     else -> return@forEach
                 },
-                isPermanentlyDeclined = !shouldShowRequestPermissionRationale(
-                    context as Activity, permission
-                ),
+                isPermanentlyDeclined = !shouldShowRequestPermissionRationale(context as Activity, permission),
                 onDismiss = viewModel::dismissDialog,
                 onOkClick = {
                     viewModel.dismissDialog()
-                    multiplePermissionResultLauncher.launch(
-                        arrayOf(permission)
-                    )
+                    multiplePermissionResultLauncher.launch(arrayOf(permission))
                 },
                 onGoToAppSettingsClick = {
                     viewModel.dismissDialog()
@@ -89,9 +82,6 @@ fun CurrentLocationButton(
                 }
             )
         }
-    
-    val style = MaterialTheme.typography.titleMedium
-    val iconScaleFactor = 1.2f
     
     Button(
         onClick = {
@@ -103,6 +93,8 @@ fun CurrentLocationButton(
         },
         modifier = modifier
     ) {
+        val style = MaterialTheme.typography.titleMedium
+        val iconScaleFactor = 1.1f
         Text(
             text = "Use current location",
             style = MaterialTheme.typography.titleMedium
@@ -125,12 +117,14 @@ fun Activity.openAppSettings() {
 
 private fun isCoarseLocationAlreadyGranted(context: Context): Boolean {
     return ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        context, Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
 }
 
 private fun isFineLocationAlreadyGranted(context: Context): Boolean {
     return ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        context, Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
 }
 
 @Preview

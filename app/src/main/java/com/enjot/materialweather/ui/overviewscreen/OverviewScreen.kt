@@ -64,10 +64,12 @@ fun OverviewScreen(
                 onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
                 onUseCurrentLocationClick = { onEvent(OverviewEvent.SearchBanner.OnCurrentLocationButtonClick) },
                 onArrowBackClick = { onEvent(OverviewEvent.SearchBanner.OnBannerCollapse) },
-                onAddToFavorites = { onEvent(OverviewEvent.SearchBanner.OnAddToFavorites(it)) },
+                onAddToSaved = { onEvent(OverviewEvent.SearchBanner.OnAddToSaved(it)) },
                 onNavigateToSettings = onNavigateToSettings,
                 onSearchResultClick = { onEvent(OverviewEvent.SearchBanner.OnSearchResultClick(it)) },
-                searchResults = viewModel.state.searchResults
+                onRemoveFromSaved = { onEvent(OverviewEvent.SearchBanner.OnRemoveFromSaved(it)) },
+                searchResults = state.searchResults,
+                savedLocations = state.savedLocations
             )
 
             Spacer(modifier = Modifier.height(8.dp))

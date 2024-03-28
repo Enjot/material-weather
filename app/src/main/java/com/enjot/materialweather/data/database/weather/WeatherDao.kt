@@ -1,4 +1,4 @@
-package com.enjot.materialweather.data.local
+package com.enjot.materialweather.data.database.weather
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,5 +13,5 @@ interface WeatherDao {
     fun getWeather(): Flow<WeatherEntity?>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeather(weather: WeatherEntity)
+    fun insertWeather(weather: WeatherEntity)
 }

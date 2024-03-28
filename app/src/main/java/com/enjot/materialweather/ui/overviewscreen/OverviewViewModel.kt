@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enjot.materialweather.domain.location.LocationTracker
+import com.enjot.materialweather.domain.mapper.toSavedLocation
 import com.enjot.materialweather.domain.model.SearchResult
+import com.enjot.materialweather.domain.repository.SavedLocationsRepository
 import com.enjot.materialweather.domain.repository.WeatherRepository
 import com.enjot.materialweather.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository,
-    private val locationTracker: LocationTracker
+    private val locationTracker: LocationTracker,
+    private val savedLocationsRepository: SavedLocationsRepository
 ) : ViewModel() {
     
     var state by mutableStateOf(OverviewUiState())
@@ -44,8 +47,11 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
-            is OverviewEvent.SearchBanner.OnAddToFavorites -> {
-            
+            is OverviewEvent.SearchBanner.OnAddToSaved -> {
+                viewModelScope.launch {
+                    savedLocationsRepository.addToSavedLocations(event.searchResult.toSavedLocation())
+                    refreshSavedLocations()
+                }
             }
             
             is OverviewEvent.SearchBanner.OnCurrentLocationButtonClick -> {
@@ -80,6 +86,13 @@ class OverviewViewModel @Inject constructor(
             
             is OverviewEvent.OnDailyCardClick -> {
             
+            }
+            
+            is OverviewEvent.SearchBanner.OnRemoveFromSaved -> {
+                viewModelScope.launch {
+                    savedLocationsRepository.deleteFromSavedLocations(event.savedLocation)
+                    refreshSavedLocations()
+                }
             }
         }
     }
@@ -116,9 +129,7 @@ class OverviewViewModel @Inject constructor(
                     searchResults = emptyList()
                 )
             }
-            
         }
-        
     }
     
     private fun refreshWeatherInfo() {
@@ -179,12 +190,19 @@ class OverviewViewModel @Inject constructor(
         }
     }
     
+    private suspend fun refreshSavedLocations() {
+        state = state.copy(
+            savedLocations = savedLocationsRepository.getSavedLocations()
+        )
+    }
+    
     init {
         viewModelScope.launch {
             val result = weatherRepository.loadLocalWeather()
             state = state.copy(
                 weatherInfo = result.data,
-                isLoading = false
+                isLoading = false,
+                savedLocations = savedLocationsRepository.getSavedLocations()
             )
         }
     }

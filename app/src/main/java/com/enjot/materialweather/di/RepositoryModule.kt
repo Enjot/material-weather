@@ -1,6 +1,8 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.data.repository.WeatherRepositoryImpl
+import com.enjot.materialweather.data.repository.SavedLocationsRepoImpl
+import com.enjot.materialweather.data.repository.WeatherRepoImpl
+import com.enjot.materialweather.domain.repository.SavedLocationsRepository
 import com.enjot.materialweather.domain.repository.WeatherRepository
 import dagger.Binds
 import dagger.Module
@@ -16,6 +18,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindWeatherRepository(
-        weatherRepositoryImpl: WeatherRepositoryImpl
+        weatherRepoImpl: WeatherRepoImpl
     ): WeatherRepository
+    
+    @Binds
+    @Singleton
+    abstract fun bindSavedLocationsRepository(
+        savedLocationsRepoImpl: SavedLocationsRepoImpl
+    ): SavedLocationsRepository
 }

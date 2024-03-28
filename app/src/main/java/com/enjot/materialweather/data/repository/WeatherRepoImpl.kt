@@ -1,7 +1,7 @@
 package com.enjot.materialweather.data.repository
 
-import com.enjot.materialweather.data.local.WeatherDao
-import com.enjot.materialweather.data.local.WeatherEntity
+import com.enjot.materialweather.data.database.weather.WeatherDao
+import com.enjot.materialweather.data.database.weather.WeatherEntity
 import com.enjot.materialweather.data.mapper.toAirPollutionOrNull
 import com.enjot.materialweather.data.mapper.toCurrentWeather
 import com.enjot.materialweather.data.mapper.toDailyWeatherList
@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
-class WeatherRepositoryImpl @Inject constructor(
+class WeatherRepoImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
     @Named("geoapify") private val geoapifyApi: GeoapifyApi,
     private val dao: WeatherDao

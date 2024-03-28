@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddCircleOutline
+import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,13 +23,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.Coordinates
-import com.enjot.materialweather.domain.model.SearchResult
+import com.enjot.materialweather.domain.model.SavedLocation
 
 @Composable
-fun SearchResultItem(
-    searchResult: SearchResult,
-    onClick: (SearchResult) -> Unit,
-    onAddToSaved: (SearchResult) -> Unit,
+fun SavedLocationItem(
+    savedLocation: SavedLocation,
+    onClick: (SavedLocation) -> Unit,
+    onRemove: (SavedLocation) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -38,20 +38,20 @@ fun SearchResultItem(
             .fillMaxWidth()
             .padding(4.dp)
             .clickable {
-                onClick(searchResult)
+                onClick(savedLocation)
             }
     ) {
         Text(
-            text = searchResult.city,
+            text = savedLocation.name,
             style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        if (searchResult.postCode != null) {
+        if (savedLocation.postCode != null) {
             Text(
-                text = searchResult.postCode,
+                text = savedLocation.postCode,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
@@ -62,7 +62,7 @@ fun SearchResultItem(
         }
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = searchResult.countryCode,
+            text = savedLocation.countryCode,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .clip(CircleShape)
@@ -70,26 +70,28 @@ fun SearchResultItem(
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        IconButton(onClick = { onAddToSaved(searchResult) }) {
-            Icon(imageVector = Icons.Outlined.AddCircleOutline, contentDescription = "add to saved")
+        IconButton(onClick = { onRemove(savedLocation) }) {
+            Icon(
+                imageVector = Icons.Outlined.RemoveCircleOutline,
+                contentDescription = "remove from saved")
         }
     }
 }
 
 @Preview
 @Composable
-fun SearchResultItemPreview() {
+fun SavedLocationItemPreview() {
     
-    val searchResult = SearchResult(
-        city = "London",
+    val savedLocation = SavedLocation(
+        name = "London",
         postCode = "WC2N 5DX",
         countryCode = "GB",
         coordinates = Coordinates(0.0, 0.0)
     )
     
-    SearchResultItem(
-        searchResult = searchResult,
-        onAddToSaved = { },
+    SavedLocationItem(
+        savedLocation = savedLocation,
+        onRemove = { },
         onClick = {  }
     )
 }

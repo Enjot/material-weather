@@ -1,5 +1,6 @@
 package com.enjot.materialweather.ui.overviewscreen
 
+import com.enjot.materialweather.domain.model.SavedLocation
 import com.enjot.materialweather.domain.model.SearchResult
 
 sealed class OverviewEvent {
@@ -9,7 +10,8 @@ sealed class OverviewEvent {
         data class OnSearch(val query: String): SearchBanner()
         data object OnBannerCollapse: SearchBanner()
         data class OnSearchResultClick(val searchResult: SearchResult): SearchBanner()
-        data class OnAddToFavorites(val searchResult: SearchResult): SearchBanner()
+        data class OnAddToSaved(val searchResult: SearchResult): SearchBanner()
+        data class OnRemoveFromSaved(val savedLocation: SavedLocation): SearchBanner()
         data object OnCurrentLocationButtonClick: SearchBanner()
     }
     

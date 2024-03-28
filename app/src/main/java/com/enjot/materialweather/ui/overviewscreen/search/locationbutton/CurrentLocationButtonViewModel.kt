@@ -10,10 +10,7 @@ class CurrentLocationButtonViewModel : ViewModel() {
         visiblePermissionDialogQueue.removeFirst()
     }
     
-    fun onPermissionResult(
-        permission: String,
-        isGranted: Boolean
-    ) {
+    fun onPermissionResult(permission: String, isGranted: Boolean) {
         if(!isGranted && !visiblePermissionDialogQueue.contains(permission)) {
             visiblePermissionDialogQueue.add(permission)
         }

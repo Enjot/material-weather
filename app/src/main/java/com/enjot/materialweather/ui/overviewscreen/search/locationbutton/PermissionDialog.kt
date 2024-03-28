@@ -25,7 +25,7 @@ fun PermissionDialog(
         confirmButton = {
             if (isPermanentlyDeclined) {
                 TextButton(onClick = onGoToAppSettingsClick) {
-                    Text("Go to the settings app")
+                    Text("Open Settings")
                 }
             } else {
                 TextButton(onClick = onOkClick) {
@@ -44,7 +44,7 @@ fun PermissionDialog(
                    imageVector = if (isPermanentlyDeclined) Icons.Outlined.LocationOff else Icons.Outlined.LocationOn,
                    contentDescription = null)
         },
-        title = { Text(text = "Permission required") },
+        title = { Text(text = "Location permission required") },
         text = {
             Text(
                 text = permissionTextProvider.getDescription(
@@ -62,10 +62,11 @@ interface PermissionTextProvider {
 class CoarseLocationPermissionTextProvider : PermissionTextProvider {
     override fun getDescription(isPermanentlyDeclined: Boolean): String {
         return if (isPermanentlyDeclined) {
-            "It seems you permanently declined approximately location permission. " +
-                    "You can go to the app settings to grant it."
+            "It seems you didn't allow for approximately location permission. " +
+                    "This app needs both approximately and precise location permissions to get your current location. " +
+                    "You can grant them manually in settings."
         } else {
-            "This app needs access to your approximately location."
+            "This app needs access to your approximately location. Otherwise use search option."
         }
     }
 }
@@ -73,10 +74,11 @@ class CoarseLocationPermissionTextProvider : PermissionTextProvider {
 class FineLocationPermissionTextProvider : PermissionTextProvider {
     override fun getDescription(isPermanentlyDeclined: Boolean): String {
         return if (isPermanentlyDeclined) {
-            "It seems you permanently declined precise location permission. " +
-                    "You can go to the app settings to grant it."
+            "It seems you didn't allow for precise location permission. " +
+                    "This app needs both approximately and precise location permissions to get your current location. " +
+                    "You can grant them manually in settings."
         } else {
-            "This app needs access to your precise location."
+            "This app needs access to your precise location. Otherwise use search option."
         }
     }
 }

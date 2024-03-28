@@ -2,8 +2,9 @@ package com.enjot.materialweather.di
 
 import android.app.Application
 import androidx.room.Room
-import com.enjot.materialweather.data.local.WeatherDao
-import com.enjot.materialweather.data.local.WeatherDatabase
+import com.enjot.materialweather.data.database.WeatherDatabase
+import com.enjot.materialweather.data.database.saved.SavedLocationDao
+import com.enjot.materialweather.data.database.weather.WeatherDao
 import com.enjot.materialweather.data.remote.openweathermap.api.GeoapifyApi
 import com.enjot.materialweather.data.remote.openweathermap.api.OpenWeatherMapApi
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -24,7 +25,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
+    
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
@@ -68,15 +69,19 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWeatherDatabase(app: Application): WeatherDatabase {
-        return Room.databaseBuilder(
-            app,
-            WeatherDatabase::class.java,
-            "weather_db"
-        ).build()
+        return Room
+            .databaseBuilder(
+                app,
+                WeatherDatabase::class.java,
+                "weather_db"
+            )
+            .fallbackToDestructiveMigration()
+            .build()
     }
-
+    
     @Provides
-    fun provideWeatherDao(database: WeatherDatabase): WeatherDao {
-        return database.dao
-    }
+    fun provideWeatherDao(database: WeatherDatabase): WeatherDao = database.weatherDao
+    
+    @Provides
+    fun provideSavedLocationDao(database: WeatherDatabase): SavedLocationDao = database.savedLocationDao
 }

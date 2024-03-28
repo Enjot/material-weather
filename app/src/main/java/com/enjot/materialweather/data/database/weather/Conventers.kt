@@ -1,4 +1,4 @@
-package com.enjot.materialweather.data.local
+package com.enjot.materialweather.data.database.weather
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
