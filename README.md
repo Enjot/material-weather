@@ -26,7 +26,7 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 ➡️ dialogs with additional info about some weather data  
 ➡️ moon and sun data  
 ➡️ support for imperial units  
-➡️ observe internet connectivity
+➡️ informing about poor/no internet connectivity
 ### Technical to do:
 ➡️ weather images stored locally (currently they are always loaded from the network)  
 ➡️ rework of pull to refresh  
