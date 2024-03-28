@@ -34,8 +34,8 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 - MVI design
 - single module application
 ### Tech Stack:
-- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit, ViewModel
+- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit
 ### Helpers:
-- KSP, Gson, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit  
+- KSP, Gson, ViewModel, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit  
   
 ![Group 21](https://github.com/Enjot/materialweather/assets/60782298/37cac4a4-5f7e-4c6d-b50c-b235b64f7dd2)
