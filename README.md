@@ -27,7 +27,7 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 ### Technical to do:
 ➡️ weather images stored locally (currently they are always loaded from the network)  
 ➡️ rework of pull to refresh  
-➡️ rework of loading weather and search results animations   
+➡️ rework of loading weather and search results animations (including shimmer effect)  
 ➡️ unit, integration and end-to-end tests
 ### Architecture:
 - separated data, domain, and UI layers (dependency injection, IoC, mappers)
