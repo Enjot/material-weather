@@ -38,13 +38,13 @@ fun OverviewScreen(
 ) {
     val state = viewModel.state.collectAsState()
     val scrollState = rememberScrollState()
-    val onEvent = viewModel::onEvent
+    val onIntent = viewModel::onIntent
     
     // onRefresh function is activated only from pull gesture
     // if refreshing gets true by other way, onRefresh is not getting called
     val pullRefreshState = rememberPullRefreshState(
         refreshing = state.value.isWeatherLoading,
-        onRefresh = { viewModel.onEvent(OverviewEvent.OnPullRefresh) },
+        onRefresh = { viewModel.onIntent(OverviewIntent.OnPullRefresh) },
         refreshThreshold = 50.dp,
         refreshingOffset = 200.dp
     )
@@ -59,17 +59,17 @@ fun OverviewScreen(
             
             ExpandableSearchBanner(
                 query = state.value.query,
-                onQueryChange = { onEvent(OverviewEvent.OnQueryChange(it)) },
+                onQueryChange = { onIntent(OverviewIntent.OnQueryChange(it)) },
                 selectedCity = state.value.weatherInfo?.place?.city ?: "Search",
-                onSearch = { onEvent(OverviewEvent.OnSearch(state.value.query)) },
+                onSearch = { onIntent(OverviewIntent.OnSearch(state.value.query)) },
                 isActive = state.value.isSearchBarActive,
-                onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-                onLocationButtonClick = { onEvent(OverviewEvent.OnLocationButtonClick) },
-                onArrowBackClick = { onEvent(OverviewEvent.OnBannerCollapse) },
-                onAddToSaved = { onEvent(OverviewEvent.OnAddToSaved(it)) },
+                onSearchBarClick = { onIntent(OverviewIntent.OnSearchBarClick) },
+                onLocationButtonClick = { onIntent(OverviewIntent.OnLocationButtonClick) },
+                onArrowBackClick = { onIntent(OverviewIntent.OnBannerCollapse) },
+                onAddToSaved = { onIntent(OverviewIntent.OnAddToSaved(it)) },
                 onNavigateToSettings = onNavigateToSettings,
-                onSearchResultClick = { onEvent(OverviewEvent.OnSearchResultClick(it)) },
-                onRemoveFromSaved = { onEvent(OverviewEvent.OnDeleteFromSaved(it)) },
+                onSearchResultClick = { onIntent(OverviewIntent.OnSearchResultClick(it)) },
+                onRemoveFromSaved = { onIntent(OverviewIntent.OnDeleteFromSaved(it)) },
                 searchResults = state.value.searchResults,
                 savedLocations = state.value.savedLocations
             )
@@ -121,6 +121,6 @@ fun OverviewScreen(
     }
     
     BackHandler(enabled = state.value.isSearchBarActive) {
-        onEvent(OverviewEvent.OnBannerCollapse)
+        onIntent(OverviewIntent.OnBannerCollapse)
     }
 }

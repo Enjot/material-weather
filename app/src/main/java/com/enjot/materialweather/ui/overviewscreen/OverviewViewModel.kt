@@ -46,20 +46,20 @@ class OverviewViewModel @Inject constructor(
         }
     }
     
-    fun onEvent(event: OverviewEvent) {
+    fun onIntent(event: OverviewIntent) {
         when (event) {
             
-            is OverviewEvent.OnSearchBarClick -> _state.update { it.copy(isSearchBarActive = true) }
+            is OverviewIntent.OnSearchBarClick -> _state.update { it.copy(isSearchBarActive = true) }
             
-            is OverviewEvent.OnQueryChange -> _state.update { it.copy(query = event.query) }
+            is OverviewIntent.OnQueryChange -> _state.update { it.copy(query = event.query) }
             
-            is OverviewEvent.OnAddToSaved ->
+            is OverviewIntent.OnAddToSaved ->
                 viewModelScope.launch { addSavedLocationUseCase(event.searchResult) }
             
-            is OverviewEvent.OnDeleteFromSaved ->
+            is OverviewIntent.OnDeleteFromSaved ->
                 viewModelScope.launch { deleteSavedLocationUseCase(event.savedLocation) }
             
-            is OverviewEvent.OnSearch -> {
+            is OverviewIntent.OnSearch -> {
                 _state.update { it.copy(isSearchResultsLoading = true) }
                 viewModelScope.launch {
                     val results = getSearchResultsUseCase(event.query)
@@ -72,7 +72,7 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
-            is OverviewEvent.OnLocationButtonClick -> {
+            is OverviewIntent.OnLocationButtonClick -> {
                 _state.update {
                     it.copy(
                         isSearchBarActive = false,
@@ -85,7 +85,7 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
-            is OverviewEvent.OnBannerCollapse -> {
+            is OverviewIntent.OnBannerCollapse -> {
                 _state.update {
                     it.copy(
                         isSearchBarActive = false,
@@ -95,14 +95,14 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
-            is OverviewEvent.OnSearchResultClick -> {
+            is OverviewIntent.OnSearchResultClick -> {
                 _state.update { it.copy(isWeatherLoading = true, isSearchBarActive = false) }
                 viewModelScope.launch {
                     fetchAndStoreWeatherInfoUseCase(event.searchResult.coordinates)
                 }
             }
             
-            is OverviewEvent.OnPullRefresh -> {
+            is OverviewIntent.OnPullRefresh -> {
                 _state.update { it.copy(isWeatherLoading = true) }
                 viewModelScope.launch {
                     _state.value.weatherInfo?.place?.coordinates?.let { fetchAndStoreWeatherInfoUseCase(it) }
