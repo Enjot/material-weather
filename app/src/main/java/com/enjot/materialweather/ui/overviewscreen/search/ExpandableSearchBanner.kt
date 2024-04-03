@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +34,7 @@ import com.enjot.materialweather.ui.overviewscreen.search.components.SavedLocati
 import com.enjot.materialweather.ui.overviewscreen.search.components.SearchResultItem
 import com.enjot.materialweather.ui.overviewscreen.search.locationbutton.CurrentLocationButton
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandableSearchBanner(
     query: String,
@@ -45,7 +44,7 @@ fun ExpandableSearchBanner(
     searchResults: List<SearchResult>,
     savedLocations: List<SavedLocation>,
     isActive: Boolean,
-    onUseCurrentLocationClick: () -> Unit,
+    onLocationButtonClick: () -> Unit,
     onArrowBackClick: () -> Unit,
     onSearchBarClick: () -> Unit,
     onNavigateToSettings: () -> Unit,
@@ -126,13 +125,16 @@ fun ExpandableSearchBanner(
             items(searchResults) { searchResult ->
                 SearchResultItem(
                     searchResult = searchResult,
-                    onAddToSaved = { onAddToSaved(searchResult) },
+                    onAddToSaved = {
+                        focusManager.clearFocus()
+                        onAddToSaved(searchResult)
+                    },
                     onClick = { onSearchResultClick(searchResult) }
                 )
             }
             item {
                 CurrentLocationButton(
-                    onClick = onUseCurrentLocationClick,
+                    onClick = onLocationButtonClick,
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -147,7 +149,10 @@ fun ExpandableSearchBanner(
                 SavedLocationItem(
                     savedLocation = savedLocation,
                     onClick = { onSearchResultClick(savedLocation.toSearchResult()) },
-                    onRemove = { onRemoveFromSaved(savedLocation) }
+                    onRemove = {
+                        focusManager.clearFocus()
+                        onRemoveFromSaved(savedLocation)
+                    }
                 )
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }

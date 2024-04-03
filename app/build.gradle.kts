@@ -118,7 +118,6 @@ dependencies {
     // Room (change to ksp in the future)
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
@@ -128,7 +127,6 @@ dependencies {
     
     // Dagger-Hilt (ksp support for hilt 2.51 is in alpha version for ksp 1.9.23-1.0.19)
     implementation("com.google.dagger:hilt-android:2.51")
-    ksp("com.google.dagger:hilt-android-compiler:2.51")
     ksp("com.google.dagger:hilt-compiler:2.51")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     
@@ -140,4 +138,5 @@ dependencies {
     
     // Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+    
 }

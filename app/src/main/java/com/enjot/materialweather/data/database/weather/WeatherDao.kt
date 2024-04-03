@@ -13,5 +13,5 @@ interface WeatherDao {
     fun getWeather(): Flow<WeatherEntity?>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertWeather(weather: WeatherEntity)
+    suspend fun insertWeather(weather: WeatherEntity)
 }

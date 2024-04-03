@@ -15,7 +15,7 @@ import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocoding
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo
-import com.enjot.materialweather.domain.repository.WeatherRepository
+import com.enjot.materialweather.domain.repository.RemoteRepository
 import com.enjot.materialweather.domain.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -25,19 +25,21 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
-class WeatherRepoImpl @Inject constructor(
+class RemoteRepositoryImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
     @Named("geoapify") private val geoapifyApi: GeoapifyApi,
     private val dao: WeatherDao
-) : WeatherRepository {
+) : RemoteRepository {
     
-    override suspend fun updateLocalWeather(coordinates: Coordinates): Resource<WeatherInfo?> {
+    override suspend fun getWeather(coordinates: Coordinates): Resource<WeatherInfo?> {
         
         return withContext(Dispatchers.IO) {
+            
             val searchResult = geoapifyApi.callReverseGeocodingApi(
                 coordinates.lat.toString(),
                 coordinates.lon.toString()
             ).results[0]
+            
             val oneCallDeferred = async {
                 openWeatherMapApi.callOneCallApi(
                     coordinates.lat.toString(),
@@ -67,8 +69,8 @@ class WeatherRepoImpl @Inject constructor(
             Resource.Success(weather)
         }
     }
-    
-    override suspend fun loadLocalWeather(): Resource<WeatherInfo?> {
+
+    suspend fun loadLocalWeather(): Resource<WeatherInfo?> {
         val weather = dao.getWeather().first()?.toWeatherInfo()
         return Resource.Success(weather)
     }

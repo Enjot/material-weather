@@ -1,29 +1,24 @@
 package com.enjot.materialweather.data.mapper
 
 import com.enjot.materialweather.data.database.weather.WeatherEntity
-import com.enjot.materialweather.domain.model.AirPollution
-import com.enjot.materialweather.domain.model.Coordinates
-import com.enjot.materialweather.domain.model.CurrentWeather
-import com.enjot.materialweather.domain.model.DailyWeather
-import com.enjot.materialweather.domain.model.HourlyWeather
-import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo
 
-fun WeatherEntity.toWeatherInfo(): WeatherInfo {
-    return WeatherInfo(
+fun WeatherInfo.toWeatherEntity(): WeatherEntity {
+    return WeatherEntity(
+        id = 1,
         place = this.place?.let {
-            SearchResult(
+            WeatherEntity.SearchResult(
                 it.city,
-                it.postCode,
-                it.countryCode,
-                Coordinates(
-                    it.coordinates.lat,
-                    it.coordinates.lon
+                this.place.postCode,
+                this.place.countryCode,
+                WeatherEntity.SearchResult.Coordinates(
+                    this.place.coordinates.lat,
+                    this.place.coordinates.lon
                 )
             )
         },
         current = this.current?.let {
-            CurrentWeather(
+            WeatherEntity.Current(
                 it.localFormattedTime,
                 it.temp,
                 it.minTemp,
@@ -36,7 +31,7 @@ fun WeatherEntity.toWeatherInfo(): WeatherInfo {
                 it.weather,
                 it.description,
                 it.icon,
-                conditions = CurrentWeather.WeatherConditions(
+                conditions = WeatherEntity.Current.Conditions(
                     it.conditions.sunrise,
                     it.conditions.sunset,
                     it.conditions.windSpeed,
@@ -50,7 +45,7 @@ fun WeatherEntity.toWeatherInfo(): WeatherInfo {
         },
         hourly = this.hourly?.let { item ->
             item.map {
-                HourlyWeather(
+                WeatherEntity.HourlyWeather(
                     it.localFormattedTime,
                     it.temp,
                     it.humidity,
@@ -65,7 +60,7 @@ fun WeatherEntity.toWeatherInfo(): WeatherInfo {
         },
         daily = this.daily?.let { item ->
             item.map {
-                DailyWeather(
+                WeatherEntity.DailyWeather(
                     it.dayOfWeek,
                     it.sunrise,
                     it.sunset,
@@ -92,8 +87,8 @@ fun WeatherEntity.toWeatherInfo(): WeatherInfo {
                 )
             }
         },
-        airPollution = this.airPollution?.let {
-            AirPollution(
+        airPollution =this.airPollution?.let {
+            WeatherEntity.AirPollution(
                 it.aqi,
                 it.nh3,
                 it.no,

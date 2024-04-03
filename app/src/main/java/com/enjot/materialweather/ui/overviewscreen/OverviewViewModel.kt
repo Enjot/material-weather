@@ -1,209 +1,113 @@
 package com.enjot.materialweather.ui.overviewscreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enjot.materialweather.domain.location.LocationTracker
-import com.enjot.materialweather.domain.mapper.toSavedLocation
-import com.enjot.materialweather.domain.model.SearchResult
-import com.enjot.materialweather.domain.repository.SavedLocationsRepository
-import com.enjot.materialweather.domain.repository.WeatherRepository
-import com.enjot.materialweather.domain.utils.Resource
+import com.enjot.materialweather.domain.usecase.AddSavedLocationUseCase
+import com.enjot.materialweather.domain.usecase.DeleteSavedLocationUseCase
+import com.enjot.materialweather.domain.usecase.FetchAndStoreWeatherInfoUseCase
+import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
+import com.enjot.materialweather.domain.usecase.GetSavedLocationsUseCase
+import com.enjot.materialweather.domain.usecase.GetSearchResultsUseCase
+import com.enjot.materialweather.domain.usecase.GetWeatherFromLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
-    private val weatherRepository: WeatherRepository,
-    private val locationTracker: LocationTracker,
-    private val savedLocationsRepository: SavedLocationsRepository
+    private val getLocalWeatherUseCase: GetLocalWeatherUseCase,
+    private val getSavedLocationsUseCase: GetSavedLocationsUseCase,
+    private val getSearchResultsUseCase: GetSearchResultsUseCase,
+    private val fetchAndStoreWeatherInfoUseCase: FetchAndStoreWeatherInfoUseCase,
+    private val addSavedLocationUseCase: AddSavedLocationUseCase,
+    private val deleteSavedLocationUseCase: DeleteSavedLocationUseCase,
+    private val getWeatherFromLocationUseCase: GetWeatherFromLocationUseCase
 ) : ViewModel() {
     
-    var state by mutableStateOf(OverviewUiState())
-        private set
+    private var _state = MutableStateFlow(OverviewUiState())
+    val state: StateFlow<OverviewUiState> = _state.asStateFlow()
+    
+    init {
+        _state.update { it.copy(isWeatherLoading = true) }
+        viewModelScope.launch {
+            getLocalWeatherUseCase().collect { weatherInfo ->
+                _state.update { it.copy(weatherInfo = weatherInfo, isWeatherLoading = false) }
+            }
+        }
+        viewModelScope.launch {
+            getSavedLocationsUseCase().collect { savedLocations ->
+                _state.update{ it.copy(savedLocations = savedLocations) }
+            }
+        }
+    }
     
     fun onEvent(event: OverviewEvent) {
         when (event) {
             
-            is OverviewEvent.OnSearchBarClick -> {
-                state = state.copy(
-                    isSearchBarActive = true
-                )
-            }
+            is OverviewEvent.OnSearchBarClick -> _state.update { it.copy(isSearchBarActive = true) }
             
-            is OverviewEvent.SearchBanner.OnQueryChange -> {
-                state = state.copy(
-                    query = event.query
-                )
-            }
+            is OverviewEvent.OnQueryChange -> _state.update { it.copy(query = event.query) }
             
-            is OverviewEvent.SearchBanner.OnSearch -> {
+            is OverviewEvent.OnAddToSaved ->
+                viewModelScope.launch { addSavedLocationUseCase(event.searchResult) }
+            
+            is OverviewEvent.OnDeleteFromSaved ->
+                viewModelScope.launch { deleteSavedLocationUseCase(event.savedLocation) }
+            
+            is OverviewEvent.OnSearch -> {
+                _state.update { it.copy(isSearchResultsLoading = true) }
                 viewModelScope.launch {
-                    getSearchResults(state.query)
+                    val results = getSearchResultsUseCase(event.query)
+                    _state.update {
+                        it.copy(
+                            searchResults = results.data ?: emptyList(),
+                            isSearchResultsLoading = false
+                        )
+                    }
                 }
             }
             
-            is OverviewEvent.SearchBanner.OnAddToSaved -> {
+            is OverviewEvent.OnLocationButtonClick -> {
+                _state.update {
+                    it.copy(
+                        isSearchBarActive = false,
+                        isWeatherLoading = true,
+                        query = ""
+                    )
+                }
                 viewModelScope.launch {
-                    savedLocationsRepository.addToSavedLocations(event.searchResult.toSavedLocation())
-                    refreshSavedLocations()
+                    getWeatherFromLocationUseCase()
                 }
             }
             
-            is OverviewEvent.SearchBanner.OnCurrentLocationButtonClick -> {
-                getWeatherInfoForGpsLocation()
+            is OverviewEvent.OnBannerCollapse -> {
+                _state.update {
+                    it.copy(
+                        isSearchBarActive = false,
+                        searchResults = emptyList(),
+                        query = ""
+                    )
+                }
             }
             
-            is OverviewEvent.SearchBanner.OnBannerCollapse -> {
-                state = state.copy(
-                    isSearchBarActive = false,
-                    searchResults = emptyList(),
-                    query = ""
-                )
-            }
-            
-            is OverviewEvent.SearchBanner.OnSearchResultClick -> {
+            is OverviewEvent.OnSearchResultClick -> {
+                _state.update { it.copy(isWeatherLoading = true, isSearchBarActive = false) }
                 viewModelScope.launch {
-                    getWeatherInfo(event.searchResult)
+                    fetchAndStoreWeatherInfoUseCase(event.searchResult.coordinates)
                 }
             }
             
             is OverviewEvent.OnPullRefresh -> {
-                refreshWeatherInfo()
-            }
-            
-            is OverviewEvent.OnSnackbarSettingsClick -> {
-            
-            }
-            
-            is OverviewEvent.OnWeatherProviderClick -> {
-            
-            }
-            
-            is OverviewEvent.OnDailyCardClick -> {
-            
-            }
-            
-            is OverviewEvent.SearchBanner.OnRemoveFromSaved -> {
+                _state.update { it.copy(isWeatherLoading = true) }
                 viewModelScope.launch {
-                    savedLocationsRepository.deleteFromSavedLocations(event.savedLocation)
-                    refreshSavedLocations()
+                    _state.value.weatherInfo?.place?.coordinates?.let { fetchAndStoreWeatherInfoUseCase(it) }
                 }
             }
-        }
-    }
-    
-    private fun getWeatherInfo(searchResult: SearchResult) {
-        state = state.copy(
-            weatherInfo = null,
-            isSearchBarActive = false,
-            isLoading = true,
-            searchResults = emptyList(),
-            query = ""
-        )
-        viewModelScope.launch {
-            val result =
-                weatherRepository.updateLocalWeather(searchResult.coordinates)
-            if (result.data != null) {
-                state = state.copy(
-                    weatherInfo = result.data,
-                    isLoading = false
-                )
-            }
-        }
-    }
-    
-    private fun getSearchResults(query: String) {
-        viewModelScope.launch {
-            val searchResults = weatherRepository.getSearchResults(query)
-            state = if (searchResults.data != null) {
-                state.copy(
-                    searchResults = searchResults.data
-                )
-            } else {
-                state.copy(
-                    searchResults = emptyList()
-                )
-            }
-        }
-    }
-    
-    private fun refreshWeatherInfo() {
-        viewModelScope.launch {
-            state = state.copy(
-                isLoading = true,
-                error = null
-            )
-            val result = state.weatherInfo?.place?.let {
-                weatherRepository.updateLocalWeather(it.coordinates)
-            }
-            if (result != null) {
-                if (result.data != null) {
-                    state = state.copy(
-                        weatherInfo = result.data,
-                        isLoading = false
-                    )
-                }
-            }
-        }
-    }
-    
-    private fun getWeatherInfoForGpsLocation() {
-        viewModelScope.launch {
-            state = state.copy(
-                weatherInfo = null,
-                isSearchBarActive = false,
-                isLoading = true,
-                error = null,
-                query = ""
-            )
-            locationTracker.getCurrentLocation()?.let { coordinates ->
-                when (val result =
-                    weatherRepository.updateLocalWeather(coordinates)) {
-                    is Resource.Success -> {
-                        state = state.copy(
-                            weatherInfo = result.data,
-                            isLoading = false,
-                            error = null
-                        )
-                    }
-                    
-                    is Resource.Error -> {
-                        state = state.copy(
-                            weatherInfo = null,
-                            isLoading = false,
-                            error = result.message
-                        )
-                    }
-                }
-            } ?: kotlin.run {
-                state = state.copy(
-                    isLoading = false,
-                    error = "Couldn't retrieve location. Make sure to grant permission and enable GPS."
-                )
-            }
-            addCloseable { state = state.copy(isLoading = false) }
-        }
-    }
-    
-    private suspend fun refreshSavedLocations() {
-        state = state.copy(
-            savedLocations = savedLocationsRepository.getSavedLocations()
-        )
-    }
-    
-    init {
-        viewModelScope.launch {
-            val result = weatherRepository.loadLocalWeather()
-            state = state.copy(
-                weatherInfo = result.data,
-                isLoading = false,
-                savedLocations = savedLocationsRepository.getSavedLocations()
-            )
         }
     }
 }
