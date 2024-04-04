@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation (libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.work.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

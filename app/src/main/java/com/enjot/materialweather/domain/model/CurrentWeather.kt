@@ -1,8 +1,5 @@
 package com.enjot.materialweather.domain.model
 
-import java.time.LocalTime
-import kotlin.math.roundToInt
-
 data class CurrentWeather(
     val localFormattedTime: String,
     val temp: Int,
@@ -29,4 +26,3 @@ data class CurrentWeather(
         val uvi: Int
     )
 }
-
