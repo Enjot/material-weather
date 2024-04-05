@@ -44,6 +44,8 @@ class OverviewViewModel @Inject constructor(
                 _state.update{ it.copy(savedLocations = savedLocations) }
             }
         }
+        
+        
     }
     
     fun onEvent(event: OverviewEvent) {

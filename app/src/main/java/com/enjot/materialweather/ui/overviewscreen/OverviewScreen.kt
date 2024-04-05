@@ -26,9 +26,9 @@ import com.enjot.materialweather.ui.overviewscreen.daily.DailyBanner
 import com.enjot.materialweather.ui.overviewscreen.hourly.HourlyBanner
 import com.enjot.materialweather.ui.overviewscreen.search.ExpandableSearchBanner
 import com.enjot.materialweather.ui.overviewscreen.summary.SummaryBanner
-import com.enjot.materialweather.ui.pullrefresh.PullRefreshIndicator
-import com.enjot.materialweather.ui.pullrefresh.pullRefresh
-import com.enjot.materialweather.ui.pullrefresh.rememberPullRefreshState
+import com.enjot.materialweather.ui.reusable.pullrefresh.PullRefreshIndicator
+import com.enjot.materialweather.ui.reusable.pullrefresh.pullRefresh
+import com.enjot.materialweather.ui.reusable.pullrefresh.rememberPullRefreshState
 
 @Composable
 fun OverviewScreen(

@@ -88,6 +88,12 @@ dependencies {
     implementation (libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.androidx.glance)
+    implementation(libs.androidx.glance.material3)
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -127,6 +133,7 @@ dependencies {
     // Dagger-Hilt (ksp support for hilt 2.51 is in alpha version for ksp 1.9.23-1.0.19)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
     
     // Location services

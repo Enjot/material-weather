@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.enjot.materialweather.ui.pullrefresh
+package com.enjot.materialweather.ui.reusable.pullrefresh
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset

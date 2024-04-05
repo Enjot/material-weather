@@ -96,7 +96,10 @@ fun ExpandableSearchBanner(
                 exit = fadeOut(),
                 visible = isActive
             ) {
-                IconButton(onClick = onNavigateToSettings) {
+                IconButton(onClick = {
+                    focusManager.clearFocus()
+                    onNavigateToSettings()
+                }) {
                     Icon(
                         imageVector = Icons.Outlined.Settings,
                         contentDescription = null

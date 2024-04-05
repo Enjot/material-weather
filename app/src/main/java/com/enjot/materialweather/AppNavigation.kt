@@ -1,8 +1,9 @@
 package com.enjot.materialweather
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.End
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Start
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.enjot.materialweather.ui.dailyscreen.DailyScreen
 import com.enjot.materialweather.ui.overviewscreen.OverviewScreen
-import com.enjot.materialweather.ui.settings.SettingsScreen
+import com.enjot.materialweather.ui.settingsscreen.SettingsScreen
 
 @Composable
 fun AppNavigation() {
@@ -20,13 +21,15 @@ fun AppNavigation() {
     
     NavHost(
         navController = navController,
-        enterTransition = { fadeIn(animationSpec = tween(300)) },
-        exitTransition = { fadeOut(animationSpec = tween(300)) },
         startDestination = "overview"
     ) {
         
+        
+        
         composable(
-            route = "overview"
+            route = "overview",
+            enterTransition = { slideIntoContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = End) },
+            exitTransition = { slideOutOfContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = Start) },
         ) {
             OverviewScreen(
                 onNavigateToDailyWeather = { index -> navController.navigate("daily/$index") },
@@ -36,15 +39,21 @@ fun AppNavigation() {
         
         composable(
             route = "daily/{dailyIndex}",
+            enterTransition = { slideIntoContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = Start) },
+            exitTransition = { slideOutOfContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = End) },
             arguments = listOf(navArgument("dailyIndex") { type = NavType.IntType })
         ) {
             DailyScreen(it.arguments?.getInt("dailyIndex"))
         }
         
         composable(
-            route = "settings"
+            route = "settings",
+            enterTransition = { slideIntoContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = Start) },
+            exitTransition = { slideOutOfContainer(animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow), towards = End) },
         ) {
-            SettingsScreen()
+            SettingsScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

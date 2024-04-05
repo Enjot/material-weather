@@ -1,4 +1,4 @@
-package com.enjot.materialweather.ui.pullrefresh
+package com.enjot.materialweather.ui.reusable.pullrefresh
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation

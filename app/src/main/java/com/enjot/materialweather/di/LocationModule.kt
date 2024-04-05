@@ -1,9 +1,10 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.data.repository.LocationRepositoryImpl
-import com.enjot.materialweather.domain.repository.LocationRepository
-import dagger.Binds
+import android.app.Application
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -11,11 +12,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class LocationModule {
-
-    @Binds
+object LocationModule {
+    
+    @Provides
     @Singleton
-    abstract fun providesLocationTracker(
-        defaultLocationTracker: LocationRepositoryImpl
-    ): LocationRepository
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
+    }
+    
 }
