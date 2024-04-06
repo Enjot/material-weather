@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -115,50 +116,51 @@ fun ExpandableSearchBanner(
             )
             .fillMaxWidth()
     ) {
-        /*
-        It has to be in this LazyColumnScope, otherwise it override default back
-        action in overview screen
-         */
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxSize()
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            modifier = Modifier.fillMaxSize()
         ) {
-            items(searchResults) { searchResult ->
-                SearchResultItem(
-                    searchResult = searchResult,
-                    onAddToSaved = {
-                        focusManager.clearFocus()
-                        onAddToSaved(searchResult)
-                    },
-                    onClick = { onSearchResultClick(searchResult) }
-                )
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+            ) {
+                items(searchResults) { searchResult ->
+                    SearchResultItem(
+                        searchResult = searchResult,
+                        onAddToSaved = {
+                            focusManager.clearFocus()
+                            onAddToSaved(searchResult)
+                        },
+                        onClick = { onSearchResultClick(searchResult) }
+                    )
+                }
+                item {
+                    CurrentLocationButton(
+                        onClick = onLocationButtonClick,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+                item {
+                    Text(
+                        text = if (savedLocations.isNotEmpty()) "Saved locations" else "No saved locations",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+                items(savedLocations) { savedLocation ->
+                    SavedLocationItem(
+                        savedLocation = savedLocation,
+                        onClick = { onSearchResultClick(savedLocation.toSearchResult()) },
+                        onRemove = {
+                            focusManager.clearFocus()
+                            onRemoveFromSaved(savedLocation)
+                        }
+                    )
+                }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
             }
-            item {
-                CurrentLocationButton(
-                    onClick = onLocationButtonClick,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            item {
-                Text(
-                    text = if (savedLocations.isNotEmpty()) "Saved locations" else "No saved locations",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            items(savedLocations) { savedLocation ->
-                SavedLocationItem(
-                    savedLocation = savedLocation,
-                    onClick = { onSearchResultClick(savedLocation.toSearchResult()) },
-                    onRemove = {
-                        focusManager.clearFocus()
-                        onRemoveFromSaved(savedLocation)
-                    }
-                )
-            }
-            item { Spacer(modifier = Modifier.height(16.dp)) }
         }
     }
 }

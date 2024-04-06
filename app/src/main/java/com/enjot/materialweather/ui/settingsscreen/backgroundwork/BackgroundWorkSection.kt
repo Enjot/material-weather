@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -30,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -62,7 +61,7 @@ fun BackgroundWorkSection(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "Update weather in the background",
+                    text = "Background updates",
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -86,7 +85,7 @@ fun BackgroundWorkSection(
             )
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -98,7 +97,7 @@ fun BackgroundWorkSection(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "Period between for background updates",
+                    text = "Background updates interval",
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -112,7 +111,7 @@ fun BackgroundWorkSection(
             }
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -128,9 +127,7 @@ fun BackgroundWorkSection(
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Currently not available",
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.Normal
-                    )
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -184,14 +181,14 @@ private fun IntervalDialog(
             ) {
                 
                 Icon(
-                    imageVector = Icons.Filled.Timer,
+                    imageVector = Icons.Filled.Update,
                     contentDescription = null,
                     modifier = Modifier.padding(8.dp)
                 )
                 
                 Text(
-                    text = "Set interval period",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = "Background updates interval",
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp)
                 )
 

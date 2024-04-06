@@ -1,9 +1,8 @@
 [versions]
-agp = "8.3.1"
+agp = "8.3.0"
 kotlin = "1.9.23"
 ksp = "1.9.23-1.0.19"
 daggerHilt = "2.51.1"
-accompanistSystemuicontroller = "0.34.0"
 activityKtx = "1.8.2"
 appcompat = "1.6.1"
 coilCompose = "2.6.0"
@@ -35,7 +34,6 @@ datastorePreferences = "1.0.0"
 
 
 [libraries]
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }

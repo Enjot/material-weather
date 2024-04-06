@@ -47,6 +47,10 @@ android {
                 "\"${localProperties.getProperty("api_key_geoapify")}\""
             )
         }
+        
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
     
     buildTypes {
@@ -141,8 +145,4 @@ dependencies {
     
     // Coil
     implementation(libs.coil.compose)
-    
-    // Accompanist
-    implementation (libs.accompanist.systemuicontroller)
-    
 }

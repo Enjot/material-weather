@@ -7,10 +7,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -84,7 +81,6 @@ fun MaterialWeatherTheme(
     content: @Composable () -> Unit
 ) {
     
-    
     val colorScheme = when (dynamicColor) {
         true -> {
             val context = LocalContext.current
@@ -100,15 +96,6 @@ fun MaterialWeatherTheme(
                 false -> LightColorScheme
             }
         }
-    }
-    val systemUiController = rememberSystemUiController()
-
-    DisposableEffect(systemUiController, darkTheme) {
-        systemUiController.setSystemBarsColor(
-            color = Color.Transparent,
-            darkIcons = !darkTheme
-        )
-        onDispose {}
     }
     
     MaterialTheme(
