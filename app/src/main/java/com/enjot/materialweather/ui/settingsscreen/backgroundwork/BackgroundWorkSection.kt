@@ -13,18 +13,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Update
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,6 +54,7 @@ fun BackgroundWorkSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onBackgroundWeatherUpdatesClick() }
+                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -85,13 +84,12 @@ fun BackgroundWorkSection(
             )
         }
         
-        Spacer(modifier = Modifier.height(24.dp))
-        
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showDialog = true }
+                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -111,11 +109,11 @@ fun BackgroundWorkSection(
             }
         }
         
-        Spacer(modifier = Modifier.height(24.dp))
-        
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -166,8 +164,6 @@ private fun IntervalDialog(
     onSetInterval: (Long) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    var interval by remember { mutableLongStateOf(repeatInterval) }
-    
     Dialog(
         onDismissRequest = onDismissRequest
     ) {
@@ -191,28 +187,54 @@ private fun IntervalDialog(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp)
                 )
-
-                SingleIntervalRadioButton(text = "30 minutes", selected = interval == 30L, onClick = { interval = 30L })
-                SingleIntervalRadioButton(text = "60 minutes", selected = interval == 60L, onClick = { interval = 60L })
-                SingleIntervalRadioButton(text = "2 hours", selected = interval == 120L, onClick = { interval = 120L })
-                SingleIntervalRadioButton(text = "3 hours", selected = interval == 180L, onClick = { interval = 180L })
                 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    OutlinedButton(onClick = onDismissRequest) {
-                        Text("Cancel")
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = {
-                        onSetInterval(interval)
+                SingleIntervalRadioButton(
+                    text = "30 minutes",
+                    selected = repeatInterval == 30L,
+                    onClick = {
+                        onSetInterval(30L)
                         onDismissRequest()
                     }
-                    ) {
-                        Text("Apply")
+                )
+                SingleIntervalRadioButton(
+                    text = "60 minutes",
+                    selected = repeatInterval == 60L,
+                    onClick = {
+                        onSetInterval(60L)
+                        onDismissRequest()
                     }
+                )
+                SingleIntervalRadioButton(
+                    text = "2 hours",
+                    selected = repeatInterval == 120L,
+                    onClick = {
+                        onSetInterval(120L)
+                        onDismissRequest()
+                    }
+                )
+                SingleIntervalRadioButton(
+                    text = "3 hours",
+                    selected = repeatInterval == 180L,
+                    onClick = {
+                        onSetInterval(180L)
+                        onDismissRequest()
+                    }
+                )
+                
+                SingleIntervalRadioButton(
+                    text = "4 hours",
+                    selected = repeatInterval == 240L,
+                    onClick = {
+                        onSetInterval(240L)
+                        onDismissRequest()
+                    }
+                )
+                
+                TextButton(
+                    onClick = onDismissRequest,
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Text("Cancel")
                 }
             }
         }
@@ -220,7 +242,7 @@ private fun IntervalDialog(
 }
 
 @Composable
-fun SingleIntervalRadioButton(text: String, selected:Boolean, onClick: () -> Unit) {
+fun SingleIntervalRadioButton(text: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -235,7 +257,7 @@ fun SingleIntervalRadioButton(text: String, selected:Boolean, onClick: () -> Uni
 @Preview
 @Composable
 fun IntervalDialogPreview() {
-    IntervalDialog(repeatInterval = 15, onSetInterval = {}) {}
+    IntervalDialog(repeatInterval = 120L, onSetInterval = {}) {}
 }
 
 @Preview(showSystemUi = true, showBackground = true)
@@ -243,7 +265,7 @@ fun IntervalDialogPreview() {
 fun BackgroundWorkSectionPreview() {
     BackgroundWorkSection(
         isWorkScheduled = true,
-        repeatInterval = 15,
+        repeatInterval = 120L,
         isLocationBased = false,
         onBackgroundWeatherUpdatesClick = { /*TODO*/ },
         onLocationBasedUpdatesClick = { /*TODO*/ },
