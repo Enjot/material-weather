@@ -56,6 +56,7 @@ fun OverviewScreen(
     }
     
     // I use pull to refresh animation for loading data event even not from pull gesture
+    // but I'm not sure it's good way to handle it
     LaunchedEffect(state.isWeatherLoading) {
         if (state.isWeatherLoading) pullRefreshState.startRefresh()
         else pullRefreshState.endRefresh()
@@ -120,7 +121,7 @@ fun OverviewScreen(
                         
                         state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
                         
-                        WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(24.dp))
+                        WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(36.dp))
                     }
                 }
             }

@@ -19,7 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.HourlyWeather
-import com.enjot.materialweather.ui.overviewscreen.components.AsyncIcon
+import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
 import kotlin.math.roundToInt
 
@@ -81,7 +81,7 @@ private fun HourlyItem(
             text = if (popPercent > 0) "$popPercent%" else "",
             style = MaterialTheme.typography.labelSmall
         )
-        AsyncIcon(iconCode = item.icon)
+        WeatherIcon(iconCode = item.icon)
         Text(
             text = if (isNow) "Now" else item.localFormattedTime,
             style = MaterialTheme.typography.bodySmall

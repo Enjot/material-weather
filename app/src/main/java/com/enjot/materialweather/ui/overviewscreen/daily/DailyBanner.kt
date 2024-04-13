@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +17,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.domain.model.DailyWeather
-import com.enjot.materialweather.ui.overviewscreen.components.AsyncIcon
+import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
 import kotlin.math.roundToInt
 
@@ -102,7 +101,7 @@ private fun DailyItem(
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.weight(2f).padding(end = 12.dp)
                 )
-                AsyncIcon(iconCode = item.icon, modifier = Modifier.weight(2f))
+                WeatherIcon(iconCode = item.icon, modifier = Modifier.weight(2f))
                 Text(
                     text = "${item.tempDay}°/${item.tempNight}°",
                     textAlign = TextAlign.End,

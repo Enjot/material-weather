@@ -13,7 +13,7 @@ interface OpenWeatherMapApi {
         @Query("lat") lat: String,
         @Query("lon") lon: String,
         @Query("lang") lang: String = "eng",
-        @Query("units") units: String = "metric",
+        @Query("units") units: String = "metric", // https://openweathermap.org/weather-data
         @Query("exclude") exclude: String = "minutely,alerts"
     ): OneCallDto
     
