@@ -1,6 +1,7 @@
 package com.enjot.materialweather.ui.overviewscreen.search.locationbutton
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -19,65 +20,67 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun CurrentLocationButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: CurrentLocationButtonViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
 ) {
+    val visiblePermissionDialogQueue = remember {
+        mutableStateListOf<String>()
+    }
+    
     val context = LocalContext.current
     
-    val permissionsToRequest = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-    )
+    val permissionsToRequest = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
     
     val multiplePermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = { perms ->
             permissionsToRequest.forEach { permission ->
-                viewModel.onPermissionResult(
-                    permission = permission,
-                    isGranted = perms[permission] == true
-                )
+                val isGranted = perms[permission] == true
+                if(!isGranted && !visiblePermissionDialogQueue.contains(permission)) {
+                    visiblePermissionDialogQueue.add(permission)
+                }
+            }
+            if (isCoarseLocationGranted(context) && isFineLocationGranted(context)) {
+                onClick()
             }
         }
     )
     
-    viewModel.visiblePermissionDialogQueue
+    visiblePermissionDialogQueue
         .reversed()
         .forEach { permission ->
             
-            if (permission == Manifest.permission.ACCESS_COARSE_LOCATION &&
-                isCoarseLocationAlreadyGranted(context)
-            ) viewModel.dismissDialog()
+            if (permission == ACCESS_COARSE_LOCATION && isCoarseLocationGranted(context))
+                visiblePermissionDialogQueue.removeFirst()
             
-            if (permission == Manifest.permission.ACCESS_FINE_LOCATION &&
-                isFineLocationAlreadyGranted(context)
-            ) viewModel.dismissDialog()
+            if (permission == ACCESS_FINE_LOCATION && isFineLocationGranted(context))
+                visiblePermissionDialogQueue.removeFirst()
             
             PermissionDialog(
                 permissionTextProvider = when (permission) {
-                    Manifest.permission.ACCESS_COARSE_LOCATION -> CoarseLocationPermissionTextProvider()
-                    Manifest.permission.ACCESS_FINE_LOCATION -> FineLocationPermissionTextProvider()
+                    ACCESS_COARSE_LOCATION -> CoarseLocationPermissionTextProvider()
+                    ACCESS_FINE_LOCATION -> FineLocationPermissionTextProvider()
                     else -> return@forEach
                 },
                 isPermanentlyDeclined = !shouldShowRequestPermissionRationale(context as Activity, permission),
-                onDismiss = viewModel::dismissDialog,
+                onDismiss = { visiblePermissionDialogQueue.removeFirst() },
                 onOkClick = {
-                    viewModel.dismissDialog()
+                    visiblePermissionDialogQueue.removeFirst()
                     multiplePermissionResultLauncher.launch(arrayOf(permission))
                 },
                 onGoToAppSettingsClick = {
-                    viewModel.dismissDialog()
+                    visiblePermissionDialogQueue.removeFirst()
                     context.openAppSettings()
                 }
             )
@@ -85,7 +88,7 @@ fun CurrentLocationButton(
     
     Button(
         onClick = {
-            if (isCoarseLocationAlreadyGranted(context) && isFineLocationAlreadyGranted(context)) {
+            if (isCoarseLocationGranted(context) && isFineLocationGranted(context)) {
                 onClick()
             } else {
                 multiplePermissionResultLauncher.launch(permissionsToRequest)
@@ -115,17 +118,13 @@ fun Activity.openAppSettings() {
     ).also(::startActivity)
 }
 
-private fun isCoarseLocationAlreadyGranted(context: Context): Boolean {
-    return ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_COARSE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
-}
+private fun isCoarseLocationGranted(context: Context) =
+    ContextCompat.checkSelfPermission(context, ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-private fun isFineLocationAlreadyGranted(context: Context): Boolean {
-    return ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
-}
+
+private fun isFineLocationGranted(context: Context) =
+    ContextCompat.checkSelfPermission(context, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
 
 @Preview
 @Composable

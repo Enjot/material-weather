@@ -34,7 +34,6 @@ class OverviewViewModel @Inject constructor(
         get() = _state.asStateFlow()
     
     init {
-        _state.update { it.copy(isWeatherLoading = true) }
         viewModelScope.launch {
             getLocalWeatherUseCase().collect { weatherInfo ->
                 _state.update { it.copy(weatherInfo = weatherInfo, isWeatherLoading = false) }
