@@ -5,7 +5,7 @@ import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.repository.RemoteRepository
 import javax.inject.Inject
 
-class FetchAndStoreWeatherInfoUseCase @Inject constructor(
+class FetchAndStoreWeatherUseCase @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository
 ) {

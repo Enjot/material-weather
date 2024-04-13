@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.enjot.materialweather.domain.usecase.FetchAndStoreWeatherInfoUseCase
+import com.enjot.materialweather.domain.usecase.FetchAndStoreWeatherUseCase
 import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 
 @HiltWorker
 class UpdateWeatherWorker @AssistedInject constructor(
-    private val fetchAndStoreWeatherInfoUseCase: FetchAndStoreWeatherInfoUseCase,
+    private val fetchAndStoreWeatherUseCase: FetchAndStoreWeatherUseCase,
     private val getLocalWeatherUseCase: GetLocalWeatherUseCase,
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
@@ -21,7 +21,7 @@ class UpdateWeatherWorker @AssistedInject constructor(
         return try {
             val weatherInfo = getLocalWeatherUseCase().first()
             val coordinates = weatherInfo!!.place!!.coordinates
-            fetchAndStoreWeatherInfoUseCase(coordinates)
+            fetchAndStoreWeatherUseCase(coordinates)
             Result.success()
         } catch (e: Exception) {
             Result.failure()
