@@ -28,7 +28,7 @@ import dagger.hilt.android.EntryPointAccessors
 
 class WeatherWidget : GlanceAppWidget() {
     
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "SuspiciousIndentation")
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         
         val appContext = context.applicationContext
