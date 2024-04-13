@@ -2,6 +2,7 @@ package com.enjot.materialweather.ui.overviewscreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
@@ -13,10 +14,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
@@ -26,101 +34,107 @@ import com.enjot.materialweather.ui.overviewscreen.daily.DailyBanner
 import com.enjot.materialweather.ui.overviewscreen.hourly.HourlyBanner
 import com.enjot.materialweather.ui.overviewscreen.search.ExpandableSearchBanner
 import com.enjot.materialweather.ui.overviewscreen.summary.SummaryBanner
-import com.enjot.materialweather.ui.reusable.pullrefresh.PullRefreshIndicator
-import com.enjot.materialweather.ui.reusable.pullrefresh.pullRefresh
-import com.enjot.materialweather.ui.reusable.pullrefresh.rememberPullRefreshState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OverviewScreen(
     onNavigateToDailyWeather: (Int) -> Unit,
     onNavigateToSettings: () -> Unit,
     viewModel: OverviewViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
     val scrollState = rememberScrollState()
     val onEvent = viewModel::onEvent
     
-    // onRefresh function is activated only from pull gesture
-    // if refreshing gets true by other way, onRefresh is not getting called
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = state.value.isWeatherLoading,
-        onRefresh = { viewModel.onEvent(OverviewEvent.OnPullRefresh) },
-        refreshThreshold = 50.dp,
-        refreshingOffset = 200.dp
-    )
+    val pullRefreshState = rememberPullToRefreshState()
     
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(pullRefreshState)
+    val scaleFraction = if (pullRefreshState.isRefreshing) 1f else
+        LinearOutSlowInEasing.transform(pullRefreshState.progress).coerceIn(0f, 1f)
+    
+    if (pullRefreshState.isRefreshing) {
+        LaunchedEffect(true) {  if(!state.isWeatherLoading) onEvent(OverviewEvent.OnPullRefresh) }
+    }
+    
+    // I use pull to refresh animation for loading data event even not from pull gesture
+    LaunchedEffect(state.isWeatherLoading) {
+        if (state.isWeatherLoading) pullRefreshState.startRefresh()
+        else pullRefreshState.endRefresh()
+    }
+    
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
         
-        Column {
+        ExpandableSearchBanner(
+            query = state.query,
+            onQueryChange = { onEvent(OverviewEvent.OnQueryChange(it)) },
+            selectedCity = state.weatherInfo?.place?.city ?: "Search",
+            onSearch = { onEvent(OverviewEvent.OnSearch(state.query)) },
+            isActive = state.isSearchBarActive,
+            onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
+            onLocationButtonClick = { onEvent(OverviewEvent.OnLocationButtonClick) },
+            onArrowBackClick = { onEvent(OverviewEvent.OnBannerCollapse) },
+            onAddToSaved = { onEvent(OverviewEvent.OnAddToSaved(it)) },
+            onNavigateToSettings = onNavigateToSettings,
+            onSearchResultClick = { onEvent(OverviewEvent.OnSearchResultClick(it)) },
+            onRemoveFromSaved = { onEvent(OverviewEvent.OnDeleteFromSaved(it)) },
+            searchResults = state.searchResults,
+            savedLocations = state.savedLocations
+        )
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Box(
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(pullRefreshState.nestedScrollConnection)
+        ) {
             
-            ExpandableSearchBanner(
-                query = state.value.query,
-                onQueryChange = { onEvent(OverviewEvent.OnQueryChange(it)) },
-                selectedCity = state.value.weatherInfo?.place?.city ?: "Search",
-                onSearch = { onEvent(OverviewEvent.OnSearch(state.value.query)) },
-                isActive = state.value.isSearchBarActive,
-                onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-                onLocationButtonClick = { onEvent(OverviewEvent.OnLocationButtonClick) },
-                onArrowBackClick = { onEvent(OverviewEvent.OnBannerCollapse) },
-                onAddToSaved = { onEvent(OverviewEvent.OnAddToSaved(it)) },
-                onNavigateToSettings = onNavigateToSettings,
-                onSearchResultClick = { onEvent(OverviewEvent.OnSearchResultClick(it)) },
-                onRemoveFromSaved = { onEvent(OverviewEvent.OnDeleteFromSaved(it)) },
-                searchResults = state.value.searchResults,
-                savedLocations = state.value.savedLocations
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            AnimatedVisibility(
-                enter = fadeIn(),
-                exit = fadeOut(),
-                visible = state.value.isWeatherLoading.not() and (state.value.weatherInfo != null)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(scrollState)
-                        .padding(16.dp)
+            Column(Modifier.fillMaxSize()) {
+                
+                AnimatedVisibility(
+                    enter = fadeIn(),
+                    exit = fadeOut(),
+                    visible = state.weatherInfo != null
                 ) {
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
-                    state.value.weatherInfo?.current?.let { SummaryBanner(it) }
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
-                    state.value.weatherInfo?.hourly?.let { HourlyBanner(it) }
-                    
-                    state.value.weatherInfo?.daily?.let { DailyBanner(it, onNavigateToDailyWeather) }
-                    
-                    state.value.weatherInfo?.current?.conditions?.let { ConditionsBanner(it) }
-                    
-                    state.value.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
-                    
-                    WeatherProviderButton(
-                        Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(24.dp)
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(scrollState)
+                            .padding(16.dp)
+                    ) {
+                        
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        state.weatherInfo?.current?.let {
+                            SummaryBanner(it)
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                        
+                        state.weatherInfo?.hourly?.let { HourlyBanner(it) }
+                        
+                        state.weatherInfo?.daily?.let { DailyBanner(it, onNavigateToDailyWeather) }
+                        
+                        state.weatherInfo?.current?.conditions?.let { ConditionsBanner(it) }
+                        
+                        state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
+                        
+                        WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(24.dp))
+                    }
                 }
             }
-        }
-        if (!state.value.isSearchBarActive) {
-            PullRefreshIndicator(
-                refreshing = state.value.isWeatherLoading,
+            
+            PullToRefreshContainer(
                 state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .graphicsLayer(scaleX = scaleFraction, scaleY = scaleFraction),
             )
         }
     }
     
-    BackHandler(enabled = state.value.isSearchBarActive) {
+    BackHandler(enabled = state.isSearchBarActive) {
         onEvent(OverviewEvent.OnBannerCollapse)
     }
 }

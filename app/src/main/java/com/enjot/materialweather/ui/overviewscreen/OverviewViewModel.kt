@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enjot.materialweather.domain.usecase.AddSavedLocationUseCase
 import com.enjot.materialweather.domain.usecase.DeleteSavedLocationUseCase
-import com.enjot.materialweather.domain.usecase.FetchAndStoreWeatherInfoUseCase
+import com.enjot.materialweather.domain.usecase.FetchAndStoreWeatherUseCase
 import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
 import com.enjot.materialweather.domain.usecase.GetSavedLocationsUseCase
 import com.enjot.materialweather.domain.usecase.GetSearchResultsUseCase
@@ -23,14 +23,15 @@ class OverviewViewModel @Inject constructor(
     private val getLocalWeatherUseCase: GetLocalWeatherUseCase,
     private val getSavedLocationsUseCase: GetSavedLocationsUseCase,
     private val getSearchResultsUseCase: GetSearchResultsUseCase,
-    private val fetchAndStoreWeatherInfoUseCase: FetchAndStoreWeatherInfoUseCase,
+    private val fetchAndStoreWeatherUseCase: FetchAndStoreWeatherUseCase,
     private val addSavedLocationUseCase: AddSavedLocationUseCase,
     private val deleteSavedLocationUseCase: DeleteSavedLocationUseCase,
     private val getWeatherFromLocationUseCase: GetWeatherFromLocationUseCase
 ) : ViewModel() {
     
     private var _state = MutableStateFlow(OverviewUiState())
-    val state: StateFlow<OverviewUiState> = _state.asStateFlow()
+    val state: StateFlow<OverviewUiState>
+        get() = _state.asStateFlow()
     
     init {
         _state.update { it.copy(isWeatherLoading = true) }
@@ -41,11 +42,9 @@ class OverviewViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getSavedLocationsUseCase().collect { savedLocations ->
-                _state.update{ it.copy(savedLocations = savedLocations) }
+                _state.update { it.copy(savedLocations = savedLocations) }
             }
         }
-        
-        
     }
     
     fun onEvent(event: OverviewEvent) {
@@ -74,6 +73,20 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
+            is OverviewEvent.OnSearchResultClick -> {
+                _state.update {
+                    it.copy(
+                        isWeatherLoading = true,
+                        isSearchBarActive = false,
+                        query = "",
+                        searchResults = emptyList(),
+                    )
+                }
+                viewModelScope.launch {
+                    fetchAndStoreWeatherUseCase(event.searchResult.coordinates)
+                }
+            }
+            
             is OverviewEvent.OnLocationButtonClick -> {
                 _state.update {
                     it.copy(
@@ -97,17 +110,10 @@ class OverviewViewModel @Inject constructor(
                 }
             }
             
-            is OverviewEvent.OnSearchResultClick -> {
-                _state.update { it.copy(isWeatherLoading = true, isSearchBarActive = false) }
-                viewModelScope.launch {
-                    fetchAndStoreWeatherInfoUseCase(event.searchResult.coordinates)
-                }
-            }
-            
             is OverviewEvent.OnPullRefresh -> {
                 _state.update { it.copy(isWeatherLoading = true) }
                 viewModelScope.launch {
-                    _state.value.weatherInfo?.place?.coordinates?.let { fetchAndStoreWeatherInfoUseCase(it) }
+                    _state.value.weatherInfo?.place?.coordinates?.let { fetchAndStoreWeatherUseCase(it) }
                 }
             }
         }
