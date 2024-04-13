@@ -6,12 +6,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -21,20 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.model.AirPollution
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
-import com.enjot.materialweather.ui.overviewscreen.components.TitleText
 import com.enjot.materialweather.ui.reusable.ArcProgressBar
 
 @Composable
@@ -105,34 +94,7 @@ fun AirPollutionBanner(
                     unit = "index",
                     value = airPollution.aqi,
                     range = airPollution.aqiRange,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .clickable { }
-                        .drawBehind {
-                            
-                            val circleBounds = zigzagCirclePath.getBounds()
-                            
-                            translate(
-                                left = (this.size.width - circleBounds.width) / 2,
-                                top = (this.size.height - circleBounds.height) / 2 + 5.dp.toPx()
-                            ) {
-                                scale(
-                                    scale = (this.size.width / 100f) / 1.3f,
-                                    pivot = circleBounds.center
-                                ) {
-                                    rotate(
-                                        degrees = rotationDegree,
-                                        pivot = circleBounds.center
-                                    ) {
-                                        drawPath(
-                                            path = zigzagCirclePath,
-                                            color = backgroundCircleColor,
-                                            alpha = 0.2f
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                    modifier = Modifier.align(Alignment.Center)
                 )
                 ArcProgressBar(
                     name = airPollution.noName,
