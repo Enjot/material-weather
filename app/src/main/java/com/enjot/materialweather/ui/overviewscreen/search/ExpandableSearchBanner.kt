@@ -1,9 +1,11 @@
 package com.enjot.materialweather.ui.overviewscreen.search
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -107,38 +109,43 @@ fun ExpandableSearchBanner(
             }
         },
         trailingIcon = {
-            AnimatedVisibility(
-                enter = fadeIn(),
-                exit = fadeOut(),
-                visible = isActive
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxHeight()
-                ) {
-                    if (isSearchResultsLoading) {
-                        CircularProgressIndicator(
-                            strokeWidth = 2.dp,
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .size(24.dp)
-                                .align(Alignment.CenterVertically),
-                            color = MaterialTheme.colorScheme.secondary,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                        )
-                    }
-                    if (query != "") {
-                        IconButton(onClick = {
-                            keyboardController?.show()
-                            focusRequester.requestFocus()
-                            onQueryChange("")
-                        }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Clear,
-                                contentDescription = null
+            AnimatedContent(
+                targetState = isActive, label = "",
+                transitionSpec = {
+                    (fadeIn(animationSpec = tween(220, delayMillis = 90))
+                        .togetherWith(fadeOut(animationSpec = tween(90))))
+                }
+            ) { isActive ->
+                if (isActive) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+                        if (isSearchResultsLoading) {
+                            CircularProgressIndicator(
+                                strokeWidth = 2.dp,
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .size(24.dp)
+                                    .align(Alignment.CenterVertically),
+                                color = MaterialTheme.colorScheme.secondary,
+                                trackColor = MaterialTheme.colorScheme.surfaceVariant,
                             )
                         }
+                        if (query != "") {
+                            IconButton(onClick = {
+                                keyboardController?.show()
+                                focusRequester.requestFocus()
+                                onQueryChange("")
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Clear,
+                                    contentDescription = null
+                                )
+                            }
+                        }
                     }
+                } else {
                     IconButton(onClick = {
                         focusManager.clearFocus()
                         onNavigateToSettings()
@@ -225,7 +232,7 @@ fun ExpandableSearchBanner(
 @Preview
 @Composable
 fun ExpandableSearchBannerPreview() {
-
+    
     ExpandableSearchBanner(
         query = "Sieniawa",
         onQueryChange = {},
