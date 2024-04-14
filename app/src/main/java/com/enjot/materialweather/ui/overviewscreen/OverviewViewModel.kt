@@ -9,6 +9,7 @@ import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
 import com.enjot.materialweather.domain.usecase.GetSavedLocationsUseCase
 import com.enjot.materialweather.domain.usecase.GetSearchResultsUseCase
 import com.enjot.materialweather.domain.usecase.GetWeatherFromLocationUseCase
+import com.enjot.materialweather.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,16 +61,28 @@ class OverviewViewModel @Inject constructor(
                 viewModelScope.launch { deleteSavedLocationUseCase(event.savedLocation) }
             
             is OverviewEvent.OnSearch -> {
-                _state.update { it.copy(isSearchResultsLoading = true) }
+                _state.update { it.copy(isSearchResultsLoading = true, searchResultsError = false) }
                 viewModelScope.launch {
-                    val results = getSearchResultsUseCase(event.query)
-                    _state.update {
-                        it.copy(
-                            searchResults = results.data ?: emptyList(),
-                            isSearchResultsLoading = false
-                        )
+                    when (val resource = getSearchResultsUseCase(event.query)) {
+                        is Resource.Success -> {
+                            _state.update {
+                                it.copy(
+                                    searchResults = resource.data ?: emptyList(),
+                                    isSearchResultsLoading = false
+                                )
+                            }
+                        }
+                        
+                        is Resource.Error -> {
+                            _state.update {
+                                it.copy(
+                                    searchResults = emptyList(),
+                                    isSearchResultsLoading = false,
+                                    searchResultsError = true
+                                )
+                            }
+                        }
                     }
-                    _state.update { it.copy(isSearchResultsLoading = false) }
                 }
             }
             

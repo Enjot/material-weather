@@ -80,7 +80,9 @@ fun OverviewScreen(
             onSearchResultClick = { onEvent(OverviewEvent.OnSearchResultClick(it)) },
             onRemoveFromSaved = { onEvent(OverviewEvent.OnDeleteFromSaved(it)) },
             searchResults = state.searchResults,
-            savedLocations = state.savedLocations
+            savedLocations = state.savedLocations,
+            searchResultsError = state.searchResultsError,
+            isSearchResultsLoading = state.isSearchResultsLoading
         )
         
         Spacer(modifier = Modifier.height(8.dp))
