@@ -118,6 +118,7 @@ fun ExpandableSearchBanner(
                 ) {
                     if (isSearchResultsLoading) {
                         CircularProgressIndicator(
+                            strokeWidth = 2.dp,
                             modifier = Modifier
                                 .padding(end = 12.dp)
                                 .size(24.dp)
