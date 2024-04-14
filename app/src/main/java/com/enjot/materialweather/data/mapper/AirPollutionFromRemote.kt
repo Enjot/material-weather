@@ -1,10 +1,10 @@
 package com.enjot.materialweather.data.mapper
 
-import com.enjot.materialweather.data.database.weather.WeatherEntity
 import com.enjot.materialweather.data.remote.openweathermap.dto.AirPollutionDto
+import com.enjot.materialweather.domain.model.AirPollution
 import kotlin.math.roundToInt
 
-fun AirPollutionDto.toAirPollutionOrNull(): WeatherEntity.AirPollution? {
+fun AirPollutionDto.toDomainAirPollutionOrNull(): AirPollution? {
     if (innerList.isNotEmpty()) {
         val aqi = innerList[0].main?.aqi
         val co = innerList[0].components?.co
@@ -15,7 +15,7 @@ fun AirPollutionDto.toAirPollutionOrNull(): WeatherEntity.AirPollution? {
         val nh3 = innerList[0].components?.nh3
         val so2 = innerList[0].components?.so2
         val no = innerList[0].components?.no
-        return WeatherEntity.AirPollution(
+        return AirPollution(
             aqi = aqi ?: return null,
             co = co?.roundToInt() ?: return null,
             no2 = no2?.roundToInt() ?: return null,

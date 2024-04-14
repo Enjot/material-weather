@@ -1,14 +1,10 @@
 package com.enjot.materialweather.data.repository
 
-import com.enjot.materialweather.data.database.weather.WeatherDao
-import com.enjot.materialweather.data.database.weather.WeatherEntity
-import com.enjot.materialweather.data.mapper.toAirPollutionOrNull
-import com.enjot.materialweather.data.mapper.toCurrentWeather
-import com.enjot.materialweather.data.mapper.toDailyWeatherList
+import com.enjot.materialweather.data.mapper.toDomainAirPollutionOrNull
+import com.enjot.materialweather.data.mapper.toDomainCurrentWeather
+import com.enjot.materialweather.data.mapper.toDomainDailyWeatherList
+import com.enjot.materialweather.data.mapper.toDomainHourlyWeatherList
 import com.enjot.materialweather.data.mapper.toDomainSearchResult
-import com.enjot.materialweather.data.mapper.toHourlyWeatherList
-import com.enjot.materialweather.data.mapper.toLocalSearchResult
-import com.enjot.materialweather.data.mapper.toWeatherInfo
 import com.enjot.materialweather.data.remote.openweathermap.api.GeoapifyApi
 import com.enjot.materialweather.data.remote.openweathermap.api.OpenWeatherMapApi
 import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocodingDto
@@ -20,79 +16,79 @@ import com.enjot.materialweather.domain.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
 class RemoteRepositoryImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
-    @Named("geoapify") private val geoapifyApi: GeoapifyApi,
-    private val dao: WeatherDao
+    @Named("geoapify") private val geoapifyApi: GeoapifyApi
 ) : RemoteRepository {
     
     override suspend fun getWeather(coordinates: Coordinates): Resource<WeatherInfo?> {
         
         return withContext(Dispatchers.IO) {
             
-            val searchResult = geoapifyApi.callReverseGeocodingApi(
-                coordinates.lat.toString(),
-                coordinates.lon.toString()
-            ).results[0]
-            
-            val oneCallDeferred = async {
-                openWeatherMapApi.callOneCallApi(
+            try {
+                val searchResult = geoapifyApi.callReverseGeocodingApi(
                     coordinates.lat.toString(),
                     coordinates.lon.toString()
+                ).results[0]
+                
+                val oneCallDeferred = async {
+                    openWeatherMapApi.callOneCallApi(
+                        coordinates.lat.toString(),
+                        coordinates.lon.toString()
+                    )
+                }
+                
+                val airPollutionDeferred = async {
+                    openWeatherMapApi.callAirPollutionApi(
+                        coordinates.lat.toString(),
+                        coordinates.lon.toString()
+                    )
+                }
+                
+                val oneCallDto = oneCallDeferred.await()
+                val airPollutionDto = airPollutionDeferred.await()
+                
+                val weatherInfo = WeatherInfo(
+                    place = searchResult.toDomainSearchResult(),
+                    current = oneCallDto.toDomainCurrentWeather(),
+                    hourly = oneCallDto.toDomainHourlyWeatherList(),
+                    daily = oneCallDto.toDomainDailyWeatherList(),
+                    airPollution = airPollutionDto.toDomainAirPollutionOrNull()
                 )
+                
+                return@withContext Resource.Success(weatherInfo)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return@withContext Resource.Error("Unable to load data from the network")
             }
-            
-            val airPollutionDeferred = async {
-                openWeatherMapApi.callAirPollutionApi(
-                    coordinates.lat.toString(),
-                    coordinates.lon.toString()
-                )
-            }
-            
-            val oneCallDto = oneCallDeferred.await()
-            val airPollutionDto = airPollutionDeferred.await()
-            
-            val weatherEntity = WeatherEntity(
-                place = searchResult.toLocalSearchResult(),
-                current = oneCallDto.toCurrentWeather(),
-                hourly = oneCallDto.toHourlyWeatherList(),
-                daily = oneCallDto.toDailyWeatherList(),
-                airPollution = airPollutionDto.toAirPollutionOrNull()
-            )
-            dao.insertWeather(weatherEntity)
-            val weather = dao.getWeather().first()?.toWeatherInfo()
-            Resource.Success(weather)
         }
     }
-
-    suspend fun loadLocalWeather(): Resource<WeatherInfo?> {
-        val weather = dao.getWeather().first()?.toWeatherInfo()
-        return Resource.Success(weather)
-    }
     
-    override suspend fun getSearchResults(query: String): Resource<List<SearchResult>> {
-        
-        val geocodingResults = geoapifyApi.callGeocodingApi(query).results
+    override suspend fun getSearchResults(query: String): Resource<List<SearchResult>?> {
         
         return withContext(Dispatchers.IO) {
-            
-            val deferredResults = geocodingResults.map { result ->
-                async { getReverseGeocodingResult(result.lat, result.lon) }
+            try {
+                val geocodingResults = geoapifyApi.callGeocodingApi(query).results
+                
+                val deferredResults = geocodingResults.map { result ->
+                    async { getReverseGeocodingResult(result.lat, result.lon) }
+                }
+                
+                val reverseGeocodingResults =
+                    deferredResults.awaitAll().filterNotNull()
+                
+                val results = reverseGeocodingResults
+                    .map { it.toDomainSearchResult() }
+                    .filterDuplicatesKeepNulls { it.postCode }
+                
+                return@withContext Resource.Success(results)
+            } catch (e: Exception) {
+                return@withContext Resource.Error("Unable to load data from the network")
             }
-            
-            val reverseGeocodingResults =
-                deferredResults.awaitAll().filterNotNull()
-            
-            val results = reverseGeocodingResults
-                .map { it.toDomainSearchResult() }
-                .filterDuplicatesKeepNulls { it.postCode }
-            
-            Resource.Success(results)
         }
     }
     

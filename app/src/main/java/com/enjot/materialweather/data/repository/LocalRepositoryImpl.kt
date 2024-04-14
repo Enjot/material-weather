@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
-    private val dao: SavedLocationDao,
+    private val savedLocationsDao: SavedLocationDao,
     private val weatherDao: WeatherDao
 ): LocalRepository {
     override suspend fun getLocalWeather(): Flow<WeatherInfo?> = weatherDao.getWeather().map {
@@ -28,7 +28,7 @@ class LocalRepositoryImpl @Inject constructor(
     }
     
     override suspend fun getSavedLocations(): Flow<List<SavedLocation>> {
-        return dao.getSavedLocations().map { list ->
+        return savedLocationsDao.getSavedLocations().map { list ->
             list.map { entity ->
                 entity.toSavedLocation()
             }
@@ -36,10 +36,10 @@ class LocalRepositoryImpl @Inject constructor(
     }
     
     override suspend fun addSavedLocation(savedLocation: SavedLocation) {
-        dao.insertSavedLocation(savedLocation.toSavedLocationEntity())
+        savedLocationsDao.insertSavedLocation(savedLocation.toSavedLocationEntity())
     }
     
     override suspend fun deleteSavedLocation(savedLocation: SavedLocation) {
-        dao.deleteSavedLocation(savedLocation.toSavedLocationEntity())
+        savedLocationsDao.deleteSavedLocation(savedLocation.toSavedLocationEntity())
     }
 }

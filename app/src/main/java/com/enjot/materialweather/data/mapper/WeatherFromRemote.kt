@@ -1,39 +1,41 @@
 package com.enjot.materialweather.data.mapper
 
-import com.enjot.materialweather.data.database.weather.WeatherEntity
 import com.enjot.materialweather.data.remote.openweathermap.dto.OneCallDto
+import com.enjot.materialweather.domain.model.CurrentWeather
+import com.enjot.materialweather.domain.model.DailyWeather
+import com.enjot.materialweather.domain.model.HourlyWeather
 import kotlin.math.roundToInt
 
-fun OneCallDto.toCurrentWeather(): WeatherEntity.Current {
-    return WeatherEntity.Current(
-        localFormattedTime = this.current.dt.toFormattedLocalTime(),
-        temp = this.current.temp.roundToInt(),
-        minTemp = this.daily[0].temp.min.roundToInt(),
-        maxTemp = this.daily[0].temp.max.roundToInt(),
-        feelsLike = this.current.feelsLike.roundToInt(),
-        clouds = this.current.clouds,
-        windGust = this.current.windGust,
-        rainPrecipitation = this.current.rain?.precipitation,
-        snowPrecipitation = this.current.snow?.precipitation,
-        weather = this.current.weather[0].main,
-        description = this.current.weather[0].description,
-        icon = this.current.weather[0].icon,
-        conditions = WeatherEntity.Current.Conditions(
-            sunrise = this.current.sunrise.toFormattedLocalTime(),
-            sunset = this.current.sunset.toFormattedLocalTime(),
-            pressure = this.current.pressure,
-            humidity = this.current.humidity,
-            dewPoint = this.current.dewPoint.roundToInt(),
-            uvi = this.current.uvi.roundToInt(),
-            windSpeed = this.current.windSpeed.roundToInt(),
-            windDeg = this.current.windDeg,
+fun OneCallDto.toDomainCurrentWeather(): CurrentWeather {
+    return CurrentWeather(
+            localFormattedTime = this.current.dt.toFormattedLocalTime(),
+            temp = this.current.temp.roundToInt(),
+            minTemp = this.daily[0].temp.min.roundToInt(),
+            maxTemp = this.daily[0].temp.max.roundToInt(),
+            feelsLike = this.current.feelsLike.roundToInt(),
+            clouds = this.current.clouds,
+            windGust = this.current.windGust,
+            rainPrecipitation = this.current.rain?.precipitation,
+            snowPrecipitation = this.current.snow?.precipitation,
+            weather = this.current.weather[0].main,
+            description = this.current.weather[0].description,
+            icon = this.current.weather[0].icon,
+            conditions = CurrentWeather.WeatherConditions(
+                sunrise = this.current.sunrise.toFormattedLocalTime(),
+                sunset = this.current.sunset.toFormattedLocalTime(),
+                pressure = this.current.pressure,
+                humidity = this.current.humidity,
+                dewPoint = this.current.dewPoint.roundToInt(),
+                uvi = this.current.uvi.roundToInt(),
+                windSpeed = this.current.windSpeed.roundToInt(),
+                windDeg = this.current.windDeg,
+            )
         )
-    )
 }
 
-fun OneCallDto.toHourlyWeatherList(): List<WeatherEntity.HourlyWeather> {
+fun OneCallDto.toDomainHourlyWeatherList(): List<HourlyWeather> {
     return this.hourly.map {
-        WeatherEntity.HourlyWeather(
+        HourlyWeather(
             localFormattedTime = it.dt.toFormattedLocalTime(),
             temp = it.temp.roundToInt(),
             humidity = it.humidity,
@@ -47,9 +49,9 @@ fun OneCallDto.toHourlyWeatherList(): List<WeatherEntity.HourlyWeather> {
     }
 }
 
-fun OneCallDto.toDailyWeatherList(): List<WeatherEntity.DailyWeather> {
+fun OneCallDto.toDomainDailyWeatherList(): List<DailyWeather> {
     return this.daily.map {
-        WeatherEntity.DailyWeather(
+        DailyWeather(
             dayOfWeek = it.dt.toDayOfWeek(),
             sunrise = it.sunrise.toFormattedLocalTime(),
             sunset = it.sunset.toFormattedLocalTime(),

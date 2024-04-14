@@ -36,7 +36,7 @@ class OverviewViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getLocalWeatherUseCase().collect { weatherInfo ->
-                _state.update { it.copy(weatherInfo = weatherInfo, isWeatherLoading = false) }
+                _state.update { it.copy(weatherInfo = weatherInfo) }
             }
         }
         viewModelScope.launch {
@@ -69,6 +69,7 @@ class OverviewViewModel @Inject constructor(
                             isSearchResultsLoading = false
                         )
                     }
+                    _state.update { it.copy(isSearchResultsLoading = false) }
                 }
             }
             
@@ -83,6 +84,7 @@ class OverviewViewModel @Inject constructor(
                 }
                 viewModelScope.launch {
                     fetchAndStoreWeatherUseCase(event.searchResult.coordinates)
+                    _state.update { it.copy(isWeatherLoading = false) }
                 }
             }
             
@@ -96,6 +98,7 @@ class OverviewViewModel @Inject constructor(
                 }
                 viewModelScope.launch {
                     getWeatherFromLocationUseCase()
+                    _state.update { it.copy(isWeatherLoading = false) }
                 }
             }
             
@@ -113,6 +116,7 @@ class OverviewViewModel @Inject constructor(
                 _state.update { it.copy(isWeatherLoading = true) }
                 viewModelScope.launch {
                     _state.value.weatherInfo?.place?.coordinates?.let { fetchAndStoreWeatherUseCase(it) }
+                    _state.update { it.copy(isWeatherLoading = false) }
                 }
             }
         }

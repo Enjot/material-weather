@@ -3,6 +3,7 @@ package com.enjot.materialweather.domain.usecase
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.repository.RemoteRepository
+import com.enjot.materialweather.domain.utils.Resource
 import javax.inject.Inject
 
 class FetchAndStoreWeatherUseCase @Inject constructor(
@@ -11,7 +12,11 @@ class FetchAndStoreWeatherUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(coordinates: Coordinates) {
         
-        val result = remoteRepository.getWeather(coordinates)
-        localRepository.saveLocalWeather(result.data)
+        when (val remoteResource = remoteRepository.getWeather(coordinates)) {
+            is Resource.Success -> localRepository.saveLocalWeather(remoteResource.data)
+            
+            is Resource.Error -> return
+            
+        }
     }
 }
