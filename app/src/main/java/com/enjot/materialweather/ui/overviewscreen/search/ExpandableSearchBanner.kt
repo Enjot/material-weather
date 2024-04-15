@@ -53,7 +53,7 @@ import com.enjot.materialweather.ui.overviewscreen.search.locationbutton.Current
 fun ExpandableSearchBanner(
     query: String,
     onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
+    onSearch: () -> Unit,
     selectedCity: String,
     isSearchResultsLoading: Boolean,
     searchResultsError: Boolean,
@@ -83,7 +83,7 @@ fun ExpandableSearchBanner(
         onQueryChange = onQueryChange,
         onSearch = {
             focusManager.clearFocus()
-            onSearch("")
+            onSearch()
         },
         active = isActive,
         onActiveChange = { onSearchBarClick() },
@@ -183,8 +183,9 @@ fun ExpandableSearchBanner(
                     Spacer(modifier = Modifier.height(16.dp))
                     if (searchResultsError) {
                         Text(
-                            text = "Unable to load search results",
-                            color = MaterialTheme.colorScheme.error
+                            text = "Failed to load search results",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.labelMedium
                         )
                         
                     }

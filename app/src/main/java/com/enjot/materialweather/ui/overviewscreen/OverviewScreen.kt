@@ -15,11 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.ui.overviewscreen.air.AirPollutionBanner
 import com.enjot.materialweather.ui.overviewscreen.components.WeatherProviderButton
 import com.enjot.materialweather.ui.overviewscreen.conditions.ConditionsBanner
@@ -42,25 +44,22 @@ fun OverviewScreen(
     onNavigateToSettings: () -> Unit,
     viewModel: OverviewViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val weatherInfo by viewModel.weatherInfo.collectAsStateWithLifecycle()
+    val savedLocations by viewModel.savedLocations.collectAsStateWithLifecycle()
+    
     val scrollState = rememberScrollState()
-    val onEvent = viewModel::onEvent
     
     val pullRefreshState = rememberPullToRefreshState()
+    if (pullRefreshState.isRefreshing) {
+        LaunchedEffect(true) {
+            weatherInfo.place?.let { viewModel.pullRefresh() }
+            pullRefreshState.endRefresh()
+        }
+    }
     
     val scaleFraction = if (pullRefreshState.isRefreshing) 1f else
         LinearOutSlowInEasing.transform(pullRefreshState.progress).coerceIn(0f, 1f)
-    
-    if (pullRefreshState.isRefreshing) {
-        LaunchedEffect(true) {  if(!state.isWeatherLoading) onEvent(OverviewEvent.OnPullRefresh) }
-    }
-    
-    // I use pull to refresh animation for loading data event even not from pull gesture
-    // but I'm not sure it's good way to handle it
-    LaunchedEffect(state.isWeatherLoading) {
-        if (state.isWeatherLoading) pullRefreshState.startRefresh()
-        else pullRefreshState.endRefresh()
-    }
     
     Column(
         modifier = Modifier.fillMaxSize()
@@ -68,19 +67,19 @@ fun OverviewScreen(
         
         ExpandableSearchBanner(
             query = state.query,
-            onQueryChange = { onEvent(OverviewEvent.OnQueryChange(it)) },
-            selectedCity = state.weatherInfo?.place?.city ?: "Search",
-            onSearch = { onEvent(OverviewEvent.OnSearch(state.query)) },
+            onQueryChange = viewModel::updateQuery,
+            selectedCity = weatherInfo.place?.city ?: "Search",
+            onSearch = viewModel::search,
             isActive = state.isSearchBarActive,
-            onSearchBarClick = { onEvent(OverviewEvent.OnSearchBarClick) },
-            onLocationButtonClick = { onEvent(OverviewEvent.OnLocationButtonClick) },
-            onArrowBackClick = { onEvent(OverviewEvent.OnBannerCollapse) },
-            onAddToSaved = { onEvent(OverviewEvent.OnAddToSaved(it)) },
+            onSearchBarClick = viewModel::expandSearchBar,
+            onLocationButtonClick = viewModel::getLocationBasedWeather,
+            onArrowBackClick = viewModel::collapseSearchBar,
+            onAddToSaved = viewModel::save,
             onNavigateToSettings = onNavigateToSettings,
-            onSearchResultClick = { onEvent(OverviewEvent.OnSearchResultClick(it)) },
-            onRemoveFromSaved = { onEvent(OverviewEvent.OnDeleteFromSaved(it)) },
+            onSearchResultClick = viewModel::chooseSearchResult,
+            onRemoveFromSaved = viewModel::remove,
             searchResults = state.searchResults,
-            savedLocations = state.savedLocations,
+            savedLocations = savedLocations,
             searchResultsError = state.searchResultsError,
             isSearchResultsLoading = state.isSearchResultsLoading
         )
@@ -95,10 +94,21 @@ fun OverviewScreen(
             
             Column(Modifier.fillMaxSize()) {
                 
+                if (state.weatherError) {
+                    Text(
+                        text = "Failed to load new weather data",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(8.dp)
+                    )
+                }
+                
                 AnimatedVisibility(
                     enter = fadeIn(),
                     exit = fadeOut(),
-                    visible = state.weatherInfo != null
+                    visible = weatherInfo.place != null
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,20 +120,23 @@ fun OverviewScreen(
                         
                         Spacer(modifier = Modifier.height(16.dp))
                         
-                        state.weatherInfo?.current?.let {
+                        weatherInfo.current?.let {
                             SummaryBanner(it)
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                         
-                        state.weatherInfo?.hourly?.let { HourlyBanner(it) }
+                        weatherInfo.hourly?.let { HourlyBanner(it) }
                         
-                        state.weatherInfo?.daily?.let { DailyBanner(it, onNavigateToDailyWeather) }
+                        weatherInfo.daily?.let { DailyBanner(it, onNavigateToDailyWeather) }
                         
-                        state.weatherInfo?.current?.conditions?.let { ConditionsBanner(it) }
+                        weatherInfo.current?.conditions?.let { ConditionsBanner(it) }
                         
-                        state.weatherInfo?.airPollution?.let { AirPollutionBanner(it) }
+                        weatherInfo.airPollution?.let { AirPollutionBanner(it) }
                         
-                        WeatherProviderButton(Modifier.align(Alignment.CenterHorizontally).padding(36.dp))
+                        WeatherProviderButton(
+                            Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(36.dp))
                     }
                 }
             }
@@ -138,6 +151,6 @@ fun OverviewScreen(
     }
     
     BackHandler(enabled = state.isSearchBarActive) {
-        onEvent(OverviewEvent.OnBannerCollapse)
+        viewModel.collapseSearchBar()
     }
 }
