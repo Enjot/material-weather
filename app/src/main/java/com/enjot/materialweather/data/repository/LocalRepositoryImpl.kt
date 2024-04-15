@@ -17,8 +17,9 @@ class LocalRepositoryImpl @Inject constructor(
     private val savedLocationsDao: SavedLocationDao,
     private val weatherDao: WeatherDao
 ): LocalRepository {
-    override suspend fun getLocalWeather(): Flow<WeatherInfo?> = weatherDao.getWeather().map {
-        it?.toWeatherInfo()
+    override fun getLocalWeather(): Flow<WeatherInfo> =
+        weatherDao.getWeather().map {
+        it.toWeatherInfo()
     }
     
     override suspend fun saveLocalWeather(weatherInfo: WeatherInfo?) {
@@ -27,7 +28,7 @@ class LocalRepositoryImpl @Inject constructor(
         
     }
     
-    override suspend fun getSavedLocations(): Flow<List<SavedLocation>> {
+    override fun getSavedLocations(): Flow<List<SavedLocation>> {
         return savedLocationsDao.getSavedLocations().map { list ->
             list.map { entity ->
                 entity.toSavedLocation()
