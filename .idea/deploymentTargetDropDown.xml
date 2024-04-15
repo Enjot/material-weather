@@ -12,24 +12,13 @@
               <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\jakub\.android\avd\Pixel_8_Pro_API_34.avd" />
+                  <type value="SERIAL_NUMBER" />
+                  <value value="39131FDJH00AB5" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\jakub\.android\avd\Pixel_8_Pro_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-14T16:23:23.443042800Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-15T00:23:54.088811700Z" />
         </State>
       </entry>
     </value>
