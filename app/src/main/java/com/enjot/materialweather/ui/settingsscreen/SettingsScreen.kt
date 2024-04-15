@@ -16,12 +16,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.ui.settingsscreen.backgroundwork.BackgroundWorkSection
 
 @Composable
@@ -30,8 +30,8 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     
-    val state by viewModel.state.collectAsState()
-    val onEvent = viewModel::onEvent
+    val userPreferences by viewModel.userPreferences.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     
     Column(
         verticalArrangement = Arrangement.Top,
@@ -47,11 +47,11 @@ fun SettingsScreen(
         
         BackgroundWorkSection(
             isWorkScheduled = state.isWorkScheduled,
-            repeatInterval = state.repeatInterval,
+            repeatInterval = userPreferences.backgroundUpdatesRepeatInterval,
             isLocationBased = state.isLocationBased,
-            onBackgroundWeatherUpdatesClick = { onEvent(SettingsEvent.OnBackgroundWeatherUpdatesClick) },
-            onLocationBasedUpdatesClick = { onEvent(SettingsEvent.OnLocationBasedClick) },
-            onSetInterval = { minutes -> onEvent(SettingsEvent.OnSetIntervals(minutes)) }
+            onBackgroundWeatherUpdatesClick = viewModel::scheduleBackgroundWeather,
+            onLocationBasedUpdatesClick = { TODO() },
+            onSetInterval = viewModel::setIntervals
         )
         
     }
