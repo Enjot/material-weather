@@ -3,6 +3,7 @@ package com.enjot.materialweather.domain.usecase
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.repository.RemoteRepository
+import com.enjot.materialweather.domain.utils.ErrorType
 import com.enjot.materialweather.domain.utils.Resource
 import javax.inject.Inject
 
@@ -10,15 +11,15 @@ class UpdateWeatherUseCase @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val localRepository: LocalRepository
 ) {
-    suspend operator fun invoke(coordinates: Coordinates): Boolean {
+    suspend operator fun invoke(coordinates: Coordinates): Resource<Unit> {
         
-        return when (val remoteResource = remoteRepository.getWeather(coordinates)) {
+        return when (val remoteResource = remoteRepository.fetchWeather(coordinates)) {
             is Resource.Success -> {
-                localRepository.saveLocalWeather(remoteResource.data)
-                true
+                remoteResource.data?.let { localRepository.saveLocalWeather(it) }
+                Resource.Success()
             }
             
-            is Resource.Error -> false
+            is Resource.Error -> Resource.Error(remoteResource.errorType ?: ErrorType.UNKNOWN)
         }
     }
 }

@@ -18,7 +18,7 @@ fun OneCallDto.toDomainCurrentWeather(): CurrentWeather {
             rainPrecipitation = this.current.rain?.precipitation,
             snowPrecipitation = this.current.snow?.precipitation,
             weather = this.current.weather[0].main,
-            description = this.current.weather[0].description,
+            description = this.current.weather[0].id.toString(),
             icon = this.current.weather[0].icon,
             conditions = CurrentWeather.WeatherConditions(
                 sunrise = this.current.sunrise.toFormattedLocalTime(),
@@ -73,7 +73,7 @@ fun OneCallDto.toDomainDailyWeatherList(): List<DailyWeather> {
             rainPrecipitation = it.rain,
             snowPrecipitation = it.snow,
             weather = it.weather[0].main,
-            description = it.weather[0].description,
+            description = it.weather[0].id.toString(),
             icon = it.weather[0].icon,
         )
     }

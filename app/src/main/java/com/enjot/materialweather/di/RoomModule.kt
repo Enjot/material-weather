@@ -2,9 +2,9 @@ package com.enjot.materialweather.di
 
 import android.app.Application
 import androidx.room.Room
+import com.enjot.materialweather.data.database.SavedLocationDao
+import com.enjot.materialweather.data.database.WeatherDao
 import com.enjot.materialweather.data.database.WeatherDatabase
-import com.enjot.materialweather.data.database.saved.SavedLocationDao
-import com.enjot.materialweather.data.database.weather.WeatherDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,8 +29,8 @@ object RoomModule {
     }
     
     @Provides
-    fun provideWeatherDao(database: WeatherDatabase): WeatherDao = database.weatherDao
+    fun provideWeatherDao(database: WeatherDatabase): WeatherDao = database.weatherDao()
     
     @Provides
-    fun provideSavedLocationDao(database: WeatherDatabase): SavedLocationDao = database.savedLocationDao
+    fun provideSavedLocationDao(database: WeatherDatabase): SavedLocationDao = database.savedLocationDao()
 }

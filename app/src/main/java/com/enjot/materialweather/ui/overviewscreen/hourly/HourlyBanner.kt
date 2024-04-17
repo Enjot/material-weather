@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.model.HourlyWeather
-import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
+import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
 import kotlin.math.roundToInt
 
 @Composable
@@ -31,7 +33,7 @@ fun HourlyBanner(
     val color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
         alpha = 0.05f
     )
-    Banner(title ="Hourly") {
+    Banner(title = stringResource(R.string.hourly_forecast)) {
         Card {
             Row(
                 modifier = Modifier
@@ -83,7 +85,7 @@ private fun HourlyItem(
         )
         WeatherIcon(iconCode = item.icon)
         Text(
-            text = if (isNow) "Now" else item.localFormattedTime,
+            text = if (isNow) stringResource(R.string.now) else item.localFormattedTime,
             style = MaterialTheme.typography.bodySmall
         )
     }

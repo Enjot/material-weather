@@ -7,8 +7,8 @@ import com.enjot.materialweather.domain.utils.Resource
 
 interface RemoteRepository {
     
-    suspend fun getWeather(coordinates: Coordinates): Resource<WeatherInfo?>
+    suspend fun fetchWeather(coordinates: Coordinates): Resource<WeatherInfo>
     
-    suspend fun getSearchResults(query: String): Resource<List<SearchResult>?>
+    suspend fun getSearchResults(query: String): Resource<List<SearchResult>>
     
 }

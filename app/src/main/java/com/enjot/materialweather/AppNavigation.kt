@@ -45,7 +45,10 @@ fun AppNavigation() {
             exitTransition = { slideOutOfContainer(End, animationSpec) },
             arguments = listOf(navArgument("dailyIndex") { type = NavType.IntType })
         ) {
-            DailyScreen(it.arguments?.getInt("dailyIndex"))
+            DailyScreen(
+                enterIndex = it.arguments?.getInt("dailyIndex"),
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         
         composable(

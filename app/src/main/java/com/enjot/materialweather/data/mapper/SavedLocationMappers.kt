@@ -1,6 +1,6 @@
 package com.enjot.materialweather.data.mapper
 
-import com.enjot.materialweather.data.database.saved.SavedLocationEntity
+import com.enjot.materialweather.data.database.SavedLocationEntity
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.model.SavedLocation
 

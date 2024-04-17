@@ -2,8 +2,10 @@ package com.enjot.materialweather.data.repository
 
 import android.annotation.SuppressLint
 import android.location.Location
+import com.enjot.materialweather.data.mapper.toCoordinates
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.repository.LocationRepository
+import com.enjot.materialweather.domain.utils.ErrorType
 import com.enjot.materialweather.domain.utils.Resource
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Priority
@@ -17,18 +19,13 @@ class LocationRepositoryImpl @Inject constructor(
     private val client: FusedLocationProviderClient,
 ) : LocationRepository {
     
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission") // UI checks it
     override suspend fun getCoordinates(): Resource<Coordinates?> {
         return try {
             suspendCancellableCoroutine { continuation ->
                 client.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                     .addOnSuccessListener { location: Location? ->
-                        val coordinates = location?.let {
-                            Coordinates(
-                                it.latitude,
-                                it.longitude
-                            )
-                        }
+                        val coordinates =   location?.toCoordinates() // possible location as null but not sure yet
                         continuation.resume(Resource.Success(coordinates))
                     }
                     .addOnFailureListener { exception ->
@@ -36,7 +33,7 @@ class LocationRepositoryImpl @Inject constructor(
                     }
             }
         } catch (e: Exception) {
-            return Resource.Error("Unable to access location")
+            return Resource.Error(ErrorType.LOCATION)
         }
     }
 }

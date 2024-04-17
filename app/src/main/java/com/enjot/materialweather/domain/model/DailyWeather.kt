@@ -1,8 +1,5 @@
 package com.enjot.materialweather.domain.model
 
-import java.time.LocalDate
-import java.time.LocalTime
-
 data class DailyWeather(
     val dayOfWeek: String,
     val sunrise: String,

@@ -1,4 +1,4 @@
-package com.enjot.materialweather.data.database.weather
+package com.enjot.materialweather.data.database
 
 import androidx.room.Embedded
 import androidx.room.Entity

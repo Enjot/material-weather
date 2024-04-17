@@ -8,6 +8,6 @@ import javax.inject.Inject
 class GetSearchResultsUseCase @Inject constructor(
     private val remoteRepository: RemoteRepository
 ) {
-    suspend operator fun invoke(query: String): Resource<List<SearchResult>?> =
+    suspend operator fun invoke(query: String): Resource<List<SearchResult>> =
         remoteRepository.getSearchResults(query)
 }

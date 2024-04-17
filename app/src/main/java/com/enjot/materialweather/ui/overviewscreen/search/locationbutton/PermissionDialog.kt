@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.enjot.materialweather.R
 
 
 @Composable
@@ -25,18 +27,18 @@ fun PermissionDialog(
         confirmButton = {
             if (isPermanentlyDeclined) {
                 TextButton(onClick = onGoToAppSettingsClick) {
-                    Text("Open Settings")
+                    Text(stringResource(R.string.settings))
                 }
             } else {
                 TextButton(onClick = onOkClick) {
-                    Text("Grant permission")
+                    Text(stringResource(R.string.grant_permission))
                 }
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Dismiss")
+                Text(stringResource(R.string.dismiss))
             }
         },
         icon = {
@@ -44,41 +46,37 @@ fun PermissionDialog(
                    imageVector = if (isPermanentlyDeclined) Icons.Outlined.LocationOff else Icons.Outlined.LocationOn,
                    contentDescription = null)
         },
-        title = { Text(text = "Location permission required") },
+        title = { Text(text = stringResource(R.string.location_permission_required)) },
         text = {
             Text(
-                text = permissionTextProvider.getDescription(
+                text = stringResource(permissionTextProvider.getDescription(
                     isPermanentlyDeclined = isPermanentlyDeclined
-                )
+                ))
             )
         }
     )
 }
 
 interface PermissionTextProvider {
-    fun getDescription(isPermanentlyDeclined: Boolean): String
+    fun getDescription(isPermanentlyDeclined: Boolean): Int
 }
 
 class CoarseLocationPermissionTextProvider : PermissionTextProvider {
-    override fun getDescription(isPermanentlyDeclined: Boolean): String {
+    override fun getDescription(isPermanentlyDeclined: Boolean): Int {
         return if (isPermanentlyDeclined) {
-            "It seems you didn't allow for approximately location permission. " +
-                    "This app needs both approximately and precise location permissions to get your current location. " +
-                    "You can grant them manually in settings."
+            R.string.location_permission_denied
         } else {
-            "This app needs access to your approximately location. Otherwise use search option."
+            R.string.coarse_location_permission_rationale
         }
     }
 }
 
 class FineLocationPermissionTextProvider : PermissionTextProvider {
-    override fun getDescription(isPermanentlyDeclined: Boolean): String {
+    override fun getDescription(isPermanentlyDeclined: Boolean): Int {
         return if (isPermanentlyDeclined) {
-            "It seems you didn't allow for precise location permission. " +
-                    "This app needs both approximately and precise location permissions to get your current location. " +
-                    "You can grant them manually in settings."
+            R.string.location_permission_denied
         } else {
-            "This app needs access to your precise location. Otherwise use search option."
+            R.string.fine_location_permission_rationale
         }
     }
 }

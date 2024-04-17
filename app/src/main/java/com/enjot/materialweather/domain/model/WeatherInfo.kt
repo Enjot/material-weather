@@ -6,4 +6,8 @@ data class WeatherInfo(
     val hourly: List<HourlyWeather>? = null,
     val daily: List<DailyWeather>? = null,
     val airPollution: AirPollution? = null
-)
+) {
+    companion object {
+        fun empty() = WeatherInfo()
+    }
+}

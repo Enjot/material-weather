@@ -1,7 +1,7 @@
 package com.enjot.materialweather.data.repository
 
-import com.enjot.materialweather.data.database.saved.SavedLocationDao
-import com.enjot.materialweather.data.database.weather.WeatherDao
+import com.enjot.materialweather.data.database.SavedLocationDao
+import com.enjot.materialweather.data.database.WeatherDao
 import com.enjot.materialweather.data.mapper.toSavedLocation
 import com.enjot.materialweather.data.mapper.toSavedLocationEntity
 import com.enjot.materialweather.data.mapper.toWeatherEntity
@@ -18,14 +18,11 @@ class LocalRepositoryImpl @Inject constructor(
     private val weatherDao: WeatherDao
 ): LocalRepository {
     override fun getLocalWeather(): Flow<WeatherInfo> =
-        weatherDao.getWeather().map {
-        it.toWeatherInfo()
-    }
+        weatherDao.getWeather().map { it?.toWeatherInfo() ?: WeatherInfo() }
     
-    override suspend fun saveLocalWeather(weatherInfo: WeatherInfo?) {
-        val weatherEntity = weatherInfo?.toWeatherEntity()
-        weatherEntity?.let { weatherDao.insertWeather(it) }
-        
+    override suspend fun saveLocalWeather(weatherInfo: WeatherInfo) {
+        val weatherEntity = weatherInfo.toWeatherEntity()
+        weatherDao.insertWeather(weatherEntity)
     }
     
     override fun getSavedLocations(): Flow<List<SavedLocation>> {

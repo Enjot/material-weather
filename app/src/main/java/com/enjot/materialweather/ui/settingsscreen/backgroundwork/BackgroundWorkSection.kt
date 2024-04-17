@@ -28,9 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.enjot.materialweather.R
 
 @Composable
 fun BackgroundWorkSection(
@@ -60,7 +62,7 @@ fun BackgroundWorkSection(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "Background updates",
+                    text = stringResource(R.string.background_updates),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -95,14 +97,14 @@ fun BackgroundWorkSection(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "Background updates interval",
+                    text = stringResource(R.string.background_updates_interval),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = when (repeatInterval) {
-                        in 0..60 -> "$repeatInterval minutes"
-                        else -> "${repeatInterval / 60L} hours"
+                        in 0..60 -> stringResource(R.string.minutes, repeatInterval)
+                        else -> stringResource(R.string.hours, repeatInterval / 60L)
                     },
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -119,12 +121,12 @@ fun BackgroundWorkSection(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "Location based background updates",
+                    text = stringResource(R.string.location_based_background_updates),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Currently not available",
+                    text = stringResource(R.string.currently_not_available),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -175,7 +177,6 @@ private fun IntervalDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(16.dp)
             ) {
-                
                 Icon(
                     imageVector = Icons.Filled.Update,
                     contentDescription = null,
@@ -183,13 +184,13 @@ private fun IntervalDialog(
                 )
                 
                 Text(
-                    text = "Background updates interval",
+                    text = stringResource(R.string.background_updates_interval),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp)
                 )
                 
                 SingleIntervalRadioButton(
-                    text = "30 minutes",
+                    text = stringResource(R.string.minutes, 30),
                     selected = repeatInterval == 30L,
                     onClick = {
                         onSetInterval(30L)
@@ -197,7 +198,7 @@ private fun IntervalDialog(
                     }
                 )
                 SingleIntervalRadioButton(
-                    text = "60 minutes",
+                    text = stringResource(R.string.minutes, 60),
                     selected = repeatInterval == 60L,
                     onClick = {
                         onSetInterval(60L)
@@ -205,7 +206,7 @@ private fun IntervalDialog(
                     }
                 )
                 SingleIntervalRadioButton(
-                    text = "2 hours",
+                    text = stringResource(R.string.hours, 2),
                     selected = repeatInterval == 120L,
                     onClick = {
                         onSetInterval(120L)
@@ -213,7 +214,7 @@ private fun IntervalDialog(
                     }
                 )
                 SingleIntervalRadioButton(
-                    text = "3 hours",
+                    text = stringResource(R.string.hours, 3),
                     selected = repeatInterval == 180L,
                     onClick = {
                         onSetInterval(180L)
@@ -222,7 +223,7 @@ private fun IntervalDialog(
                 )
                 
                 SingleIntervalRadioButton(
-                    text = "4 hours",
+                    text = stringResource(R.string.hours, 4),
                     selected = repeatInterval == 240L,
                     onClick = {
                         onSetInterval(240L)
@@ -234,7 +235,7 @@ private fun IntervalDialog(
                     onClick = onDismissRequest,
                     modifier = Modifier.align(Alignment.End)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         }

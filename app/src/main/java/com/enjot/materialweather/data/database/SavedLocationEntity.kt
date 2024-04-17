@@ -1,4 +1,4 @@
-package com.enjot.materialweather.data.database.saved
+package com.enjot.materialweather.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

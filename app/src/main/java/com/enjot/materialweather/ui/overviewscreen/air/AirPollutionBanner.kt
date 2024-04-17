@@ -1,23 +1,13 @@
 package com.enjot.materialweather.ui.overviewscreen.air
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,29 +21,7 @@ fun AirPollutionBanner(
     airPollution: AirPollution,
     modifier: Modifier = Modifier
 ) {
-    
-    val backgroundCircleColor = MaterialTheme.colorScheme.secondary
-    val backgroundPathString =
-        stringResource(id = R.string.zigzag_circle_path)
-    val zigzagCirclePath = remember {
-        PathParser().parsePathString(backgroundPathString)
-            .toPath()
-    }
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-    val rotationDegree by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 10000,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = ""
-    )
-    
-    Banner(title = "Air Quality") {
+    Banner(title = stringResource(R.string.air_quality)) {
         Card {
             Box(
                 modifier = Modifier
@@ -91,7 +59,7 @@ fun AirPollutionBanner(
                 )
                 ArcProgressBar(
                     name = airPollution.aqiName,
-                    unit = "index",
+                    unit = stringResource(R.string.index),
                     value = airPollution.aqi,
                     range = airPollution.aqiRange,
                     modifier = Modifier.align(Alignment.Center)

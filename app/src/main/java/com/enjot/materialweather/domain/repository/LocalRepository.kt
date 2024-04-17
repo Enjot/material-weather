@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface LocalRepository {
     
     fun getLocalWeather(): Flow<WeatherInfo>
-    suspend fun saveLocalWeather(weatherInfo: WeatherInfo?)
     fun getSavedLocations(): Flow<List<SavedLocation>>
+    suspend fun saveLocalWeather(weatherInfo: WeatherInfo)
     suspend fun addSavedLocation(savedLocation: SavedLocation)
     suspend fun deleteSavedLocation(savedLocation: SavedLocation)
     

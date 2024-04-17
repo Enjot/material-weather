@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.enjot.materialweather.domain.usecase.UpdateWeatherUseCase
 import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
+import com.enjot.materialweather.domain.usecase.UpdateWeatherUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -20,7 +20,7 @@ class UpdateWeatherWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return try {
             val weatherInfo = getLocalWeatherUseCase().first()
-            val coordinates = weatherInfo!!.place!!.coordinates
+            val coordinates = weatherInfo.place!!.coordinates
             updateWeatherUseCase(coordinates)
             Result.success()
         } catch (e: Exception) {

@@ -103,15 +103,15 @@ fun ArcProgressIndicator(
         )
         drawText(
             textMeasurer = textMeasurer,
-            text = rangeText,
-            style = textStyle,
-            topLeft = rangeTextTopLeft
-        )
-        drawText(
-            textMeasurer = textMeasurer,
             text = valueText,
             style = textStyle,
             topLeft = valueTextTopLeft
+        )
+        drawText(
+            textMeasurer = textMeasurer,
+            text = rangeText,
+            style = textStyle,
+            topLeft = rangeTextTopLeft
         )
     }
 }
@@ -125,10 +125,10 @@ private fun getProgressValue(value: Int, range: Int): Float {
 @Composable
 fun PressureArcProgressBarPreview() {
     ArcProgressIndicator(
-        value = 7723,
-        range = 75222,
-        valueText = "Low",
-        rangeText = "High",
+        value = 1,
+        range = 1000,
+        valueText = "73",
+        rangeText = "180",
         unit = ""
     )
 }

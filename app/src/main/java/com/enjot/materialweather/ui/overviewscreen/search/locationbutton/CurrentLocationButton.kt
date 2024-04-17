@@ -24,10 +24,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
+import com.enjot.materialweather.R
 
 @Composable
 fun CurrentLocationButton(
@@ -74,13 +76,13 @@ fun CurrentLocationButton(
                     else -> return@forEach
                 },
                 isPermanentlyDeclined = !shouldShowRequestPermissionRationale(context as Activity, permission),
-                onDismiss = { visiblePermissionDialogQueue.removeFirst() },
+                onDismiss = { visiblePermissionDialogQueue.clear() },
                 onOkClick = {
                     visiblePermissionDialogQueue.removeFirst()
                     multiplePermissionResultLauncher.launch(arrayOf(permission))
                 },
                 onGoToAppSettingsClick = {
-                    visiblePermissionDialogQueue.removeFirst()
+                    visiblePermissionDialogQueue.clear()
                     context.openAppSettings()
                 }
             )
@@ -99,7 +101,7 @@ fun CurrentLocationButton(
         val style = MaterialTheme.typography.titleMedium
         val iconScaleFactor = 1.1f
         Text(
-            text = "Use current location",
+            text = stringResource(R.string.use_current_location),
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.width(16.dp))

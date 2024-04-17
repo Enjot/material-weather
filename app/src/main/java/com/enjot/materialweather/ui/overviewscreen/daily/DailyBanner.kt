@@ -14,11 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.model.DailyWeather
-import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
 import com.enjot.materialweather.ui.overviewscreen.components.Banner
+import com.enjot.materialweather.ui.overviewscreen.components.WeatherIcon
+import com.enjot.materialweather.ui.utils.toDayOfWeekId
 import kotlin.math.roundToInt
 
 @Composable
@@ -26,7 +29,7 @@ fun DailyBanner(
     daily: List<DailyWeather>,
     onClick: (Int) -> Unit
 ) {
-    Banner(title = "Daily") {
+    Banner(title = stringResource(R.string.daily_forecast)) {
         daily.forEachIndexed { index, item ->
             DailyItem(
                 item = item,
@@ -84,22 +87,28 @@ private fun DailyItem(
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         
         ) {
+            
             Text(
-                text = if (isFirst) "Today" else item.dayOfWeek,
+                text = if (isFirst) stringResource(R.string.today)
+                else stringResource(item.dayOfWeek.toDayOfWeekId()),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.weight(3f)
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.weight(4f).fillMaxSize()
+                modifier = Modifier
+                    .weight(4f)
+                    .fillMaxSize()
             ) {
                 val popPercent = (item.pop * 100).roundToInt()
                 Text(
                     text = if (popPercent > 0) "$popPercent%" else "",
                     textAlign = TextAlign.End,
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.weight(2f).padding(end = 12.dp)
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(end = 12.dp)
                 )
                 WeatherIcon(iconCode = item.icon, modifier = Modifier.weight(2f))
                 Text(

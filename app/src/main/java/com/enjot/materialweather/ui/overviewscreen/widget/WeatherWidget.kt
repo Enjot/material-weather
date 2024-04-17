@@ -45,7 +45,7 @@ class WeatherWidget : GlanceAppWidget() {
                     modifier = GlanceModifier.fillMaxSize().background(GlanceTheme.colors.secondaryContainer)
                 ) {
                     
-                    state.value?.place?.city?.let { Text(
+                    state.value.place?.city?.let { Text(
                         text = it,
                         style = TextStyle(
                             fontSize = 16.sp,
@@ -54,7 +54,7 @@ class WeatherWidget : GlanceAppWidget() {
                         modifier = GlanceModifier.padding(2.dp)
                     ) }
                     
-                    state.value?.current?.temp?.let {
+                    state.value.current?.temp?.let {
                         Box(
                             modifier = GlanceModifier
                                 .padding(2.dp)
@@ -75,7 +75,7 @@ class WeatherWidget : GlanceAppWidget() {
                         
                     }
                     
-                    state.value?.current?.description?.let { Text(
+                    state.value.current?.description?.let { Text(
                         text = it,
                         style = TextStyle(
                             fontSize = 16.sp,

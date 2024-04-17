@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.enjot.materialweather.R
 import com.enjot.materialweather.ui.reusable.ArcProgressIndicator
 import kotlin.math.roundToInt
 
@@ -15,9 +17,9 @@ fun PressureCard(
     modifier: Modifier = Modifier
 ) {
     ConditionCard(
-        title = "Pressure",
+        title = stringResource(R.string.pressure),
         headline = pressure.toString(),
-        description = "mbar",
+        description = stringResource(R.string.mbar),
         modifier = modifier
     ) {
         
@@ -30,8 +32,8 @@ fun PressureCard(
             unit = "",
             value = percent,
             range = 100,
-            valueText = "Low",
-            rangeText = "High",
+            valueText = stringResource(R.string.low),
+            rangeText = stringResource(R.string.high),
             height = 80.dp,
             modifier = Modifier
                 .align(Alignment.BottomEnd)

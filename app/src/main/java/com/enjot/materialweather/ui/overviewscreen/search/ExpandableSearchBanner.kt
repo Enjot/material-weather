@@ -39,11 +39,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.mapper.toSearchResult
 import com.enjot.materialweather.domain.model.SavedLocation
 import com.enjot.materialweather.domain.model.SearchResult
+import com.enjot.materialweather.ui.overviewscreen.SearchState
 import com.enjot.materialweather.ui.overviewscreen.search.components.SavedLocationItem
 import com.enjot.materialweather.ui.overviewscreen.search.components.SearchResultItem
 import com.enjot.materialweather.ui.overviewscreen.search.locationbutton.CurrentLocationButton
@@ -55,14 +58,12 @@ fun ExpandableSearchBanner(
     onQueryChange: (String) -> Unit,
     onSearch: () -> Unit,
     selectedCity: String,
-    isSearchResultsLoading: Boolean,
-    searchResultsError: Boolean,
-    searchResults: List<SearchResult>,
+    searchState: SearchState,
     savedLocations: List<SavedLocation>,
     isActive: Boolean,
     onLocationButtonClick: () -> Unit,
     onArrowBackClick: () -> Unit,
-    onSearchBarClick: () -> Unit,
+    onExpand: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onSearchResultClick: (SearchResult) -> Unit,
     onAddToSaved: (SearchResult) -> Unit,
@@ -86,10 +87,10 @@ fun ExpandableSearchBanner(
             onSearch()
         },
         active = isActive,
-        onActiveChange = { onSearchBarClick() },
+        onActiveChange = { onExpand() },
         placeholder = {
             Text(
-                text = if (isActive) "Search" else selectedCity,
+                text = if (isActive) stringResource(R.string.search) else selectedCity,
                 style = MaterialTheme.typography.titleMedium
             )
         },
@@ -121,7 +122,7 @@ fun ExpandableSearchBanner(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxHeight()
                     ) {
-                        if (isSearchResultsLoading) {
+                        if (searchState is SearchState.Loading) {
                             CircularProgressIndicator(
                                 strokeWidth = 2.dp,
                                 modifier = Modifier
@@ -181,9 +182,9 @@ fun ExpandableSearchBanner(
                 
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
-                    if (searchResultsError) {
+                    if (searchState is SearchState.Error) {
                         Text(
-                            text = "Failed to load search results",
+                            text = searchState.message.asString(),
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.labelMedium
                         )
@@ -191,16 +192,19 @@ fun ExpandableSearchBanner(
                     }
                 }
                 
-                items(searchResults) { searchResult ->
-                    SearchResultItem(
-                        searchResult = searchResult,
-                        onAddToSaved = {
-                            focusManager.clearFocus()
-                            onAddToSaved(searchResult)
-                        },
-                        onClick = { onSearchResultClick(searchResult) }
-                    )
+                if (searchState is SearchState.Idle) {
+                    items(searchState.results) { searchResult ->
+                        SearchResultItem(
+                            searchResult = searchResult,
+                            onAddToSaved = {
+                                focusManager.clearFocus()
+                                onAddToSaved(searchResult)
+                            },
+                            onClick = { onSearchResultClick(searchResult) }
+                        )
+                    }
                 }
+                
                 item {
                     CurrentLocationButton(
                         onClick = onLocationButtonClick,
@@ -209,7 +213,8 @@ fun ExpandableSearchBanner(
                 }
                 item {
                     Text(
-                        text = if (savedLocations.isNotEmpty()) "Saved locations" else "No saved locations",
+                        text = if (savedLocations.isNotEmpty()) stringResource(R.string.saved_places)
+                        else stringResource(R.string.no_saved_places),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -239,14 +244,12 @@ fun ExpandableSearchBannerPreview() {
         onQueryChange = {},
         onSearch = {},
         selectedCity = "",
-        isSearchResultsLoading = true,
-        searchResultsError = true,
-        searchResults = emptyList(),
+        searchState = SearchState.Idle(),
         savedLocations = emptyList(),
         isActive = true,
         onLocationButtonClick = { /*TODO*/ },
         onArrowBackClick = { /*TODO*/ },
-        onSearchBarClick = { /*TODO*/ },
+        onExpand = { /*TODO*/ },
         onNavigateToSettings = { /*TODO*/ },
         onSearchResultClick = {},
         onAddToSaved = {},

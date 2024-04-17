@@ -26,8 +26,7 @@ fun Int.toFormattedLocalTime(): String {
 }
 
 fun Int.toDayOfWeek(): String {
-    val day = Instant.ofEpochSecond(this.toLong())
+    return Instant.ofEpochSecond(this.toLong())
         .atZone(ZoneId.systemDefault())
         .toLocalDate().dayOfWeek.toString()
-    return day.first().uppercase() + day.substring(1).lowercase()
 }
