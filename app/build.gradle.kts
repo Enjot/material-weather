@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.junit5)
 }
 
 android {
@@ -49,6 +50,7 @@ android {
         }
         
         ksp {
+            arg("room.generateKotlin", "true")
             arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
@@ -99,7 +101,15 @@ dependencies {
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.junit.jupiter.api)
+    implementation(libs.junit.jupiter.engine)
+    implementation(libs.junit.jupiter.params)
+    implementation(libs.assertk)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     
