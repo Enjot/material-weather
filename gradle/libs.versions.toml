@@ -37,6 +37,7 @@ deMannodermausAndroidJunit5GradlePlugin = "1.10.0.0"
 mockk = "1.13.10"
 mockkAndroid = "1.13.10"
 mockkAgent = "1.13.10"
+mockwebserver = "4.12.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -93,6 +94,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockkAndroid" }
 mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockkAgent" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 
 
 [plugins]
