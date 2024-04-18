@@ -11,7 +11,7 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 ✅ offline-first functionality  
 ✅ getting data from the device location  
 ✅ handling location permissions  
-✅ handling no location, no internet and error server responses
+✅ handling no location, no internet and error server responses  
 ✅ pull to refresh  
 ✅ managing saved places  
 ✅ settings screen  
