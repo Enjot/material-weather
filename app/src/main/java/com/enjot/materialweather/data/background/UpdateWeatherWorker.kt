@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
-import com.enjot.materialweather.domain.usecase.UpdateWeatherUseCase
+import com.enjot.materialweather.domain.usecase.weather.GetLocalWeatherUseCase
+import com.enjot.materialweather.domain.usecase.weather.UpdateWeatherUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first

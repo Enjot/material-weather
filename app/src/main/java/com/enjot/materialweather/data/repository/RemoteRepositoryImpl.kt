@@ -62,7 +62,6 @@ class RemoteRepositoryImpl @Inject constructor(
                     daily = weather.toDomainDailyWeatherList(),
                     airPollution = airPollution.toDomainAirPollutionOrNull()
                 )
-                
                 return@withContext Resource.Success(weatherInfo)
             } catch (e: HttpException) {
                 return@withContext Resource.Error(ErrorType.SERVER)

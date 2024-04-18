@@ -41,13 +41,13 @@ abstract class RepositoryModule {
     
     @Binds
     @Singleton
-    abstract fun providesLocationTracker(
+    abstract fun bindLocationTracker(
         locationRepositoryImpl: LocationRepositoryImpl
     ): LocationRepository
     
     @Binds
     @Singleton
-    abstract fun providesPreferencesRepository(
+    abstract fun bindPreferencesRepository(
         preferencesDataStore: PreferencesRepositoryImpl
     ): PreferencesRepository
 }

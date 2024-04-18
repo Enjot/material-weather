@@ -12,9 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.enjot.materialweather.ui.dailyscreen.DailyScreen
-import com.enjot.materialweather.ui.overviewscreen.OverviewScreen
-import com.enjot.materialweather.ui.settingsscreen.SettingsScreen
+import com.enjot.materialweather.ui.screen.daily.DailyScreen
+import com.enjot.materialweather.ui.screen.overview.OverviewScreen
+import com.enjot.materialweather.ui.screen.settings.SettingsScreen
 
 @Composable
 fun AppNavigation() {
@@ -26,7 +26,8 @@ fun AppNavigation() {
         startDestination = "overview"
     ) {
         
-        val animationSpec: FiniteAnimationSpec<IntOffset> = spring(stiffness = Spring.StiffnessMediumLow)
+        val animationSpec: FiniteAnimationSpec<IntOffset> =
+            spring(stiffness = Spring.StiffnessMediumLow)
         
         composable(
             route = "overview",
@@ -34,8 +35,16 @@ fun AppNavigation() {
             exitTransition = { slideOutOfContainer(Start, animationSpec) },
         ) {
             OverviewScreen(
-                onNavigateToDailyWeather = { index -> navController.navigate("daily/$index") { launchSingleTop = true } },
-                onNavigateToSettings = { navController.navigate("settings") { launchSingleTop = true } }
+                onNavigateToDailyWeather = { index ->
+                    navController.navigate("daily/$index") {
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToSettings = {
+                    navController.navigate("settings") {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
         

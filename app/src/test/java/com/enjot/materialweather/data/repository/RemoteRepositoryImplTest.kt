@@ -55,7 +55,7 @@ class RemoteRepositoryImplTest {
     }
     
     @Test
-    fun `Fetch weather, geoapify throws HTTPException, return server error type`() = runTest {
+    fun `Fetch weather, geoapify throws HTTPException, handle it correctly`() = runTest {
         
         geoapifyServer.enqueue(
             MockResponse().setResponseCode(404)
@@ -65,4 +65,5 @@ class RemoteRepositoryImplTest {
         
         assertThat(result.errorType).isEqualTo(ErrorType.SERVER)
     }
+    
 }

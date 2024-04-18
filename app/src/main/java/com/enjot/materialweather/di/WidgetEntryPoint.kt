@@ -1,6 +1,6 @@
 package com.enjot.materialweather.di
 
-import com.enjot.materialweather.domain.usecase.GetLocalWeatherUseCase
+import com.enjot.materialweather.domain.usecase.weather.GetLocalWeatherUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
