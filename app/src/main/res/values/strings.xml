@@ -111,5 +111,5 @@
     <string name="thunderstorm_with_light_rain">Thunderstorm with light rain</string>
     <string name="uvi_low">Low</string>
     <string name="uvi_high">High</string>
-    <string name="no_places_found">No places found</string>
+    <string name="no_places_found">No results</string>
 </resources>

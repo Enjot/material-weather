@@ -32,7 +32,7 @@ sealed class UiText {
 
 fun ErrorType.toUiText(): UiText {
    return when (this) {
-       ErrorType.SERVER -> UiText.StringResource(R.string.server_not_responding)
+       ErrorType.HTTP -> UiText.StringResource(R.string.server_not_responding)
        ErrorType.NETWORK -> UiText.StringResource(R.string.no_internet_connection)
        ErrorType.LOCATION -> UiText.StringResource(R.string.no_access_location)
        ErrorType.NO_RESULTS -> UiText.StringResource(R.string.no_places_found)

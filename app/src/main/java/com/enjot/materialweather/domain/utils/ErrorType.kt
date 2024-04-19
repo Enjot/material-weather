@@ -1,7 +1,7 @@
 package com.enjot.materialweather.domain.utils
 
 enum class ErrorType {
-    SERVER,
+    HTTP,
     NETWORK,
     LOCATION,
     NO_RESULTS,

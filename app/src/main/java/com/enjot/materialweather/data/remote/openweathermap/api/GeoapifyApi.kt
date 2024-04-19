@@ -2,6 +2,7 @@ package com.enjot.materialweather.data.remote.openweathermap.api
 
 import com.enjot.materialweather.data.remote.openweathermap.dto.GeocodingDto
 import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocodingDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,13 +20,13 @@ interface GeoapifyApi {
     @GET("v1/geocode/search?limit=5&type=city&format=json&apiKey=$API_KEY_GEOAPIFY")
     suspend fun callGeocodingApi(
         @Query("text") query: String
-    ): GeocodingDto
+    ): Response<GeocodingDto>
     
     @GET("v1/geocode/reverse?type=street&format=json&apiKey=$API_KEY_GEOAPIFY")
     suspend fun callReverseGeocodingApi(
         @Query("lat") lat: String,
         @Query("lon") lon: String
-    ): ReverseGeocodingDto
+    ): Response<ReverseGeocodingDto>
     
     companion object {
         const val BASE_URL = "https://api.geoapify.com/"

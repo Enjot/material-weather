@@ -109,5 +109,5 @@
     <string name="thunderstorm_with_light_rain">Burza z lekkim deszczem</string>
     <string name="uvi_low">Niski</string>
     <string name="uvi_high">Wysoki</string>
-    <string name="no_places_found">Nie znaleziono miejsc</string>
+    <string name="no_places_found">Brak wyników</string>
 </resources>

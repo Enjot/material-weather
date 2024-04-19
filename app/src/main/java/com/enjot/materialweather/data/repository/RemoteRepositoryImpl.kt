@@ -1,5 +1,6 @@
 package com.enjot.materialweather.data.repository
 
+import android.util.Log
 import com.enjot.materialweather.data.mapper.toDomainAirPollutionOrNull
 import com.enjot.materialweather.data.mapper.toDomainCurrentWeather
 import com.enjot.materialweather.data.mapper.toDomainDailyWeatherList
@@ -18,10 +19,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
+
+const val TAG = "REMOTE_REPOSITORY"
 
 class RemoteRepositoryImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
@@ -29,22 +36,28 @@ class RemoteRepositoryImpl @Inject constructor(
 ) : RemoteRepository {
     
     override suspend fun fetchWeather(coordinates: Coordinates): Resource<WeatherInfo> {
-        
+        Log.d(TAG, "fetchWeather starts executing")
         return withContext(Dispatchers.IO) {
             
             try {
-                val place = geoapifyApi.callReverseGeocodingApi(
+                Log.d(TAG, "callReverseGeocodingApi starts executing")
+                val reverseResponse = geoapifyApi.callReverseGeocodingApi(
                     coordinates.lat.toString(),
                     coordinates.lon.toString()
-                ).results[0]
+                )
+                val place = if (reverseResponse.isSuccessful)
+                    reverseResponse.body()?.results?.get(0)
+                        ?: return@withContext Resource.Error(ErrorType.HTTP)
+                else return@withContext Resource.Error(ErrorType.HTTP)
                 
+                Log.d(TAG, "callOneCallApi starts executing")
                 val weatherDeferred = async {
                     openWeatherMapApi.callOneCallApi(
                         coordinates.lat.toString(),
                         coordinates.lon.toString()
                     )
                 }
-                
+                Log.d(TAG, "callAirPollutionApi starts executing")
                 val airPollutionDeferred = async {
                     openWeatherMapApi.callAirPollutionApi(
                         coordinates.lat.toString(),
@@ -52,22 +65,37 @@ class RemoteRepositoryImpl @Inject constructor(
                     )
                 }
                 
-                val weather = weatherDeferred.await()
-                val airPollution = airPollutionDeferred.await()
+                val oneCallResponse = weatherDeferred.await()
+                Log.d(TAG, "callOneCallApi executed")
+                val airPollutionResponse = airPollutionDeferred.await()
+                Log.d(TAG, "callAirPollutionApi executed")
+                
+                if (!oneCallResponse.isSuccessful)
+                    return@withContext Resource.Error(ErrorType.HTTP)
+                
+                val airPollution =
+                    if (airPollutionResponse.isSuccessful)
+                        airPollutionResponse.body()?.toDomainAirPollutionOrNull()
+                    else null
                 
                 val weatherInfo = WeatherInfo(
                     place = place.toDomainSearchResult(),
-                    current = weather.toDomainCurrentWeather(),
-                    hourly = weather.toDomainHourlyWeatherList(),
-                    daily = weather.toDomainDailyWeatherList(),
-                    airPollution = airPollution.toDomainAirPollutionOrNull()
+                    current = oneCallResponse.body()?.toDomainCurrentWeather(),
+                    hourly = oneCallResponse.body()?.toDomainHourlyWeatherList(),
+                    daily = oneCallResponse.body()?.toDomainDailyWeatherList(),
+                    airPollution = airPollution
                 )
+                Log.d(TAG, "weatherInfo created")
+                
                 return@withContext Resource.Success(weatherInfo)
-            } catch (e: HttpException) {
-                return@withContext Resource.Error(ErrorType.SERVER)
             } catch (e: IOException) {
+                Log.e(TAG, "Caught IOException", e)
                 return@withContext Resource.Error(ErrorType.NETWORK)
             } catch (e: Exception) {
+                Log.e(TAG, "Caught Exception", e)
+                return@withContext Resource.Error(ErrorType.UNKNOWN)
+            } catch (e: Throwable) {
+                Log.e(TAG, "Caught Throwable", e)
                 return@withContext Resource.Error(ErrorType.UNKNOWN)
             }
         }
@@ -77,15 +105,20 @@ class RemoteRepositoryImpl @Inject constructor(
         
         return withContext(Dispatchers.IO) {
             try {
-                val geocodingResponse = geoapifyApi.callGeocodingApi(query).results
-
-                val deferredResults = geocodingResponse.map { result ->
+                
+                val geocodingResponse = geoapifyApi.callGeocodingApi(query)
+                
+                val geocodingResults = if (geocodingResponse.isSuccessful)
+                    geocodingResponse.body()?.results ?: emptyList()
+                else return@withContext Resource.Error(ErrorType.HTTP)
+                
+                val deferredResults = geocodingResults.map { result ->
                     async { getReverseGeocodingResult(result.lat, result.lon) }
                 }
                 
-                val reverseGeocodingResponse = deferredResults.awaitAll().filterNotNull()
-
-                val searchResults = reverseGeocodingResponse
+                val reverseResponse = deferredResults.awaitAll().filterNotNull()
+                
+                val searchResults = reverseResponse
                     .map { it.toDomainSearchResult() }
                     .filterDuplicatesKeepNulls { it.postCode }
                 
@@ -94,7 +127,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 
                 return@withContext Resource.Success(searchResults)
             } catch (e: HttpException) {
-                return@withContext Resource.Error(ErrorType.SERVER)
+                return@withContext Resource.Error(ErrorType.HTTP)
             } catch (e: IOException) {
                 return@withContext Resource.Error(ErrorType.NETWORK)
             } catch (e: Exception) {
@@ -120,12 +153,16 @@ class RemoteRepositoryImpl @Inject constructor(
     ): ReverseGeocodingDto.Result? {
         try {
             val response = geoapifyApi.callReverseGeocodingApi(lat.toString(), lon.toString())
-            return if (response.results.isNotEmpty()) {
-                response.results[0]
-            } else null
             
-        } catch (e: HttpException) {
-            throw e
+            val results = if (response.isSuccessful) {
+                response.body()?.results ?: emptyList()
+            } else throw HttpException(
+                Response.error<ResponseBody>(
+                    500,
+                    "Unknown error".toResponseBody("plain/text".toMediaTypeOrNull())
+                )
+            )
+            return if (results.isNotEmpty()) results[0] else null
         } catch (e: IOException) {
             throw e
         } catch (e: Exception) {
