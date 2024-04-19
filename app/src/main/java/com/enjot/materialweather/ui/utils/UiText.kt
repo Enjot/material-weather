@@ -35,6 +35,7 @@ fun ErrorType.toUiText(): UiText {
        ErrorType.SERVER -> UiText.StringResource(R.string.server_not_responding)
        ErrorType.NETWORK -> UiText.StringResource(R.string.no_internet_connection)
        ErrorType.LOCATION -> UiText.StringResource(R.string.no_access_location)
+       ErrorType.NO_RESULTS -> UiText.StringResource(R.string.no_places_found)
        ErrorType.UNKNOWN -> UiText.StringResource(R.string.unknown_error)
     }
 }

@@ -88,7 +88,10 @@ class RemoteRepositoryImpl @Inject constructor(
                 val searchResults = reverseGeocodingResponse
                     .map { it.toDomainSearchResult() }
                     .filterDuplicatesKeepNulls { it.postCode }
-
+                
+                if (searchResults.isEmpty())
+                    return@withContext Resource.Error(ErrorType.NO_RESULTS)
+                
                 return@withContext Resource.Success(searchResults)
             } catch (e: HttpException) {
                 return@withContext Resource.Error(ErrorType.SERVER)
