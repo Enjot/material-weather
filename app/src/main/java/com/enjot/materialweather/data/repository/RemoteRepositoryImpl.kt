@@ -1,6 +1,5 @@
 package com.enjot.materialweather.data.repository
 
-import android.util.Log
 import com.enjot.materialweather.data.mapper.toDomainAirPollutionOrNull
 import com.enjot.materialweather.data.mapper.toDomainCurrentWeather
 import com.enjot.materialweather.data.mapper.toDomainDailyWeatherList
@@ -36,28 +35,26 @@ class RemoteRepositoryImpl @Inject constructor(
 ) : RemoteRepository {
     
     override suspend fun fetchWeather(coordinates: Coordinates): Resource<WeatherInfo> {
-        Log.d(TAG, "fetchWeather starts executing")
         return withContext(Dispatchers.IO) {
             
             try {
-                Log.d(TAG, "callReverseGeocodingApi starts executing")
                 val reverseResponse = geoapifyApi.callReverseGeocodingApi(
                     coordinates.lat.toString(),
                     coordinates.lon.toString()
                 )
+                
                 val place = if (reverseResponse.isSuccessful)
                     reverseResponse.body()?.results?.get(0)
                         ?: return@withContext Resource.Error(ErrorType.HTTP)
                 else return@withContext Resource.Error(ErrorType.HTTP)
                 
-                Log.d(TAG, "callOneCallApi starts executing")
                 val weatherDeferred = async {
                     openWeatherMapApi.callOneCallApi(
                         coordinates.lat.toString(),
                         coordinates.lon.toString()
                     )
                 }
-                Log.d(TAG, "callAirPollutionApi starts executing")
+                
                 val airPollutionDeferred = async {
                     openWeatherMapApi.callAirPollutionApi(
                         coordinates.lat.toString(),
@@ -66,9 +63,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 }
                 
                 val oneCallResponse = weatherDeferred.await()
-                Log.d(TAG, "callOneCallApi executed")
                 val airPollutionResponse = airPollutionDeferred.await()
-                Log.d(TAG, "callAirPollutionApi executed")
                 
                 if (!oneCallResponse.isSuccessful)
                     return@withContext Resource.Error(ErrorType.HTTP)
@@ -85,17 +80,13 @@ class RemoteRepositoryImpl @Inject constructor(
                     daily = oneCallResponse.body()?.toDomainDailyWeatherList(),
                     airPollution = airPollution
                 )
-                Log.d(TAG, "weatherInfo created")
                 
                 return@withContext Resource.Success(weatherInfo)
             } catch (e: IOException) {
-                Log.e(TAG, "Caught IOException", e)
                 return@withContext Resource.Error(ErrorType.NETWORK)
             } catch (e: Exception) {
-                Log.e(TAG, "Caught Exception", e)
                 return@withContext Resource.Error(ErrorType.UNKNOWN)
             } catch (e: Throwable) {
-                Log.e(TAG, "Caught Throwable", e)
                 return@withContext Resource.Error(ErrorType.UNKNOWN)
             }
         }
