@@ -14,8 +14,8 @@
     <string name="mbar">mbar</string>
     <string name="low">Niskie</string>
     <string name="high">Wysokie</string>
-    <string name="moderate">Umiarkowane</string>
-    <string name="very_high">Bardzo wysokie</string>
+    <string name="uvi_moderate">Umiarkowany</string>
+    <string name="uvi_very_high">Bardzo wysoki</string>
     <string name="uv_index">Indeks UV</string>
     <string name="wind">Wiatr</string>
     <string name="km_h">km/h</string>
@@ -107,4 +107,6 @@
     <string name="thunderstorm_with_heavy_rain">Burza z intensywnym deszczem</string>
     <string name="thunderstorm_with_rain">Burza z deszczem</string>
     <string name="thunderstorm_with_light_rain">Burza z lekkim deszczem</string>
+    <string name="uvi_low">Niski</string>
+    <string name="uvi_high">Wysoki</string>
 </resources>

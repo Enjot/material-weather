@@ -21,10 +21,10 @@ fun UviCard(
     val uviState by animateIntAsState(targetValue = uvi * 10, label = "")
     val uviHighestValue = 11
     val level = when (uviState / 10) {
-        in 0..2 -> stringResource(R.string.low)
-        in 3..5 -> stringResource(R.string.moderate)
-        in 6..7 -> stringResource(R.string.high)
-        else -> stringResource(R.string.very_high)
+        in 0..2 -> stringResource(R.string.uvi_low)
+        in 3..5 -> stringResource(R.string.uvi_moderate)
+        in 6..7 -> stringResource(R.string.uvi_high)
+        else -> stringResource(R.string.uvi_very_high)
     }
     
     ConditionCard(

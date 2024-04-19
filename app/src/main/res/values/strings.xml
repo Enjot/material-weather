@@ -16,8 +16,8 @@
     <string name="mbar">mbar</string>
     <string name="low">Low</string>
     <string name="high">High</string>
-    <string name="moderate">Moderate</string>
-    <string name="very_high">Very high</string>
+    <string name="uvi_moderate">Moderate</string>
+    <string name="uvi_very_high">Very high</string>
     <string name="uv_index">UV Index</string>
     <string name="wind">Wind</string>
     <string name="km_h">km/h</string>
@@ -109,4 +109,6 @@
     <string name="thunderstorm_with_heavy_rain">Thunderstorm with heavy rain</string>
     <string name="thunderstorm_with_rain">Thunderstorm with rain</string>
     <string name="thunderstorm_with_light_rain">Thunderstorm with light rain</string>
+    <string name="uvi_low">Low</string>
+    <string name="uvi_high">High</string>
 </resources>
