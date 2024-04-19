@@ -26,8 +26,8 @@ fun CircleProgressIndicator(
     progress: Int,
     range: Int,
     modifier: Modifier = Modifier,
-    minText: String = "0",
-    rangeText: String = "11+",
+    minText: String = "",
+    rangeText: String = "",
 ) {
     val circlePathString =
         stringResource(id = R.string.zigzag_circle_path)

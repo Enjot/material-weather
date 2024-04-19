@@ -10,11 +10,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enjot.materialweather.R
 import com.enjot.materialweather.ui.theme.onProgressContainer
 import com.enjot.materialweather.ui.theme.progressContainer
 
@@ -22,10 +24,10 @@ import com.enjot.materialweather.ui.theme.progressContainer
 fun ArcProgressIndicator(
     value: Int,
     range: Int,
-    valueText: String,
-    rangeText: String,
     unit: String,
     modifier: Modifier = Modifier,
+    valueText: String = "",
+    rangeText: String = "",
     height: Dp = 80.dp
 ) {
     val textMeasurer = rememberTextMeasurer()
@@ -121,14 +123,14 @@ private fun getProgressValue(value: Int, range: Int): Float {
     return if (percent < 1f) percent else 1f
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFDBE2E8)
+@Preview(showBackground = true, backgroundColor = 0xFFDBE2E8, locale = "pl")
 @Composable
 fun PressureArcProgressBarPreview() {
     ArcProgressIndicator(
-        value = 1,
-        range = 1000,
-        valueText = "73",
-        rangeText = "180",
+        value = 900,
+        range = 1200,
+        valueText = stringResource(R.string.low),
+        rangeText = stringResource(R.string.high),
         unit = ""
     )
 }

@@ -31,10 +31,10 @@ import com.enjot.materialweather.ui.theme.progressContainer
 fun CapsuleProgressIndicator(
     value: Int,
     range: Int,
-    valueText: String,
-    rangeText: String,
     unit: String,
     modifier: Modifier = Modifier,
+    valueText: String = "",
+    rangeText: String= "",
     height: Dp = 100.dp
 ) {
     val textMeasurer = rememberTextMeasurer()
