@@ -18,7 +18,7 @@ fun TitleText(
         text = text,
         style = MaterialTheme.typography.titleLarge,
         textAlign = TextAlign.Start,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 start = 16.dp,

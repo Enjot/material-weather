@@ -2,7 +2,7 @@ package com.enjot.materialweather.ui.utils
 
 import com.enjot.materialweather.R
 
-fun String.toDayOfWeekId(): Int = when (this) {
+fun toDayOfWeekId(day: String): Int = when (day) {
     "MONDAY" -> R.string.monday
     "TUESDAY" -> R.string.tuesday
     "WEDNESDAY" -> R.string.wednesday

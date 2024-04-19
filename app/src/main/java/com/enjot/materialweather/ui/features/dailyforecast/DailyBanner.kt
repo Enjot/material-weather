@@ -90,7 +90,7 @@ private fun DailyItem(
             
             Text(
                 text = if (isFirst) stringResource(R.string.today)
-                else stringResource(item.dayOfWeek.toDayOfWeekId()),
+                else stringResource(toDayOfWeekId(item.dayOfWeek)),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.weight(3f)
             )

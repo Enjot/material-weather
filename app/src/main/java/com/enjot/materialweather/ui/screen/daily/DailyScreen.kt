@@ -73,7 +73,7 @@ fun DailyScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                     }
                     SingleDay(
-                        name = stringResource(it.dayOfWeek.toDayOfWeekId()),
+                        name = stringResource(toDayOfWeekId(it.dayOfWeek)),
                         onClick = {
                             index = i
                             scope.launch {

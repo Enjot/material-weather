@@ -17,8 +17,7 @@ import com.enjot.materialweather.ui.core.Banner
 
 @Composable
 fun AirPollutionBanner(
-    airPollution: AirPollution,
-    modifier: Modifier = Modifier
+    airPollution: AirPollution
 ) {
     Banner(title = stringResource(R.string.air_quality)) {
         Card {
@@ -115,7 +114,6 @@ private fun AirPollutionCardPreview() {
             200,
             40,
             80,
-        ),
-        modifier = Modifier.fillMaxWidth()
+        )
     )
 }

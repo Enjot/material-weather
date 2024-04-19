@@ -54,10 +54,8 @@ fun CircleProgressIndicator(
             .size(90.dp)
     ) {
         val size = this.size
-        val center = this.center
         val bounds = circlePath.getBounds()
         val currentSize = size
-        val circlePadding = (size.height - bounds.height) / 2
         val currentOffset = Offset(
             x = 0f,
             y = bounds.height - (bounds.height * percent)
