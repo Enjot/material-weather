@@ -63,7 +63,7 @@ class RemoteRepositoryImplTest {
         
         val result = repository.fetchWeather(coordinates())
         
-        assertThat(result.errorType).isEqualTo(ErrorType.SERVER)
+        assertThat(result.errorType).isEqualTo(ErrorType.HTTP)
     }
     
 }
