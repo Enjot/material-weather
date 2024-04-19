@@ -36,10 +36,10 @@ import com.enjot.materialweather.R
 import com.enjot.materialweather.ui.core.WeatherProviderButton
 import com.enjot.materialweather.ui.features.airpollution.AirPollutionBanner
 import com.enjot.materialweather.ui.features.conditions.ConditionsBanner
-import com.enjot.materialweather.ui.screen.overview.search.ExpandableSearchBanner
-import com.enjot.materialweather.ui.features.summary.SummaryBanner
 import com.enjot.materialweather.ui.features.dailyforecast.DailyBanner
 import com.enjot.materialweather.ui.features.hourlyforecast.HourlyBanner
+import com.enjot.materialweather.ui.features.summary.SummaryBanner
+import com.enjot.materialweather.ui.screen.overview.search.ExpandableSearchBanner
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,7 +87,7 @@ fun OverviewScreen(
             savedLocations = savedLocations,
         )
         
-        Spacer(modifier = Modifier.height(8.dp))
+        
         
         Box(
             Modifier
@@ -104,14 +104,17 @@ fun OverviewScreen(
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
+                            .height(32.dp)
                             .padding(8.dp)
                     )
+                } else {
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
+                
                 AnimatedContent(
                     targetState = state.weatherState is WeatherState.Loading,
                     label = ""
                 ) { isLoading ->
-                    
                     if (isLoading) {
                         Box(Modifier.fillMaxSize()) {
                             CircularProgressIndicator(
@@ -131,10 +134,8 @@ fun OverviewScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .verticalScroll(scrollState)
-                                    .padding(16.dp)
+                                    .padding(horizontal = 16.dp)
                             ) {
-                                
-                                Spacer(modifier = Modifier.height(16.dp))
                                 
                                 weatherInfo.current?.let {
                                     SummaryBanner(

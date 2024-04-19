@@ -179,14 +179,16 @@ fun ExpandableSearchBanner(
             ) {
                 
                 item {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    
                     if (searchState is SearchState.Error) {
                         Text(
                             text = searchState.message.asString(),
                             color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelMedium,
+                            modifier = Modifier.height(32.dp).padding(8.dp)
                         )
-                        
+                    } else {
+                        Spacer(modifier = Modifier.height(32.dp))
                     }
                 }
                 
@@ -205,8 +207,7 @@ fun ExpandableSearchBanner(
                 
                 item {
                     CurrentLocationButton(
-                        onClick = onLocationButtonClick,
-                        modifier = Modifier.padding(16.dp)
+                        onClick = onLocationButtonClick
                     )
                 }
                 item {

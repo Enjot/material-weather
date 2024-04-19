@@ -26,7 +26,7 @@
     <string name="hourly_forecast">Prognoza godzinowa</string>
     <string name="now">Teraz</string>
     <string name="no_access_location">Bark dostępu do lokalizacji</string>
-    <string name="server_not_responding">Serwer nie odpowiada</string>
+    <string name="server_not_responding">Problem po stronie serwera</string>
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="monday">Poniedziałek</string>
     <string name="tuesday">Wtorek</string>

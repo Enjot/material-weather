@@ -28,7 +28,7 @@
     <string name="hourly_forecast">Hourly forecast</string>
     <string name="now">Now</string>
     <string name="no_access_location">Unable to access location</string>
-    <string name="server_not_responding">Server not responding</string>
+    <string name="server_not_responding">Server related problem</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>

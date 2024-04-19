@@ -145,15 +145,15 @@ class RemoteRepositoryImpl @Inject constructor(
         try {
             val response = geoapifyApi.callReverseGeocodingApi(lat.toString(), lon.toString())
             
-            val results = if (response.isSuccessful) {
-                response.body()?.results ?: emptyList()
+            val result = if (response.isSuccessful) {
+                response.body()?.results?.get(0)
             } else throw HttpException(
                 Response.error<ResponseBody>(
                     500,
                     "Unknown error".toResponseBody("plain/text".toMediaTypeOrNull())
                 )
             )
-            return if (results.isNotEmpty()) results[0] else null
+            return result
         } catch (e: IOException) {
             throw e
         } catch (e: Exception) {

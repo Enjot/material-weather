@@ -28,7 +28,7 @@ class GetWeatherFromLocationUseCase @Inject constructor(
                             Resource.Success()
                         }
                         
-                        is Resource.Error -> Resource.Error(ErrorType.NETWORK)
+                        is Resource.Error -> Resource.Error(remoteResource.errorType ?: ErrorType.UNKNOWN)
                     }
                 } else Resource.Error(ErrorType.LOCATION)
             }
