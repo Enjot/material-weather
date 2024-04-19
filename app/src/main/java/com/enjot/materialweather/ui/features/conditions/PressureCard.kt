@@ -1,7 +1,9 @@
 package com.enjot.materialweather.ui.features.conditions
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,9 +18,11 @@ fun PressureCard(
     pressure: Int,
     modifier: Modifier = Modifier
 ) {
+    val pressureState by animateIntAsState(targetValue = pressure, label = "")
+    
     ConditionCard(
         title = stringResource(R.string.pressure),
-        headline = pressure.toString(),
+        headline = pressureState.toString(),
         description = stringResource(R.string.mbar),
         modifier = modifier
     ) {
@@ -26,7 +30,7 @@ fun PressureCard(
         val low = 900f
         val high = 1100f
         val percent =
-            ((pressure.toFloat() - low) / (high - low) * 100f).roundToInt()
+            ((pressureState.toFloat() - low) / (high - low) * 100f).roundToInt()
         
         ArcProgressIndicator(
             unit = "",

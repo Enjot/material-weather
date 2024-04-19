@@ -1,7 +1,9 @@
 package com.enjot.materialweather.ui.features.conditions
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,15 +18,19 @@ fun WindCard(
     degree: Int,
     modifier: Modifier = Modifier
 ) {
+    
+    val speedState by animateIntAsState(targetValue = speed, label = "")
+    val degreeState by animateIntAsState(targetValue = degree, label = "")
+    
     ConditionCard(
         title = stringResource(R.string.wind),
-        headline = speed.toString(),
+        headline = speedState.toString(),
         description = stringResource(R.string.km_h),
         headlineExtra = "",
         modifier = modifier
     ) {
         ArrowDegreeIndicator(
-            degree = degree,
+            degree = degreeState,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(12.dp)

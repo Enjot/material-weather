@@ -1,7 +1,9 @@
 package com.enjot.materialweather.ui.features.conditions
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,16 +18,19 @@ fun HumidityCard(
     dewPoint: Int,
     modifier: Modifier = Modifier
 ) {
+    val humidityState by animateIntAsState(targetValue = humidity, label = "")
+    val dewPointState by animateIntAsState(targetValue = dewPoint, label = "")
+    
     ConditionCard(
         title = stringResource(R.string.humidity),
-        headline = humidity.toString(),
+        headline = humidityState.toString(),
         headlineExtra = "%",
-        description = stringResource(R.string.dew_point, dewPoint),
+        description = stringResource(R.string.dew_point, dewPointState),
         modifier = modifier
     ) {
         
         CapsuleProgressIndicator(
-            value = humidity,
+            value = humidityState,
             range = 100,
             valueText = "0",
             rangeText = "100",
