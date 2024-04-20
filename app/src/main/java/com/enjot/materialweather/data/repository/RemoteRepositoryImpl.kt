@@ -11,10 +11,10 @@ import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocoding
 import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo
+import com.enjot.materialweather.domain.repository.DispatcherProvider
 import com.enjot.materialweather.domain.repository.RemoteRepository
 import com.enjot.materialweather.domain.utils.ErrorType
 import com.enjot.materialweather.domain.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -31,11 +31,12 @@ const val TAG = "REMOTE_REPOSITORY"
 
 class RemoteRepositoryImpl @Inject constructor(
     @Named("openweathermap") private val openWeatherMapApi: OpenWeatherMapApi,
-    @Named("geoapify") private val geoapifyApi: GeoapifyApi
+    @Named("geoapify") private val geoapifyApi: GeoapifyApi,
+    private val dispatcherProvider: DispatcherProvider
 ) : RemoteRepository {
     
     override suspend fun fetchWeather(coordinates: Coordinates): Resource<WeatherInfo> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcherProvider.io) {
             
             try {
                 val reverseResponse = geoapifyApi.callReverseGeocodingApi(
@@ -94,7 +95,7 @@ class RemoteRepositoryImpl @Inject constructor(
     
     override suspend fun getSearchResults(query: String): Resource<List<SearchResult>> {
         
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcherProvider.io) {
             try {
                 
                 val geocodingResponse = geoapifyApi.callGeocodingApi(query)

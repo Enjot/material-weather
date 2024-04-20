@@ -5,6 +5,8 @@ import assertk.assertions.isEqualTo
 import com.enjot.materialweather.data.remote.openweathermap.api.GeoapifyApi
 import com.enjot.materialweather.data.remote.openweathermap.api.OpenWeatherMapApi
 import com.enjot.materialweather.domain.repository.RemoteRepository
+import com.enjot.materialweather.domain.util.MainCoroutineExtension
+import com.enjot.materialweather.domain.util.TestDispatchers
 import com.enjot.materialweather.domain.util.coordinates
 import com.enjot.materialweather.domain.utils.ErrorType
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -15,6 +17,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import retrofit2.Retrofit
 import retrofit2.create
 
@@ -26,6 +29,12 @@ class RemoteRepositoryImplTest {
     
     private lateinit var geoapifyServer: MockWebServer
     private lateinit var openWeatherMapServer: MockWebServer
+    
+    companion object {
+        @JvmField
+        @RegisterExtension
+        val mainCoroutineExtension = MainCoroutineExtension()
+    }
     
     @BeforeEach
     fun setUp() {
@@ -48,9 +57,12 @@ class RemoteRepositoryImplTest {
             .build()
             .create()
         
+        val testDispatchers = TestDispatchers(mainCoroutineExtension.testDispatcher)
+        
         repository = RemoteRepositoryImpl(
             geoapifyApi = geoapifyApi,
-            openWeatherMapApi = openWeatherMapApi
+            openWeatherMapApi = openWeatherMapApi,
+            dispatcherProvider = testDispatchers
         )
     }
     
