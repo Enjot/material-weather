@@ -9,17 +9,17 @@ import com.enjot.materialweather.domain.util.MainCoroutineExtension
 import com.enjot.materialweather.domain.util.TestDispatchers
 import com.enjot.materialweather.domain.util.coordinates
 import com.enjot.materialweather.domain.utils.ErrorType
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import retrofit2.Retrofit
-import retrofit2.create
+import retrofit2.HttpException
+import retrofit2.Response
 
 class RemoteRepositoryImplTest {
     
@@ -27,8 +27,6 @@ class RemoteRepositoryImplTest {
     private lateinit var geoapifyApi: GeoapifyApi
     private lateinit var openWeatherMapApi: OpenWeatherMapApi
     
-    private lateinit var geoapifyServer: MockWebServer
-    private lateinit var openWeatherMapServer: MockWebServer
     
     companion object {
         @JvmField
@@ -38,24 +36,9 @@ class RemoteRepositoryImplTest {
     
     @BeforeEach
     fun setUp() {
-        geoapifyServer = MockWebServer()
-        openWeatherMapServer = MockWebServer()
         
-        geoapifyApi = Retrofit.Builder()
-            .addConverterFactory(
-                Json.asConverterFactory("application/json".toMediaType())
-            )
-            .baseUrl(geoapifyServer.url("/"))
-            .build()
-            .create()
-        
-        openWeatherMapApi = Retrofit.Builder()
-            .addConverterFactory(
-                Json.asConverterFactory("application/json".toMediaType())
-            )
-            .baseUrl(openWeatherMapServer.url("/"))
-            .build()
-            .create()
+        geoapifyApi = mockk(relaxed = true)
+        openWeatherMapApi = mockk(relaxed = true)
         
         val testDispatchers = TestDispatchers(mainCoroutineExtension.testDispatcher)
         
@@ -67,10 +50,12 @@ class RemoteRepositoryImplTest {
     }
     
     @Test
-    fun `Fetch weather, geoapify throws HTTPException, handle it correctly`() = runTest {
+    fun `Fetch weather, geoapify throws HTTPException, return HTTP error type`() = runTest {
         
-        geoapifyServer.enqueue(
-            MockResponse().setResponseCode(404)
+        coEvery { geoapifyApi.callReverseGeocodingApi(any(), any()) } throws HttpException(
+            Response.error<ResponseBody>(
+                500, "Unknown error".toResponseBody("plain/text".toMediaTypeOrNull())
+            )
         )
         
         val result = repository.fetchWeather(coordinates())

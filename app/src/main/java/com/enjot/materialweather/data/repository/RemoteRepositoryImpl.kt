@@ -83,6 +83,8 @@ class RemoteRepositoryImpl @Inject constructor(
                 )
                 
                 return@withContext Resource.Success(weatherInfo)
+            } catch (e: HttpException) {
+                return@withContext Resource.Error(ErrorType.HTTP)
             } catch (e: IOException) {
                 return@withContext Resource.Error(ErrorType.NETWORK)
             } catch (e: Exception) {

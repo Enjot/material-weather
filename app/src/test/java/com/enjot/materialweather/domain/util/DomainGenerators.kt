@@ -5,8 +5,17 @@ import com.enjot.materialweather.domain.model.Coordinates
 import com.enjot.materialweather.domain.model.CurrentWeather
 import com.enjot.materialweather.domain.model.DailyWeather
 import com.enjot.materialweather.domain.model.HourlyWeather
+import com.enjot.materialweather.domain.model.SavedLocation
 import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo
+
+fun savedLocation() = SavedLocation(
+    id = 1,
+    name = "test name",
+    postCode = "test post code",
+    countryCode = "test country code",
+    coordinates = coordinates()
+)
 
 fun weatherInfo() = WeatherInfo(
     place = place(),

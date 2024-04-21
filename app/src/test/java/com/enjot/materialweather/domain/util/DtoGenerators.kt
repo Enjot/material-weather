@@ -1,6 +1,19 @@
 package com.enjot.materialweather.domain.util
 
 import com.enjot.materialweather.data.remote.openweathermap.dto.OneCallDto
+import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocodingDto
+
+fun reverseGeocodingDto() = ReverseGeocodingDto(
+    results = listOf(
+        ReverseGeocodingDto.Result(
+            countryCode = "Mongolia",
+            city = "Stepford",
+            postcode = null,
+            lon = 32.33,
+            lat = 34.35
+        )
+    )
+)
 
 fun oneCallDto() = OneCallDto(
     lat = 14.15, lon = 16.17, timezone = "taciti", timezoneOffset = 3735, current = OneCallDto.Current(
