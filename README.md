@@ -1,17 +1,18 @@
 # Material Design Weather Android App
-  ![Group 2](https://github.com/Enjot/material-weather/assets/60782298/46402733-0809-4fee-8f36-369128de2dbe)
+![Group 3](https://github.com/Enjot/material-weather/assets/60782298/34df86b0-8764-476f-b4be-b1ef827aa1a2)
   
 My main goal was to make a pleasant-looking app, that has some small unique functionality I didn't find in other weather apps in the Play Store:
-- getting info about postcodes in search results for the same-named places (other apps can put the region, but quite often it's not enough in my area to recognize which place I should choose from the list, some places can be named the same being in the same region)
+- getting info about postcodes in search results for the same-named places (other apps can put the region, but quite often it's not enough in my area to recognize which place I should choose from the list, some places can be named the same while being in the same region)
 
 ### Features:  
 ✅ current, hourly and daily weather data  
 ✅ air pollution data  
+✅ sun and moon data  
 ✅ searching for places  
 ✅ offline-first functionality  
 ✅ getting data from the device location  
 ✅ handling location permissions  
-✅ handling no location, no internet and error server responses  
+✅ handling lacking location, lacking internet and server error responses  
 ✅ pull to refresh  
 ✅ managing saved places  
 ✅ settings screen  
@@ -29,12 +30,7 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 - unidirectional data flow
 - dependency injection with inversion of control
 
-### To do:  
-➡️ support for imperial units  
-➡️ widgets  
-➡️ tests  
-
 ### Tech Stack:
-- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit, WorkManager, Preferences DataStore
+- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit, WorkManager, Preferences DataStore, JUnit5, Mockk
 ### Helpers libraries:
-- KSP, Gson, ViewModel, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit
+- KSP, Gson, ViewModel, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit, Turbine
