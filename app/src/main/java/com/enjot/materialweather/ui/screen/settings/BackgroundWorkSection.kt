@@ -126,7 +126,7 @@ fun BackgroundWorkSection(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.currently_not_available),
+                    text = stringResource(R.string.currently_not_supported),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

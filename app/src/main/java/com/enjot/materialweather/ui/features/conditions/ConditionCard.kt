@@ -14,14 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ConditionCard(
     title: String,
-    headline: String,
-    description: String,
     modifier: Modifier = Modifier,
+    headline: String = "",
+    description: String = "",
     headlineExtra: String = "",
     content: @Composable BoxScope. () -> Unit
 ) {
@@ -63,4 +64,18 @@ fun ConditionCard(
             content()
         }
     }
+}
+
+@Preview
+@Composable
+fun ConditionCardPreview() {
+
+    ConditionCard(title = "Condition Card") {
+        Column {
+            Text("ABCD")
+            Text("1234")
+            Text("!@#$")
+        }
+    }
+    
 }

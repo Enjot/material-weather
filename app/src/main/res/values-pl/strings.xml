@@ -43,7 +43,7 @@
     <string name="minutes">%1$s minut</string>
     <string name="hours">%1$s godziny</string>
     <string name="location_based_background_updates">Aktualizacja pogody w tle oparta na lokalizacji urządzenia</string>
-    <string name="currently_not_available">Obecnie niedostępne</string>
+    <string name="currently_not_supported">Funkcja obecnie niewspierana</string>
     <string name="cancel">Anuluj</string>
     <string name="grant_permission">Nadaj uprawnienia</string>
     <string name="dismiss">Odrzuć</string>
@@ -110,4 +110,19 @@
     <string name="uvi_low">Niski</string>
     <string name="uvi_high">Wysoki</string>
     <string name="no_places_found">Brak wyników</string>
+    <string name="new_moon">Nów</string>
+    <string name="waxing_crescent">Przybywający sierp</string>
+    <string name="first_quarter_moon">pierwsza kwadra</string>
+    <string name="waxing_gibbous">Przybywający garb</string>
+    <string name="full_moon">Pełnia</string>
+    <string name="waning_gibbous">Ubywający garb</string>
+    <string name="last_quarter_moon">Ostatnia kwadra</string>
+    <string name="waning_crescent">Ubywający sierp</string>
+    <string name="unknown_phase">Nieznana</string>
+    <string name="moonset">Zachód księżyca</string>
+    <string name="moonrise">Wschód księżyca</string>
+    <string name="sunset">Zachód słońca</string>
+    <string name="sunrise">Wschód słońca</string>
+    <string name="moon_phase">Faza księżyca</string>
+    <string name="sun_and_moon">Słońce i księżyc</string>
 </resources>

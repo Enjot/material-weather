@@ -36,6 +36,8 @@ fun UviCard(
         CircleProgressIndicator(
             progress = uviState,
             range = uviHighestValue * 10,
+            minText = "0",
+            rangeText = "11+",
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(12.dp)

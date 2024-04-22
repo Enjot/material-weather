@@ -45,7 +45,7 @@
     <string name="minutes">%1$s minutes</string>
     <string name="hours">%1$s hours</string>
     <string name="location_based_background_updates">Location based background weather updates</string>
-    <string name="currently_not_available">Currently not available</string>
+    <string name="currently_not_supported">Currently not supported</string>
     <string name="cancel">Cancel</string>
     <string name="grant_permission">Grant permission</string>
     <string name="dismiss">Dismiss</string>
@@ -112,4 +112,19 @@
     <string name="uvi_low">Low</string>
     <string name="uvi_high">High</string>
     <string name="no_places_found">No results</string>
+    <string name="new_moon">new moon</string>
+    <string name="waxing_crescent">waxing crescent</string>
+    <string name="first_quarter_moon">First quarter moon</string>
+    <string name="waxing_gibbous">Waxing gibbous</string>
+    <string name="full_moon">Full moon</string>
+    <string name="waning_gibbous">Waning gibbous</string>
+    <string name="last_quarter_moon">Last quarter moon</string>
+    <string name="waning_crescent">Waning crescent</string>
+    <string name="unknown_phase">Unknown</string>
+    <string name="moonset">Moonset</string>
+    <string name="moonrise">Moonrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="moon_phase">Moon phase</string>
+    <string name="sun_and_moon">Sun and moon</string>
 </resources>
