@@ -33,4 +33,4 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 ### Tech Stack:
 - Kotlin, Jetpack Compose including Canvas, Material 3, Dagger-Hilt, Room, Retrofit, WorkManager, Preferences DataStore, JUnit5, Mockk
 ### Helpers libraries:
-- KSP, Gson, ViewModel, Location Services, Coil, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit, Turbine
+- KSP, Gson, Location Services, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit, Turbine
