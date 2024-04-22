@@ -44,23 +44,20 @@ class RemoteRepositoryImpl @Inject constructor(
                     coordinates.lon.toString()
                 )
                 
-                val place = if (reverseResponse.isSuccessful)
-                    reverseResponse.body()?.results?.get(0)
-                        ?: return@withContext Resource.Error(ErrorType.HTTP)
-                else return@withContext Resource.Error(ErrorType.HTTP)
+                if (!reverseResponse.isSuccessful || reverseResponse.body() == null)
+                    return@withContext Resource.Error(ErrorType.HTTP)
+                
+                val place = reverseResponse.body()!!.results.getOrNull(0)
+                    ?: return@withContext Resource.Error(ErrorType.HTTP)
                 
                 val weatherDeferred = async {
-                    openWeatherMapApi.callOneCallApi(
-                        coordinates.lat.toString(),
-                        coordinates.lon.toString()
-                    )
+                    openWeatherMapApi
+                        .callOneCallApi(coordinates.lat.toString(), coordinates.lon.toString())
                 }
                 
                 val airPollutionDeferred = async {
-                    openWeatherMapApi.callAirPollutionApi(
-                        coordinates.lat.toString(),
-                        coordinates.lon.toString()
-                    )
+                    openWeatherMapApi
+                        .callAirPollutionApi(coordinates.lat.toString(), coordinates.lon.toString())
                 }
                 
                 val oneCallResponse = weatherDeferred.await()
@@ -102,9 +99,10 @@ class RemoteRepositoryImpl @Inject constructor(
                 
                 val geocodingResponse = geoapifyApi.callGeocodingApi(query)
                 
-                val geocodingResults = if (geocodingResponse.isSuccessful)
-                    geocodingResponse.body()?.results ?: emptyList()
-                else return@withContext Resource.Error(ErrorType.HTTP)
+                if (!geocodingResponse.isSuccessful)
+                    return@withContext Resource.Error(ErrorType.HTTP)
+                
+                val geocodingResults = geocodingResponse.body()?.results ?: emptyList()
                 
                 val deferredResults = geocodingResults.map { result ->
                     async { getReverseGeocodingResult(result.lat, result.lon) }
@@ -148,15 +146,14 @@ class RemoteRepositoryImpl @Inject constructor(
         try {
             val response = geoapifyApi.callReverseGeocodingApi(lat.toString(), lon.toString())
             
-            val result = if (response.isSuccessful) {
-                response.body()?.results?.get(0)
-            } else throw HttpException(
-                Response.error<ResponseBody>(
-                    500,
-                    "Unknown error".toResponseBody("plain/text".toMediaTypeOrNull())
+            if (!response.isSuccessful)
+                throw HttpException(
+                    Response.error<ResponseBody>(
+                        500,
+                        "Unknown error".toResponseBody("plain/text".toMediaTypeOrNull())
+                    )
                 )
-            )
-            return result
+            return response.body()?.results?.getOrNull(0)
         } catch (e: IOException) {
             throw e
         } catch (e: Exception) {
