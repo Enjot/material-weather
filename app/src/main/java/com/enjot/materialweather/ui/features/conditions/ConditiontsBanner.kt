@@ -34,7 +34,7 @@ fun ConditionsBanner(
                 modifier = Modifier.weight(1f)
             )
         }
-        Spacer(modifier = Modifier.height(innerPadding))
+        Spacer(Modifier.height(innerPadding))
         Row {
             UviCard(
                 uvi = daily.uvi,
@@ -47,6 +47,16 @@ fun ConditionsBanner(
             )
         }
         Spacer(Modifier.height(innerPadding))
-        SunMoonCard(daily = daily)
+        Row {
+            SunMoonCard(
+                daily = daily,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(innerPadding))
+            MoonPhaseCard(
+                phase = daily.moonPhase.toFloat(),
+                modifier = Modifier.weight(1f)
+            )
+        }
     }
 }

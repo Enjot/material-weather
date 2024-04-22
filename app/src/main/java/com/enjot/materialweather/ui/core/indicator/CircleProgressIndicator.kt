@@ -61,8 +61,6 @@ fun CircleProgressIndicator(
             y = bounds.height - (bounds.height * percent)
         )
         
-        
-        
         val current = Path().apply {
             addRect(Rect(offset = currentOffset, size = currentSize))
         }
