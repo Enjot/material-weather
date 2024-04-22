@@ -25,6 +25,7 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 ### Architecture
 - single module
 - 3 layers (data, domain and UI)
+- Use cases
 - kotlin coroutines for async programming
 - kotlin flows for reactive programming
 - unidirectional data flow
