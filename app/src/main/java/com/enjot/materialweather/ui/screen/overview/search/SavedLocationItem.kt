@@ -36,10 +36,10 @@ fun SavedLocationItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(4.dp)
             .clickable {
                 onClick(savedLocation)
             }
+            .padding(start = 16.dp, top = 4.dp, bottom = 4.dp, end = 4.dp)
     ) {
         Text(
             text = savedLocation.name,

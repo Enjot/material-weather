@@ -174,7 +174,6 @@ fun ExpandableSearchBanner(
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .fillMaxSize()
             ) {
                 
@@ -185,7 +184,9 @@ fun ExpandableSearchBanner(
                             text = searchState.message.asString(),
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.labelMedium,
-                            modifier = Modifier.height(32.dp).padding(8.dp)
+                            modifier = Modifier
+                                .height(32.dp)
+                                .padding(8.dp)
                         )
                     } else {
                         Spacer(modifier = Modifier.height(32.dp))
@@ -206,17 +207,19 @@ fun ExpandableSearchBanner(
                 }
                 
                 item {
+                    Spacer(Modifier.height(12.dp))
                     CurrentLocationButton(
                         onClick = onLocationButtonClick
                     )
                 }
                 item {
+                    Spacer(Modifier.height(12.dp))
                     Text(
                         text = if (savedLocations.isNotEmpty()) stringResource(R.string.saved_places)
                         else stringResource(R.string.no_saved_places),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(16.dp)
+                        style = MaterialTheme.typography.titleMedium
                     )
+                    Spacer(Modifier.height(12.dp))
                 }
                 items(savedLocations) { savedLocation ->
                     SavedLocationItem(
@@ -228,7 +231,7 @@ fun ExpandableSearchBanner(
                         }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(24.dp)) }
             }
         }
     }

@@ -69,7 +69,7 @@ fun OverviewScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        
+
         ExpandableSearchBanner(
             query = state.query,
             onQueryChange = viewModel::updateQuery,
@@ -86,8 +86,6 @@ fun OverviewScreen(
             searchState = state.searchState,
             savedLocations = savedLocations,
         )
-        
-        
         
         Box(
             Modifier
