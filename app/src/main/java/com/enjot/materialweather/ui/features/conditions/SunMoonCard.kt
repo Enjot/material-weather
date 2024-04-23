@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.R
 import com.enjot.materialweather.domain.model.DailyWeather
+import com.enjot.materialweather.ui.theme.onProgressContainer
 
 @Composable
 fun SunMoonCard(
@@ -40,7 +41,7 @@ fun SunMoonCard(
             SingleRow(stringRes = R.string.sunrise, time = daily.sunrise)
             SingleRow(stringRes = R.string.sunset, time = daily.sunset)
             Spacer(modifier = Modifier.height(6.dp))
-            HorizontalDivider()
+            HorizontalDivider(color = MaterialTheme.colorScheme.onProgressContainer)
             Spacer(modifier = Modifier.height(6.dp))
             SingleRow(stringRes = R.string.moonrise, time = daily.moonrise)
             SingleRow(stringRes = R.string.moonset, time = daily.moonset)
