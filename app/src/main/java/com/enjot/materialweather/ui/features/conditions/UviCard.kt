@@ -2,6 +2,7 @@ package com.enjot.materialweather.ui.features.conditions
 
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,7 +41,7 @@ fun UviCard(
             rangeText = "11+",
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(12.dp)
+                .padding(vertical = 2.dp)
         )
     }
 }
@@ -48,5 +49,5 @@ fun UviCard(
 @Preview
 @Composable
 fun UviCardPreview() {
-    UviCard(uvi = 3)
+    UviCard(uvi = 3, modifier = Modifier.width(180.dp))
 }
