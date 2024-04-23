@@ -15,11 +15,14 @@ class UpdateWeatherUseCase @Inject constructor(
         
         return when (val remoteResource = remoteRepository.fetchWeather(coordinates)) {
             is Resource.Success -> {
-                remoteResource.data?.let { localRepository.saveLocalWeather(it) }
-                Resource.Success()
+                if (remoteResource.data != null) {
+                    localRepository.saveLocalWeather(remoteResource.data)
+                    Resource.Success()
+                } else Resource.Error(ErrorType.UNKNOWN)
             }
             
-            is Resource.Error -> Resource.Error(remoteResource.errorType ?: ErrorType.UNKNOWN)
+            is Resource.Error ->
+                Resource.Error(remoteResource.errorType ?: ErrorType.UNKNOWN)
         }
     }
 }

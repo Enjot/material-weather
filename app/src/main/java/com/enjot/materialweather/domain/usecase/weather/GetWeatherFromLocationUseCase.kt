@@ -13,27 +13,29 @@ class GetWeatherFromLocationUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
     suspend operator fun invoke(): Resource<Unit> {
-        
+
         return when (val locationResource = locationRepository.getCoordinates()) {
-            
+
             is Resource.Success -> {
                 if (locationResource.data != null) {
                     return when (
                         val remoteResource = remoteRepository.fetchWeather(locationResource.data)
                     ) {
                         is Resource.Success -> {
-                            remoteResource.data?.let {
-                                localRepository.saveLocalWeather(it)
-                            }
-                            Resource.Success()
+                            if (remoteResource.data != null) {
+                                localRepository.saveLocalWeather(remoteResource.data)
+                                Resource.Success()
+                            } else Resource.Error(ErrorType.UNKNOWN)
                         }
-                        
-                        is Resource.Error -> Resource.Error(remoteResource.errorType ?: ErrorType.UNKNOWN)
+
+                        is Resource.Error -> Resource.Error(
+                            remoteResource.errorType ?: ErrorType.UNKNOWN
+                        )
                     }
                 } else Resource.Error(ErrorType.LOCATION)
             }
-            
-            is Resource.Error ->  Resource.Error(ErrorType.LOCATION)
+
+            is Resource.Error -> Resource.Error(ErrorType.LOCATION)
         }
     }
 }

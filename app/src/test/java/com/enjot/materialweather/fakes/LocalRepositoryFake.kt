@@ -1,4 +1,4 @@
-package com.enjot.materialweather.data.repository
+package com.enjot.materialweather.fakes
 
 import com.enjot.materialweather.domain.model.SavedLocation
 import com.enjot.materialweather.domain.model.WeatherInfo
@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class LocalRepositoryFake : LocalRepository {
     
-    private var localWeather = MutableStateFlow(WeatherInfo())
+    var localWeather = MutableStateFlow(WeatherInfo())
     
-    private val savedLocations = MutableStateFlow(mutableListOf<SavedLocation>())
+    val savedLocations = MutableStateFlow(mutableListOf<SavedLocation>())
     
     override fun getLocalWeather(): Flow<WeatherInfo> {
         return localWeather

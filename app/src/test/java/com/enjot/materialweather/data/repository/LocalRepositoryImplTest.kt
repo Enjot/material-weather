@@ -3,13 +3,13 @@ package com.enjot.materialweather.data.repository
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
-import com.enjot.materialweather.data.database.SavedLocationDaoFake
-import com.enjot.materialweather.data.database.WeatherDaoFake
 import com.enjot.materialweather.domain.model.WeatherInfo
 import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.util.place
 import com.enjot.materialweather.domain.util.savedLocation
 import com.enjot.materialweather.domain.util.weatherInfo
+import com.enjot.materialweather.fakes.SavedLocationDaoFake
+import com.enjot.materialweather.fakes.WeatherDaoFake
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest

@@ -118,3 +118,10 @@ fun place() = SearchResult(
 )
 
 fun coordinates() = Coordinates(50.0, 50.0)
+
+fun searchResult() = SearchResult(
+    city = "Lorem",
+    postCode = "12345",
+    countryCode = "ABC",
+    coordinates = coordinates()
+)
