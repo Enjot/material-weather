@@ -24,7 +24,8 @@ android {
         versionCode = 1
         versionName = "1.0"
         
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.enjot.materialweather.HiltTestRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -85,6 +86,10 @@ android {
     }
 }
 
+configurations.getByName("androidTestImplementation") {
+    exclude(group = "io.mockk", module = "mockk-agent-jvm")
+}
+
 dependencies {
     
     // Core
@@ -112,6 +117,7 @@ dependencies {
     testImplementation(libs.mockk.agent)
     testImplementation(libs.mockwebserver)
     testImplementation(libs.turbine)
+    testImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     
@@ -126,6 +132,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.assertk)
+    androidTestImplementation(libs.hilt.android.testing)
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
@@ -141,6 +152,7 @@ dependencies {
     
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    kspAndroidTest(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.androidx.room.testing)
     
@@ -150,7 +162,9 @@ dependencies {
     // Dagger-Hilt (ksp support for hilt 2.51 is in alpha version for ksp 1.9.23-1.0.19)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
+    kspAndroidTest(libs.androidx.hilt.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
     
     // Location services
@@ -158,4 +172,5 @@ dependencies {
     
     // Coil
     implementation(libs.coil.compose)
+    implementation(kotlin("script-runtime"))
 }

@@ -1,31 +1,30 @@
-package com.enjot.materialweather.di
+package com.enjot.materialweather
 
 import android.content.Context
 import androidx.room.Room
 import com.enjot.materialweather.data.database.SavedLocationDao
 import com.enjot.materialweather.data.database.WeatherDao
 import com.enjot.materialweather.data.database.WeatherDatabase
+import com.enjot.materialweather.di.RoomModule
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object RoomModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [RoomModule::class]
+)
+object TestRoomModule {
     
     @Provides
     @Singleton
     fun provideWeatherDatabase(@ApplicationContext appContext: Context): WeatherDatabase {
         return Room
-            .databaseBuilder(
-                appContext,
-                WeatherDatabase::class.java,
-                "weather_db"
-            )
-            .fallbackToDestructiveMigration()
+            .inMemoryDatabaseBuilder(appContext, WeatherDatabase::class.java)
             .build()
     }
     
