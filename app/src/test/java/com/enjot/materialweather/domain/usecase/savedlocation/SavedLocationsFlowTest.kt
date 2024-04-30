@@ -9,15 +9,15 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class GetSavedLocationsUseCaseTest {
+class SavedLocationsFlowTest {
 
     private lateinit var localRepository: LocalRepositoryFake
-    private lateinit var getSavedLocationUseCase: GetSavedLocationsUseCase
+    private lateinit var getSavedLocationUseCase: SavedLocationsFlow
 
     @BeforeEach
     fun setUp() {
         localRepository = LocalRepositoryFake()
-        getSavedLocationUseCase = GetSavedLocationsUseCase(localRepository)
+        getSavedLocationUseCase = SavedLocationsFlow(localRepository)
     }
 
     @Test

@@ -15,21 +15,21 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class GetLocalWeatherUseCaseTest {
+class LocalWeatherFlowTest {
 
     private lateinit var localRepository: LocalRepositoryFake
-    private lateinit var getLocalWeatherUseCase: GetLocalWeatherUseCase
+    private lateinit var localWeatherFlow: LocalWeatherFlow
 
     @BeforeEach
     fun setUp() {
         localRepository = LocalRepositoryFake()
-        getLocalWeatherUseCase = GetLocalWeatherUseCase(localRepository)
+        localWeatherFlow = LocalWeatherFlow(localRepository)
     }
 
     @Test
     fun `Emit new value, use case collect it properly`() = runTest {
 
-        getLocalWeatherUseCase().test {
+        localWeatherFlow().test {
             val initialWeather = awaitItem()
 
             assertThat(initialWeather.place).isNull()

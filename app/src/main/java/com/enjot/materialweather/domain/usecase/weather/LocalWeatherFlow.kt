@@ -5,7 +5,7 @@ import com.enjot.materialweather.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetLocalWeatherUseCase @Inject constructor(
+class LocalWeatherFlow @Inject constructor(
     private val localRepository: LocalRepository
 ) {
     operator fun invoke(): Flow<WeatherInfo> = localRepository.getLocalWeather()

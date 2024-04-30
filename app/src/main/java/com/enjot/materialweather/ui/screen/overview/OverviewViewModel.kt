@@ -9,8 +9,8 @@ import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.domain.model.WeatherInfo
 import com.enjot.materialweather.domain.usecase.savedlocation.AddSavedLocationUseCase
 import com.enjot.materialweather.domain.usecase.savedlocation.DeleteSavedLocationUseCase
-import com.enjot.materialweather.domain.usecase.weather.GetLocalWeatherUseCase
-import com.enjot.materialweather.domain.usecase.savedlocation.GetSavedLocationsUseCase
+import com.enjot.materialweather.domain.usecase.weather.LocalWeatherFlow
+import com.enjot.materialweather.domain.usecase.savedlocation.SavedLocationsFlow
 import com.enjot.materialweather.domain.usecase.search.GetSearchResultsUseCase
 import com.enjot.materialweather.domain.usecase.weather.GetWeatherFromLocationUseCase
 import com.enjot.materialweather.domain.usecase.weather.UpdateWeatherUseCase
@@ -29,8 +29,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
-    getLocalWeatherUseCase: GetLocalWeatherUseCase,
-    getSavedLocationsUseCase: GetSavedLocationsUseCase,
+    localWeatherFlow: LocalWeatherFlow,
+    savedLocationsFlow: SavedLocationsFlow,
     private val getSearchResultsUseCase: GetSearchResultsUseCase,
     private val updateWeatherUseCase: UpdateWeatherUseCase,
     private val addSavedLocationUseCase: AddSavedLocationUseCase,
@@ -38,14 +38,14 @@ class OverviewViewModel @Inject constructor(
     private val getWeatherFromLocationUseCase: GetWeatherFromLocationUseCase
 ) : ViewModel() {
     
-    val weatherInfo: StateFlow<WeatherInfo> = getLocalWeatherUseCase()
+    val weatherInfo: StateFlow<WeatherInfo> = localWeatherFlow()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = WeatherInfo()
         )
     
-    val savedLocations: StateFlow<List<SavedLocation>> = getSavedLocationsUseCase()
+    val savedLocations: StateFlow<List<SavedLocation>> = savedLocationsFlow()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),

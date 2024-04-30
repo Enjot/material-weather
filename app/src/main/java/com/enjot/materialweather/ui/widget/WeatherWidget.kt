@@ -23,7 +23,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.enjot.materialweather.di.WidgetEntryPoint
 import com.enjot.materialweather.domain.model.WeatherInfo
-import com.enjot.materialweather.domain.usecase.weather.GetLocalWeatherUseCase
+import com.enjot.materialweather.domain.usecase.weather.LocalWeatherFlow
 import dagger.hilt.android.EntryPointAccessors
 
 class WeatherWidget : GlanceAppWidget() {
@@ -88,7 +88,7 @@ class WeatherWidget : GlanceAppWidget() {
         }
 }
 
-private fun getLocalWeatherUseCase(context: Context): GetLocalWeatherUseCase {
+private fun getLocalWeatherUseCase(context: Context): LocalWeatherFlow {
     val hiltEntryPoint = EntryPointAccessors.fromApplication(
         context, WidgetEntryPoint::class.java
     )
