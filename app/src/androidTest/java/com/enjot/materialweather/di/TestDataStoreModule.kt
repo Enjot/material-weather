@@ -9,20 +9,22 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import dagger.hilt.testing.TestInstallIn
+import kotlinx.coroutines.test.TestScope
 import javax.inject.Singleton
 
-private const val USER_PREFERENCES = "user_preferences"
+
+private const val TEST_DATA_STORE_NAME = "test_datastore"
 
 @Module
-@InstallIn(SingletonComponent::class)
-object DataStoreModule {
-    
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [DataStoreModule::class]
+)
+object TestDataStoreModule {
+
     @Provides
     @Singleton
     fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
@@ -30,8 +32,8 @@ object DataStoreModule {
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { emptyPreferences() }
             ),
-            scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
+            scope = TestScope(),
+            produceFile = { appContext.preferencesDataStoreFile(TEST_DATA_STORE_NAME) }
         )
     }
 }

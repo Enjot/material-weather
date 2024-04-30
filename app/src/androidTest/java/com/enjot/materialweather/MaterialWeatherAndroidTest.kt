@@ -1,24 +1,26 @@
 package com.enjot.materialweather
 
 import android.content.Context
-import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ApplicationProvider
-import com.enjot.materialweather.data.database.WeatherDatabase
-import com.enjot.materialweather.di.dataStore
 import dagger.hilt.android.testing.HiltAndroidRule
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import javax.inject.Inject
 
-abstract class MaterialWeatherAndroidTest {
+
+@ExperimentalCoroutinesApi
+abstract class MaterialWeatherAndroidTest(
+    val testDispatcher: TestDispatcher = StandardTestDispatcher()
+) {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
-
-    @Inject
-    lateinit var db: WeatherDatabase
 
     protected lateinit var context: Context
 
@@ -26,18 +28,12 @@ abstract class MaterialWeatherAndroidTest {
     open fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         hiltRule.inject()
-        db.clearAllTables()
-        clearDataStore()
+        Dispatchers.setMain(testDispatcher)
     }
 
     @After
     open fun tearDown() {
-        db.close()
+        Dispatchers.resetMain()
     }
 
-    private fun clearDataStore() = runBlocking {
-        context.dataStore.edit {
-            it.clear()
-        }
-    }
 }

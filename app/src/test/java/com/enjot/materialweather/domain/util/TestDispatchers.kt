@@ -6,7 +6,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class TestDispatchers(
     val testDispatcher: TestDispatcher = StandardTestDispatcher()
 ): DispatcherProvider {

@@ -1,11 +1,10 @@
-package com.enjot.materialweather
+package com.enjot.materialweather.di
 
 import android.content.Context
 import androidx.room.Room
 import com.enjot.materialweather.data.database.SavedLocationDao
 import com.enjot.materialweather.data.database.WeatherDao
 import com.enjot.materialweather.data.database.WeatherDatabase
-import com.enjot.materialweather.di.RoomModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext

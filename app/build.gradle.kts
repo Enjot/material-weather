@@ -137,6 +137,7 @@ dependencies {
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.assertk)
     androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.turbine)
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
@@ -172,5 +173,6 @@ dependencies {
     
     // Coil
     implementation(libs.coil.compose)
+    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.9.23")
     implementation(kotlin("script-runtime"))
 }
