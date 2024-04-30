@@ -71,12 +71,12 @@ fun ExpandableSearchBanner(
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-    
+
     val padding by animateIntAsState(
         targetValue = if (isActive) 0 else 16,
         label = ""
     )
-    
+
     SearchBar(
         query = query,
         onQueryChange = onQueryChange,
@@ -167,72 +167,96 @@ fun ExpandableSearchBanner(
             .focusable()
             .focusRequester(focusRequester)
     ) {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
+        ExpandableSearchBannerContent(
+            searchState = searchState,
+            onSearchResultClick = {onSearchResultClick(it) },
+            onSavedLocationClick = { onSearchResultClick(it.toSearchResult()) },
+            onAddToSaved = {
+                focusManager.clearFocus()
+                onAddToSaved(it)
+            },
+            onRemoveFromSaved = {
+                focusManager.clearFocus()
+                onRemoveFromSaved(it)
+            },
+            onLocationButtonClick = onLocationButtonClick,
+            savedLocations = savedLocations,
             modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+fun ExpandableSearchBannerContent(
+    searchState: SearchState,
+    onAddToSaved: (SearchResult) -> Unit,
+    onSearchResultClick: (SearchResult) -> Unit,
+    onLocationButtonClick: () -> Unit,
+    onSavedLocationClick: (SavedLocation) -> Unit,
+    savedLocations: List<SavedLocation>,
+    onRemoveFromSaved: (SavedLocation) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        modifier = modifier
+    ) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                
-                item {
-                    
-                    if (searchState is SearchState.Error) {
-                        Text(
-                            text = searchState.message.asString(),
-                            color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.labelMedium,
-                            modifier = Modifier
-                                .height(32.dp)
-                                .padding(8.dp)
-                        )
-                    } else {
-                        Spacer(modifier = Modifier.height(32.dp))
-                    }
-                }
-                
-                if (searchState is SearchState.Idle) {
-                    items(searchState.results) { searchResult ->
-                        SearchResultItem(
-                            searchResult = searchResult,
-                            onAddToSaved = {
-                                focusManager.clearFocus()
-                                onAddToSaved(searchResult)
-                            },
-                            onClick = { onSearchResultClick(searchResult) }
-                        )
-                    }
-                }
-                
-                item {
-                    Spacer(Modifier.height(12.dp))
-                    CurrentLocationButton(
-                        onClick = onLocationButtonClick
-                    )
-                }
-                item {
-                    Spacer(Modifier.height(12.dp))
+
+            item {
+
+                if (searchState is SearchState.Error) {
                     Text(
-                        text = if (savedLocations.isNotEmpty()) stringResource(R.string.saved_places)
-                        else stringResource(R.string.no_saved_places),
-                        style = MaterialTheme.typography.titleMedium
+                        text = searchState.message.asString(),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier
+                            .height(32.dp)
+                            .padding(8.dp)
                     )
-                    Spacer(Modifier.height(12.dp))
+                } else {
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
-                items(savedLocations) { savedLocation ->
-                    SavedLocationItem(
-                        savedLocation = savedLocation,
-                        onClick = { onSearchResultClick(savedLocation.toSearchResult()) },
-                        onRemove = {
-                            focusManager.clearFocus()
-                            onRemoveFromSaved(savedLocation)
-                        }
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(24.dp)) }
             }
+
+            if (searchState is SearchState.Idle) {
+                items(searchState.results) { searchResult ->
+                    SearchResultItem(
+                        searchResult = searchResult,
+                        onAddToSaved = onAddToSaved,
+                        onClick = onSearchResultClick
+                    )
+                }
+            }
+
+            item {
+                Spacer(Modifier.height(12.dp))
+                CurrentLocationButton(onClick = onLocationButtonClick)
+            }
+
+            item {
+                Spacer(Modifier.height(12.dp))
+                Text(
+                    text = if (savedLocations.isNotEmpty()) stringResource(R.string.saved_places)
+                    else stringResource(R.string.no_saved_places),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(Modifier.height(12.dp))
+            }
+
+            items(savedLocations) { savedLocation ->
+                SavedLocationItem(
+                    savedLocation = savedLocation,
+                    onClick = onSavedLocationClick,
+                    onRemove = onRemoveFromSaved
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
         }
     }
 }
@@ -240,7 +264,7 @@ fun ExpandableSearchBanner(
 @Preview
 @Composable
 fun ExpandableSearchBannerPreview() {
-    
+
     ExpandableSearchBanner(
         query = "Sieniawa",
         onQueryChange = {},
