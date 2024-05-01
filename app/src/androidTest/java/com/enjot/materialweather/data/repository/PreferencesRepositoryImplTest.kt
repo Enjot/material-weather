@@ -61,7 +61,7 @@ class PreferencesRepositoryImplTest {
     }
 
     @Test
-    fun dxdd() = runTest {
+    fun `Initial flow emits right value`() = runTest {
 
         repository.getUserPreferencesFlow().test {
             val initialInterval = awaitItem().backgroundUpdatesRepeatInterval
@@ -71,7 +71,7 @@ class PreferencesRepositoryImplTest {
     }
 
     @Test
-    fun xd() = runTest {
+    fun `Flow emits new value after getting updated by repository`() = runTest {
 
         repository.getUserPreferencesFlow().test {
 
