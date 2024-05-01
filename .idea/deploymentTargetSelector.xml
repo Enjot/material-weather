@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="DummyTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="xd()">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-04-26T15:22:09.397275200Z">
@@ -42,6 +39,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="dxdd()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="ExpandableSearchBannerContentTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
