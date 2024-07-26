@@ -33,7 +33,7 @@
             android:multiprocess="true"
             tools:node="remove" />
 
-        <receiver android:name=".ui.overviewscreen.widget.WeatherWidgetReceiver"
+        <receiver android:name=".presentation.overviewscreen.widget.WeatherWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
