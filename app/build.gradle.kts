@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.junit5)
+    alias(libs.plugins.kotlin.compose.compiler)
 }
 
 android {
@@ -15,6 +17,7 @@ android {
     
     buildFeatures {
         buildConfig = true
+        compose = true
     }
     
     defaultConfig {
@@ -66,19 +69,23 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    composeCompiler {
+        enableStrongSkippingMode = true
+        includeSourceInformation = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -160,7 +167,7 @@ dependencies {
     // Gson
     implementation (libs.gson)
     
-    // Dagger-Hilt (ksp support for hilt 2.51 is in alpha version for ksp 1.9.23-1.0.19)
+    // Dagger-Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     kspAndroidTest(libs.hilt.compiler)
@@ -173,6 +180,4 @@ dependencies {
     
     // Coil
     implementation(libs.coil.compose)
-    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.9.23")
-    implementation(kotlin("script-runtime"))
 }
