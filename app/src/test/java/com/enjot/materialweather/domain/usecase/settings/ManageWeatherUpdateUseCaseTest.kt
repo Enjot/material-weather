@@ -5,6 +5,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
+import com.enjot.materialweather.data.background.UPDATE_WEATHER_WORK
 import com.enjot.materialweather.fakes.PreferencesRepositoryFake
 import com.enjot.materialweather.fakes.WorkSchedulerFake
 import kotlinx.coroutines.flow.first
@@ -91,13 +92,13 @@ class ManageWeatherUpdateUseCaseTest {
     @Test
     fun `Check if work is scheduled, works properly`() = runTest {
 
-        val initialWorkStatus = manageWeatherUpdateUseCase.isWorkScheduled("UpdateWeatherWork")
+        val initialWorkStatus = manageWeatherUpdateUseCase.isWorkScheduled()
 
         assertThat(initialWorkStatus).isFalse()
 
         manageWeatherUpdateUseCase.schedule()
 
-        val newWorkStatus = manageWeatherUpdateUseCase.isWorkScheduled("UpdateWeatherWork")
+        val newWorkStatus = manageWeatherUpdateUseCase.isWorkScheduled()
 
         assertThat(newWorkStatus).isTrue()
     }
@@ -106,16 +107,16 @@ class ManageWeatherUpdateUseCaseTest {
     fun `Cancel work, cancelled properly`() = runTest {
 
         workScheduler.updateWeatherWork = workScheduler.updateWeatherWork.copy(
-            first = "UpdateWeatherWork", second = 60L, third = true
+            first = UPDATE_WEATHER_WORK, second = 60L, third = true
         )
 
-        val isWorkEnqueued = manageWeatherUpdateUseCase.isWorkScheduled("UpdateWeatherWork")
+        val isWorkEnqueued = manageWeatherUpdateUseCase.isWorkScheduled()
 
         assertThat(isWorkEnqueued).isTrue()
 
-        manageWeatherUpdateUseCase.cancel("UpdateWeatherWork")
+        manageWeatherUpdateUseCase.cancel()
 
-        val isWorkEnqueued2 = manageWeatherUpdateUseCase.isWorkScheduled("UpdateWeatherWork")
+        val isWorkEnqueued2 = manageWeatherUpdateUseCase.isWorkScheduled()
 
         assertThat(isWorkEnqueued2).isFalse()
     }
