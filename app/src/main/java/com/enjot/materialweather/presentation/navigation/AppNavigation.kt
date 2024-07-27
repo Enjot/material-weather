@@ -7,63 +7,59 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.IntOffset
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.enjot.materialweather.presentation.ui.screen.daily.DailyScreen
 import com.enjot.materialweather.presentation.ui.screen.overview.OverviewScreen
 import com.enjot.materialweather.presentation.ui.screen.settings.SettingsScreen
 
 @Composable
 fun AppNavigation() {
-    
+
     val navController = rememberNavController()
-    
+
     NavHost(
         navController = navController,
-        startDestination = "overview"
+        startDestination = Overview
     ) {
-        
+
         val animationSpec: FiniteAnimationSpec<IntOffset> =
             spring(stiffness = Spring.StiffnessMediumLow)
-        
-        composable(
-            route = "overview",
+
+        composable<Overview>(
             enterTransition = { slideIntoContainer(End, animationSpec) },
-            exitTransition = { slideOutOfContainer(Start, animationSpec) },
+            exitTransition = { slideOutOfContainer(Start, animationSpec) }
         ) {
             OverviewScreen(
                 onNavigateToDailyWeather = { index ->
-                    navController.navigate("daily/$index") {
+                    navController.navigate(Daily(index)) {
                         launchSingleTop = true
                     }
                 },
                 onNavigateToSettings = {
-                    navController.navigate("settings") {
+                    navController.navigate(Settings) {
                         launchSingleTop = true
                     }
                 }
             )
         }
-        
-        composable(
-            route = "daily/{dailyIndex}",
+
+        composable<Daily>(
             enterTransition = { slideIntoContainer(Start, animationSpec) },
-            exitTransition = { slideOutOfContainer(End, animationSpec) },
-            arguments = listOf(navArgument("dailyIndex") { type = NavType.IntType })
-        ) {
+            exitTransition = { slideOutOfContainer(End, animationSpec) }
+        ) { backStackEntry ->
+            val daily: Daily = backStackEntry.toRoute()
             DailyScreen(
-                enterIndex = it.arguments?.getInt("dailyIndex"),
+                enterIndex = daily.index,
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-        
-        composable(
-            route = "settings",
+
+        composable<Settings>(
             enterTransition = { slideIntoContainer(Start, animationSpec) },
-            exitTransition = { slideOutOfContainer(End, animationSpec) },
+            exitTransition = { slideOutOfContainer(End, animationSpec) }
         ) {
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() }
