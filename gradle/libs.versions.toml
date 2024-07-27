@@ -1,7 +1,6 @@
 [versions]
 agp = "8.5.0"
 kotlin = "2.0.0"
-kotlinScriptRuntime = "2.0.0"
 ksp = "2.0.0-1.0.23"
 daggerHilt = "2.51.1"
 activityKtx = "1.9.1"
@@ -32,7 +31,7 @@ lifecycleRuntimeCompose = "2.8.4"
 junitJupiterApi = "5.10.2"
 junitJupiterEngine = "5.10.2"
 junitJupiterParams = "5.10.2"
-assertk = "0.28.0"
+assertk = "0.28.1"
 kotlinxCoroutinesTest = "1.8.0"
 deMannodermausAndroidJunit5GradlePlugin = "1.10.0.0"
 mockk = "1.13.10"
@@ -94,7 +93,7 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiterApi" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiterEngine" }
 junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterParams" }
-assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0.28.1" }
+assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref = "assertk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockkAndroid" }
