@@ -34,11 +34,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.R
 import com.enjot.materialweather.presentation.ui.core.WeatherProviderButton
-import com.enjot.materialweather.presentation.ui.banner.airpollution.AirPollutionBanner
-import com.enjot.materialweather.presentation.ui.banner.conditions.ConditionsBanner
-import com.enjot.materialweather.presentation.ui.banner.dailyforecast.DailyBanner
-import com.enjot.materialweather.presentation.ui.banner.hourlyforecast.HourlyBanner
-import com.enjot.materialweather.presentation.ui.banner.summary.SummaryBanner
+import com.enjot.materialweather.presentation.ui.component.banner.airpollution.AirPollutionBanner
+import com.enjot.materialweather.presentation.ui.component.banner.conditions.ConditionsBanner
+import com.enjot.materialweather.presentation.ui.component.banner.dailyforecast.DailyBanner
+import com.enjot.materialweather.presentation.ui.component.banner.hourlyforecast.HourlyBanner
+import com.enjot.materialweather.presentation.ui.component.banner.summary.SummaryBanner
 import com.enjot.materialweather.presentation.ui.screen.overview.search.ExpandableSearchBanner
 
 @OptIn(ExperimentalMaterial3Api::class)

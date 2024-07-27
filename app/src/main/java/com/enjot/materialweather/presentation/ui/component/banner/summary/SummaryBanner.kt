@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.ui.banner.summary
+package com.enjot.materialweather.presentation.ui.component.banner.summary
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

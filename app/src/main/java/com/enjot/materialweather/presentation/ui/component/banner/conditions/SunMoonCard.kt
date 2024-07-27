@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.ui.banner.conditions
+package com.enjot.materialweather.presentation.ui.component.banner.conditions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

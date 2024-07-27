@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.ui.banner.hourlyforecast
+package com.enjot.materialweather.presentation.ui.component.banner.hourlyforecast
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column

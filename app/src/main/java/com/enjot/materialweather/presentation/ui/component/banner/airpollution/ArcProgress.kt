@@ -1,4 +1,4 @@
-package com.enjot.materialweather.presentation.ui.banner.airpollution
+package com.enjot.materialweather.presentation.ui.component.banner.airpollution
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

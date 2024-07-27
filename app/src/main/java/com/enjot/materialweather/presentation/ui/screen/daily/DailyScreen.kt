@@ -29,8 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.R
 import com.enjot.materialweather.presentation.ui.core.ScreenHeader
-import com.enjot.materialweather.presentation.ui.banner.conditions.ConditionsBanner
-import com.enjot.materialweather.presentation.ui.banner.summary.SummaryBanner
+import com.enjot.materialweather.presentation.ui.component.banner.conditions.ConditionsBanner
+import com.enjot.materialweather.presentation.ui.component.banner.summary.SummaryBanner
 import com.enjot.materialweather.presentation.utils.toDayOfWeekId
 import kotlinx.coroutines.launch
 
