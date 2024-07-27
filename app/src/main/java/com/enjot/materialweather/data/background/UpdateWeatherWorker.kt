@@ -10,6 +10,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
 
+const val UPDATE_WEATHER_WORK = "UpdateWeatherWork"
+
 @HiltWorker
 class UpdateWeatherWorker @AssistedInject constructor(
     private val updateWeatherUseCase: UpdateWeatherUseCase,

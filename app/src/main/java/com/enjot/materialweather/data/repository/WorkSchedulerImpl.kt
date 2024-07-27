@@ -6,6 +6,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.enjot.materialweather.data.background.UPDATE_WEATHER_WORK
 import com.enjot.materialweather.data.background.UpdateWeatherWorker
 import com.enjot.materialweather.domain.repository.WorkScheduler
 import kotlinx.coroutines.guava.asDeferred
@@ -25,18 +26,18 @@ class WorkSchedulerImpl @Inject constructor(
             .build()
         
         workManager.enqueueUniquePeriodicWork(
-            "UpdateWeatherWork",
+            UPDATE_WEATHER_WORK,
             ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
             workRequest
         )
     }
-    
-    override fun cancelWork(workName: String) {
-        workManager.cancelUniqueWork(workName)
+
+    override fun cancelUpdateWeatherWork() {
+        workManager.cancelUniqueWork(UPDATE_WEATHER_WORK)
     }
     
-    override suspend fun isWorkScheduled(workName: String): Boolean {
-        val workInfosDeferred = workManager.getWorkInfosForUniqueWork(workName).asDeferred()
+    override suspend fun isUpdateWeatherWorkScheduled(): Boolean {
+        val workInfosDeferred = workManager.getWorkInfosForUniqueWork(UPDATE_WEATHER_WORK).asDeferred()
         val workInfos = workInfosDeferred.await()
         return workInfos.any { it.state == WorkInfo.State.ENQUEUED || it.state == WorkInfo.State.RUNNING }
     }

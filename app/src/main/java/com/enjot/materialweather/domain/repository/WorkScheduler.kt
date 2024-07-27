@@ -4,7 +4,7 @@ interface WorkScheduler {
     
     fun scheduleWeatherUpdateWork(repeatInterval: Long)
     
-    fun cancelWork(workName: String)
+    fun cancelUpdateWeatherWork()
     
-    suspend fun isWorkScheduled(workName: String): Boolean
+    suspend fun isUpdateWeatherWorkScheduled(): Boolean
 }

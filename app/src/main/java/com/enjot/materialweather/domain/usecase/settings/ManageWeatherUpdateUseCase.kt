@@ -20,11 +20,11 @@ class ManageWeatherUpdateUseCase @Inject constructor(
         preferencesRepository.setBackgroundUpdatesRepeatInterval(repeatInterval)
     }
     
-    fun cancel(workName: String) {
-        workScheduler.cancelWork(workName)
+    fun cancel() {
+        workScheduler.cancelUpdateWeatherWork()
     }
     
-    suspend fun isWorkScheduled(workName: String): Boolean {
-        return workScheduler.isWorkScheduled(workName)
+    suspend fun isWorkScheduled(): Boolean {
+        return workScheduler.isUpdateWeatherWorkScheduled()
     }
 }
