@@ -74,7 +74,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 val weatherInfo = WeatherInfo(
                     place = place.toDomainSearchResult(),
                     current = oneCallResponse.body()?.toDomainCurrentWeather(),
-                    hourly = oneCallResponse.body()?.toDomainHourlyWeatherList(),
+                    hourly = oneCallResponse.body()?.toDomainHourlyWeatherList()?.subList(0, 24),
                     daily = oneCallResponse.body()?.toDomainDailyWeatherList(),
                     airPollution = airPollution
                 )
