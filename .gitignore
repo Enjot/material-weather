@@ -16,3 +16,4 @@ local.properties
 /.idea/deploymentTargetDropDown.xml
 .kotlin/
 /.idea/misc.xml
+/app/google-services.json

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.junit5)
     alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.firebase.google.services)
 }
 
 android {
@@ -151,6 +152,10 @@ dependencies {
     
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
     
     // Okhttp, Retrofit and Kotlin Serialization + Converter for Retrofit
     implementation(libs.okhttp)

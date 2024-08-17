@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.jetbrainsKotlin) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.daggerHilt) apply false
+    alias(libs.plugins.firebase.google.services) apply false
 }

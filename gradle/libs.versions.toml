@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+firebaseBom = "33.1.2"
 kotlin = "2.0.0"
 ksp = "2.0.0-1.0.23"
 daggerHilt = "2.51.1"
@@ -14,7 +15,7 @@ junitVersion = "1.2.1"
 kotlinxSerializationJson = "1.7.1"
 lifecycleExtensions = "2.2.0"
 lifecycleRuntimeKtx = "2.8.4"
-navigationCompose = "2.8.0-beta06"
+navigationCompose = "2.8.0-beta07"
 okhttp = "4.12.0"
 composeBom = "2024.06.00"
 playServicesLocation = "21.3.0"
@@ -22,7 +23,7 @@ retrofit = "2.11.0"
 uiManifest = "1.6.8"
 retrofit2KotlinxSerializationConverter = "1.0.0"
 room = "2.6.1"
-workRuntime = "2.9.0"
+workRuntime = "2.9.1"
 hiltWork = "1.2.0"
 kotlinxCoroutinesGuava = "1.8.0"
 glance = "1.1.0"
@@ -39,9 +40,10 @@ mockkAndroid = "1.13.10"
 mockkAgent = "1.13.10"
 mockwebserver = "4.12.0"
 turbine = "1.1.0"
-runner = "1.6.1"
+runner = "1.6.2"
 rules = "1.6.1"
 hiltAndroidTesting = "2.51.1"
+googleServices = "4.4.2"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -71,6 +73,8 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-animation-core = { group = "androidx.compose.animation", name = "animation-core" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
@@ -113,3 +117,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+firebase-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices"}
