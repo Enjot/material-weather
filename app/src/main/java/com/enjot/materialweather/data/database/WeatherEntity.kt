@@ -3,7 +3,9 @@ package com.enjot.materialweather.data.database
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "weather_info")
 data class WeatherEntity(
     @PrimaryKey val id: Int = 1,
@@ -13,17 +15,20 @@ data class WeatherEntity(
     val daily: List<DailyWeather>? = null,
     @Embedded val airPollution: AirPollution? = null
 ) {
+    @Serializable
     data class SearchResult(
         val city: String,
         val postCode: String? = null,
         val countryCode: String,
         @Embedded val coordinates: Coordinates
     ) {
+        @Serializable
         data class Coordinates(
             val lat: Double,
             val lon: Double
         )
     }
+    @Serializable
     data class Current(
         val localFormattedTime: String,
         val temp: Int,
@@ -39,6 +44,7 @@ data class WeatherEntity(
         val icon: String,
         @Embedded val conditions: Conditions
     ) {
+        @Serializable
         data class Conditions(
             val sunrise: String,
             val sunset: String,
@@ -50,6 +56,7 @@ data class WeatherEntity(
             val uvi: Int
         )
     }
+    @Serializable
     data class HourlyWeather(
         val localFormattedTime: String,
         val temp: Int,
@@ -61,6 +68,7 @@ data class WeatherEntity(
         val snowPrecipitation: Double?,
         val icon: String
     )
+    @Serializable
     data class DailyWeather(
         val dayOfWeek: String,
         val sunrise: String,
@@ -86,6 +94,7 @@ data class WeatherEntity(
         val description: String,
         val icon: String
     )
+    @Serializable
     data class AirPollution(
         val aqi: Int,
         val nh3: Int,

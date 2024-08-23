@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.enjot.materialweather" />
+                  <option name="mobileSdkAppId" value="1:421626896946:android:f558ff0135a208298ad22b" />
+                  <option name="projectId" value="material-weather-72e50" />
+                  <option name="projectNumber" value="421626896946" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

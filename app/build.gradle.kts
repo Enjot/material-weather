@@ -157,20 +157,16 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     
-    // Okhttp, Retrofit and Kotlin Serialization + Converter for Retrofit
-    implementation(libs.okhttp)
-    implementation(libs.retrofit)
+    // Networking
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.bundles.ktor)
+    testImplementation(libs.ktor.client.mock)
     
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     kspAndroidTest(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.androidx.room.testing)
-    
-    // Gson
-    implementation (libs.gson)
     
     // Dagger-Hilt
     implementation(libs.hilt.android)
@@ -185,4 +181,7 @@ dependencies {
     
     // Coil
     implementation(libs.coil.compose)
+
+    // Logging
+    implementation(libs.timber)
 }

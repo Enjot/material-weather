@@ -8,7 +8,7 @@ activityKtx = "1.9.1"
 appcompat = "1.7.0"
 coilCompose = "2.6.0"
 espressoCore = "3.6.1"
-gson = "2.10.1"
+gson = "2.11.0"
 hiltNavigationCompose = "1.2.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -44,6 +44,8 @@ runner = "1.6.2"
 rules = "1.6.1"
 hiltAndroidTesting = "2.51.1"
 googleServices = "4.4.2"
+ktor = "2.3.12"
+timber = "5.0.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -108,6 +110,15 @@ androidx-runner = { group = "androidx.test", name = "runner", version.ref = "run
 androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroidTesting" }
 
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "deMannodermausAndroidJunit5GradlePlugin" }
@@ -118,3 +129,13 @@ daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt"
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 firebase-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices"}
+
+[bundles]
+ktor = [
+    "ktor-client-cio",
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-client-okhttp",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-kotlinx-json"
+]

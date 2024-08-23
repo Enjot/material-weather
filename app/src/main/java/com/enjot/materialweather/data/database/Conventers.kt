@@ -1,23 +1,22 @@
 package com.enjot.materialweather.data.database
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class Converters {
-    private val gson = Gson()
+
+    @TypeConverter
+    fun fromHourlyList(value: List<WeatherEntity.HourlyWeather>?): String = Json.encodeToString(value)
     
     @TypeConverter
-    fun fromHourlyList(value: List<WeatherEntity.HourlyWeather>?): String = gson.toJson(value)
+    fun toHourlyList(value: String): List<WeatherEntity.HourlyWeather> =
+        Json.decodeFromString<List<WeatherEntity.HourlyWeather>>(value)
     
     @TypeConverter
-    fun toHourlyList(value: String): List<WeatherEntity.HourlyWeather>? =
-        gson.fromJson(value, object : TypeToken<List<WeatherEntity.HourlyWeather>>() {}.type)
+    fun fromDailyList(value: List<WeatherEntity.DailyWeather>?): String = Json.encodeToString(value)
     
     @TypeConverter
-    fun fromDailyList(value: List<WeatherEntity.DailyWeather>?): String = gson.toJson(value)
-    
-    @TypeConverter
-    fun toDailyList(value: String): List<WeatherEntity.DailyWeather>? =
-        gson.fromJson(value, object : TypeToken<List<WeatherEntity.DailyWeather>>() {}.type)
+    fun toDailyList(value: String): List<WeatherEntity.DailyWeather> =
+        Json.decodeFromString<List<WeatherEntity.DailyWeather>>(value)
 }

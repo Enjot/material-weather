@@ -1,9 +1,9 @@
 package com.enjot.materialweather.di
 
+import com.enjot.materialweather.data.remote.openweathermap.KtorRepository
 import com.enjot.materialweather.data.repository.LocalRepositoryImpl
 import com.enjot.materialweather.data.repository.LocationRepositoryImpl
 import com.enjot.materialweather.data.repository.PreferencesRepositoryImpl
-import com.enjot.materialweather.data.repository.RemoteRepositoryImpl
 import com.enjot.materialweather.data.repository.WorkSchedulerImpl
 import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.repository.LocationRepository
@@ -24,7 +24,7 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindRemoteRepository(
-        remoteRepositoryImpl: RemoteRepositoryImpl
+        remoteRepositoryImpl: KtorRepository
     ): RemoteRepository
     
     @Binds
