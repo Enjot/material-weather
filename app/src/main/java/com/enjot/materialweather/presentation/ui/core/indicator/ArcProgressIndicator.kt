@@ -16,6 +16,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.enjot.materialweather.R
 import com.enjot.materialweather.presentation.ui.theme.onProgressContainer
 import com.enjot.materialweather.presentation.ui.theme.progressContainer
@@ -28,7 +29,8 @@ fun ArcProgressIndicator(
     modifier: Modifier = Modifier,
     valueText: String = "",
     rangeText: String = "",
-    height: Dp = 80.dp
+    height: Dp = 80.dp,
+    smallSpaceBetweenTexts: Boolean = false
 ) {
     val textMeasurer = rememberTextMeasurer()
     
@@ -37,7 +39,8 @@ fun ArcProgressIndicator(
     val color = MaterialTheme.colorScheme.onProgressContainer
     val trackColor = MaterialTheme.colorScheme.progressContainer
     val textStyle = MaterialTheme.typography.bodySmall.copy(
-        color = MaterialTheme.colorScheme.onSurfaceVariant
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 11.sp
     )
     
     Canvas(
@@ -93,15 +96,15 @@ fun ArcProgressIndicator(
             style = textStyle,
             topLeft = unitTextTopLeft
         )
-        val valueTextBounds =
-            textMeasurer.measure(value.toString(), textStyle)
+        val valueTextBounds = textMeasurer.measure(valueText.toString(), textStyle)
+        val spaceMultiplier = if (smallSpaceBetweenTexts) 0.45f else 0.35f
         val valueTextTopLeft = Offset(
-            x = this.size.width * 0.35f - valueTextBounds.size.width,
-            y = arcDiameter + this.size.height * 0.1f
+            x = this.size.width * spaceMultiplier - valueTextBounds.size.width,
+            y = arcDiameter + this.size.height * 0.12f
         )
         val rangeTextTopLeft = Offset(
-            x = this.size.width - this.size.width * 0.35f,
-            y = arcDiameter + this.size.height * 0.1f
+            x = this.size.width - this.size.width * spaceMultiplier,
+            y = arcDiameter + this.size.height * 0.12f
         )
         drawText(
             textMeasurer = textMeasurer,
@@ -131,6 +134,7 @@ fun PressureArcProgressBarPreview() {
         range = 1200,
         valueText = stringResource(R.string.low),
         rangeText = stringResource(R.string.high),
-        unit = ""
+        unit = "",
+        smallSpaceBetweenTexts = true
     )
 }

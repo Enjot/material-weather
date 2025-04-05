@@ -39,17 +39,19 @@ fun PressureCard(
             valueText = stringResource(R.string.low),
             rangeText = stringResource(R.string.high),
             height = 80.dp,
+            smallSpaceBetweenTexts = true,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(
                     vertical = 8.dp
                 )
+                .padding(end = 4.dp)
         )
     }
 }
 
 
-@Preview
+@Preview(locale = "pl")
 @Composable
 fun PressureCardPreview() {
     PressureCard(pressure = 1035)
