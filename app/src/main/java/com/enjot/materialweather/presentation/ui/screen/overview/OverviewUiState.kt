@@ -6,18 +6,17 @@ import com.enjot.materialweather.presentation.utils.UiText
 
 @Immutable
 data class OverviewUiState(
-    val isSearchBannerExpanded: Boolean = false,
-
     var query: String = "",
-
     val weatherState: WeatherState = WeatherState.Idle,
-    val searchState: SearchState = SearchState.Idle(emptyList())
+    val searchState: SearchState = SearchState.Idle(emptyList()),
+    val isSearchBannerExpanded: Boolean = false
 )
 
 sealed interface WeatherState {
     
     data object Idle: WeatherState
     data object Loading: WeatherState
+    data object Refreshing: WeatherState
     data class Error(val message: UiText): WeatherState
     
 }

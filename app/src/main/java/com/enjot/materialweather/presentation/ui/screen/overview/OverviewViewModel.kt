@@ -54,11 +54,12 @@ class OverviewViewModel(
     val state: StateFlow<OverviewUiState>
         get() = _state
     
-    suspend fun pullRefresh() {
+    fun pullRefresh() {
         if (weatherInfo.value.place?.coordinates == null) {
             _state.update { it.copy(weatherState = WeatherState.Idle) }
             return
         }
+        _state.update { it.copy(weatherState = WeatherState.Refreshing) }
         processWeatherLoading(weatherInfo.value.place?.coordinates!!)
     }
     
@@ -74,17 +75,19 @@ class OverviewViewModel(
         viewModelScope.launch { processWeatherLoading(searchResult.coordinates) }
     }
     
-    private suspend fun processWeatherLoading(coordinates: Coordinates) {
-        when (val resource = updateWeatherUseCase(coordinates)) {
-            is Resource.Success -> _state.update { it.copy(weatherState = WeatherState.Idle) }
-            
-            is Resource.Error -> _state.update {
-                it.copy(
-                    weatherState = WeatherState.Error(
-                        resource.errorType?.toUiText()
-                            ?: UiText.StringResource(R.string.unknown_error)
+    private fun processWeatherLoading(coordinates: Coordinates) {
+        viewModelScope.launch {
+            when (val resource = updateWeatherUseCase(coordinates)) {
+                is Resource.Success -> _state.update { it.copy(weatherState = WeatherState.Idle) }
+
+                is Resource.Error -> _state.update {
+                    it.copy(
+                        weatherState = WeatherState.Error(
+                            resource.errorType?.toUiText()
+                                ?: UiText.StringResource(R.string.unknown_error)
+                        )
                     )
-                )
+                }
             }
         }
     }
