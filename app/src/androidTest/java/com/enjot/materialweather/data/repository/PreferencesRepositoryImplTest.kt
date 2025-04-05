@@ -15,10 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -33,8 +32,8 @@ private const val TEST_DATASTORE_NAME: String = "test_datastore"
 class PreferencesRepositoryImplTest {
 
     private val testContext = InstrumentationRegistry.getInstrumentation().targetContext
-    private val testCoroutineDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher + Job())
+    private val testCoroutineDispatcher = StandardTestDispatcher()
+    private val testCoroutineScope = TestScope(testCoroutineDispatcher + Job())
 
     private val testDataStore: DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
@@ -53,8 +52,7 @@ class PreferencesRepositoryImplTest {
     @After
     fun cleanUp() {
         Dispatchers.resetMain()
-        testCoroutineDispatcher.cleanupTestCoroutines()
-        testCoroutineScope.runBlockingTest {
+        testCoroutineScope.runTest {
             testDataStore.edit { it.clear() }
         }
         testCoroutineScope.cancel()

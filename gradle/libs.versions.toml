@@ -1,39 +1,33 @@
 [versions]
-agp = "8.5.0"
-firebaseBom = "33.1.2"
-kotlin = "2.0.0"
-ksp = "2.0.0-1.0.23"
-daggerHilt = "2.51.1"
-activityKtx = "1.9.1"
+agp = "8.9.1"
+firebaseBom = "33.12.0"
+coreKtx = "1.15.0"
+kotlin = "2.1.20"
+ksp = "2.1.20-1.0.31"
+activityKtx = "1.10.1"
 appcompat = "1.7.0"
-coilCompose = "2.6.0"
+coilCompose = "2.7.0"
 espressoCore = "3.6.1"
-gson = "2.11.0"
-hiltNavigationCompose = "1.2.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-kotlinxSerializationJson = "1.7.1"
+kotlinxSerializationJson = "1.8.0"
 lifecycleExtensions = "2.2.0"
-lifecycleRuntimeKtx = "2.8.4"
-navigationCompose = "2.8.0-beta07"
-okhttp = "4.12.0"
-composeBom = "2024.06.00"
+lifecycleRuntimeKtx = "2.8.7"
+navigationCompose = "2.8.9"
+composeBom = "2025.03.01"
 playServicesLocation = "21.3.0"
-retrofit = "2.11.0"
-uiManifest = "1.6.8"
-retrofit2KotlinxSerializationConverter = "1.0.0"
+uiManifest = "1.7.8"
 room = "2.6.1"
-workRuntime = "2.9.1"
-hiltWork = "1.2.0"
-kotlinxCoroutinesGuava = "1.8.0"
-glance = "1.1.0"
-datastorePreferences = "1.1.1"
-lifecycleRuntimeCompose = "2.8.4"
+workRuntime = "2.10.0"
+kotlinxCoroutinesGuava = "1.10.1"
+glance = "1.1.1"
+datastorePreferences = "1.1.4"
+lifecycleRuntimeCompose = "2.8.7"
 junitJupiterApi = "5.10.2"
 junitJupiterEngine = "5.10.2"
 junitJupiterParams = "5.10.2"
 assertk = "0.28.1"
-kotlinxCoroutinesTest = "1.8.0"
+kotlinxCoroutinesTest = "1.10.1"
 deMannodermausAndroidJunit5GradlePlugin = "1.10.0.0"
 mockk = "1.13.10"
 mockkAndroid = "1.13.10"
@@ -42,17 +36,16 @@ mockwebserver = "4.12.0"
 turbine = "1.1.0"
 runner = "1.6.2"
 rules = "1.6.1"
-hiltAndroidTesting = "2.51.1"
 googleServices = "4.4.2"
-ktor = "2.3.12"
+ktor = "3.1.1"
 timber = "5.0.1"
+koin = "4.0.3"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version = "1.13.1" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -77,19 +70,11 @@ androidx-compose-animation-core = { group = "androidx.compose.animation", name =
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version = "1.2.0" }
 junit = { module = "junit:junit", version.ref = "junit" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime", version.ref = "workRuntime" }
-androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
 kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
 androidx-glance = { group = "androidx.glance", name = "glance", version.ref = "glance" }
 androidx-glance-material3 = { group = "androidx.glance", name = "glance-material3" }
@@ -108,7 +93,6 @@ mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", versio
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroidTesting" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -118,6 +102,16 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-coroutines = { module = "io.insert-koin:koin-core-coroutines", version.ref = "koin" }
+koin-android-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
+koin-android-startup = { module = "io.insert-koin:koin-androidx-startup", version.ref = "koin" }
+koin-android-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-android-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
+koin-test-android = { module = "io.insert-koin:koin-android-test", version.ref = "koin" }
+
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
@@ -125,7 +119,6 @@ junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "deMannodermausA
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 firebase-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices"}
@@ -138,4 +131,16 @@ ktor = [
     "ktor-client-okhttp",
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json"
+]
+koin = [
+    "koin-android",
+    "koin-coroutines",
+    "koin-android-workmanager",
+    "koin-android-startup",
+    "koin-android-compose",
+    "koin-android-compose-navigation"
+]
+koin-test = [
+    "koin-test",
+    "koin-test-junit5"
 ]

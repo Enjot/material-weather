@@ -2,17 +2,11 @@ package com.enjot.materialweather.di
 
 import com.enjot.materialweather.data.util.StandardDispatchers
 import com.enjot.materialweather.domain.repository.DispatcherProvider
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DispatchersModule {
-    
-    @Provides
-    @Singleton
-    fun provideStandardDispatchers(): DispatcherProvider = StandardDispatchers()
+
+val dispatchersModule = module {
+    singleOf(::StandardDispatchers) { bind<DispatcherProvider>() }
 }

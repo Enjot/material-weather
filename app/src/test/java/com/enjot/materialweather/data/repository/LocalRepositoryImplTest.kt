@@ -92,5 +92,4 @@ class LocalRepositoryImplTest {
         assertThat(result.size).isEqualTo(1)
         assertThat(result[0].id).isEqualTo(2)
     }
-    
 }

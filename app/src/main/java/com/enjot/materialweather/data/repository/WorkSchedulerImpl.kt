@@ -11,9 +11,8 @@ import com.enjot.materialweather.data.background.UpdateWeatherWorker
 import com.enjot.materialweather.domain.repository.WorkScheduler
 import kotlinx.coroutines.guava.asDeferred
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class WorkSchedulerImpl @Inject constructor(
+class WorkSchedulerImpl(
     private val workManager: WorkManager
 ) : WorkScheduler {
     override fun scheduleWeatherUpdateWork(repeatInterval: Long) {
