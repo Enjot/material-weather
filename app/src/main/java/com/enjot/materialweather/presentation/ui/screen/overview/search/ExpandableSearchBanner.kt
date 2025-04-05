@@ -7,7 +7,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -50,6 +52,7 @@ import com.enjot.materialweather.domain.model.SearchResult
 import com.enjot.materialweather.presentation.ui.core.location.CurrentLocationButton
 import com.enjot.materialweather.presentation.ui.screen.overview.SearchState
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandableSearchBanner(
@@ -59,9 +62,9 @@ fun ExpandableSearchBanner(
     selectedCity: String,
     searchState: SearchState,
     savedLocations: List<SavedLocation>,
-    isActive: Boolean,
+    isExpanded: Boolean,
     onLocationButtonClick: () -> Unit,
-    onArrowBackClick: () -> Unit,
+    onCollapse: () -> Unit,
     onExpand: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onSearchResultClick: (SearchResult) -> Unit,
@@ -72,9 +75,9 @@ fun ExpandableSearchBanner(
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    val interactionSource = remember { MutableInteractionSource() }
     val padding by animateIntAsState(
-        targetValue = if (isActive) 0 else 16,
+        targetValue = if (isExpanded) 0 else 16,
         label = ""
     )
 
@@ -87,17 +90,17 @@ fun ExpandableSearchBanner(
                     focusManager.clearFocus()
                     onSearch()
                 },
-                expanded = isActive,
-                onExpandedChange = { onExpand() },
+                expanded = isExpanded,
+                onExpandedChange = { if (it) onExpand() else onCollapse() },
                 placeholder = {
                     Text(
-                        text = if (isActive) stringResource(R.string.search) else selectedCity,
+                        text = if (isExpanded) stringResource(R.string.search) else selectedCity,
                         style = MaterialTheme.typography.titleMedium
                     )
                 },
                 leadingIcon = {
-                    if (isActive) {
-                        IconButton(onClick = onArrowBackClick) {
+                    if (isExpanded) {
+                        IconButton(onClick = onCollapse) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = null
@@ -112,7 +115,7 @@ fun ExpandableSearchBanner(
                 },
                 trailingIcon = {
                     AnimatedContent(
-                        targetState = isActive, label = "",
+                        targetState = isExpanded, label = "",
                         transitionSpec = {
                             (fadeIn(animationSpec = tween(220, delayMillis = 90))
                                 .togetherWith(fadeOut(animationSpec = tween(90))))
@@ -162,8 +165,8 @@ fun ExpandableSearchBanner(
                 }
             )
         },
-        expanded = isActive,
-        onExpandedChange = { onExpand() },
+        expanded = isExpanded,
+        onExpandedChange = { if (it) onExpand() else onCollapse() },
         modifier = modifier
             .padding(
                 start = padding.dp,
@@ -189,7 +192,16 @@ fun ExpandableSearchBanner(
             },
             onLocationButtonClick = onLocationButtonClick,
             savedLocations = savedLocations,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                    }
+                )
         )
     }
 }
@@ -276,9 +288,9 @@ fun ExpandableSearchBannerPreview() {
         selectedCity = "",
         searchState = SearchState.Idle(),
         savedLocations = emptyList(),
-        isActive = true,
+        isExpanded = true,
         onLocationButtonClick = { },
-        onArrowBackClick = { },
+        onCollapse = { },
         onExpand = { },
         onNavigateToSettings = { },
         onSearchResultClick = { },

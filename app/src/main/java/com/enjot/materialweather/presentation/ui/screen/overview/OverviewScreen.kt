@@ -1,6 +1,5 @@
 package com.enjot.materialweather.presentation.ui.screen.overview
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -86,15 +85,11 @@ fun OverviewScreenRoot(
         onSearch = viewModel::search,
         onExpandSearchBanner = viewModel::expandSearchBanner,
         onLocationButtonClick = viewModel::getLocationBasedWeather,
-        onArrowBackClick = viewModel::collapseSearchBanner,
+        onCollapseSearchBanner = viewModel::collapseSearchBanner,
         onSave = viewModel::save,
         onRemove = viewModel::remove,
         onSearchResultClick = viewModel::chooseSearchResult
     )
-
-    BackHandler(enabled = state.isSearchBannerExpanded) {
-        viewModel.collapseSearchBanner()
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,7 +105,7 @@ fun OverviewScreen(
     onSearch: () -> Unit,
     onExpandSearchBanner: () -> Unit,
     onLocationButtonClick: () -> Unit,
-    onArrowBackClick: () -> Unit,
+    onCollapseSearchBanner: () -> Unit,
     onSave: (SearchResult) -> Unit,
     onRemove: (SavedLocation) -> Unit,
     onSearchResultClick: (SearchResult) -> Unit
@@ -254,10 +249,10 @@ fun OverviewScreen(
                 onQueryChange = onQueryChange,
                 selectedCity = weatherInfo.place?.city ?: stringResource(R.string.search),
                 onSearch = onSearch,
-                isActive = state.isSearchBannerExpanded,
+                isExpanded = state.isSearchBannerExpanded,
                 onExpand = onExpandSearchBanner,
                 onLocationButtonClick = onLocationButtonClick,
-                onArrowBackClick = onArrowBackClick,
+                onCollapse = onCollapseSearchBanner,
                 onAddToSaved = onSave,
                 onNavigateToSettings = onSettingsClick,
                 onSearchResultClick = onSearchResultClick,
@@ -335,7 +330,7 @@ private fun OverviewScreenPreview() {
             onSearch = { },
             onExpandSearchBanner = { state = state.copy(isSearchBannerExpanded = true) },
             onLocationButtonClick = { },
-            onArrowBackClick = { state = state.copy(isSearchBannerExpanded = false) },
+            onCollapseSearchBanner = { state = state.copy(isSearchBannerExpanded = false) },
             onSave = { },
             onRemove = { },
             onSearchResultClick = { }
