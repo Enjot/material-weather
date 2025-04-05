@@ -159,7 +159,7 @@ fun ExpandableSearchBanner(
                             }
                         }
                     }
-                },
+                }
             )
         },
         expanded = isActive,
@@ -271,18 +271,18 @@ fun ExpandableSearchBannerPreview() {
 
     ExpandableSearchBanner(
         query = "Sieniawa",
-        onQueryChange = {},
-        onSearch = {},
+        onQueryChange = { },
+        onSearch = { },
         selectedCity = "",
         searchState = SearchState.Idle(),
         savedLocations = emptyList(),
         isActive = true,
-        onLocationButtonClick = { /*TODO*/ },
-        onArrowBackClick = { /*TODO*/ },
-        onExpand = { /*TODO*/ },
-        onNavigateToSettings = { /*TODO*/ },
-        onSearchResultClick = {},
-        onAddToSaved = {},
-        onRemoveFromSaved = {}
+        onLocationButtonClick = { },
+        onArrowBackClick = { },
+        onExpand = { },
+        onNavigateToSettings = { },
+        onSearchResultClick = { },
+        onAddToSaved = { },
+        onRemoveFromSaved = { }
     )
 }

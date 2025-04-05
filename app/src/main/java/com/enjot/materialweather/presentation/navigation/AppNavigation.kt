@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.enjot.materialweather.presentation.ui.screen.daily.DailyScreen
-import com.enjot.materialweather.presentation.ui.screen.overview.OverviewScreen
+import com.enjot.materialweather.presentation.ui.screen.overview.OverviewScreenRoot
 import com.enjot.materialweather.presentation.ui.screen.settings.SettingsScreen
 
 @Composable
@@ -32,7 +32,7 @@ fun AppNavigation() {
             enterTransition = { slideIntoContainer(End, animationSpec) },
             exitTransition = { slideOutOfContainer(Start, animationSpec) }
         ) {
-            OverviewScreen(
+            OverviewScreenRoot(
                 onNavigateToDailyWeather = { index ->
                     navController.navigate(Daily(index)) {
                         launchSingleTop = true
