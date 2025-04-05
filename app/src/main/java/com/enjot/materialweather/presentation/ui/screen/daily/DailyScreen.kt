@@ -1,5 +1,6 @@
 package com.enjot.materialweather.presentation.ui.screen.daily
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,9 +30,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.R
-import com.enjot.materialweather.presentation.ui.core.ScreenHeader
 import com.enjot.materialweather.presentation.ui.component.banner.conditions.ConditionsBanner
 import com.enjot.materialweather.presentation.ui.component.banner.summary.SummaryBanner
+import com.enjot.materialweather.presentation.ui.core.ScreenHeader
 import com.enjot.materialweather.presentation.utils.toDayOfWeekId
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -43,7 +44,7 @@ fun DailyScreen(
     viewModel: DailyViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    
+
     val scope = rememberCoroutineScope()
     val rowState = rememberLazyListState(
         initialFirstVisibleItemIndex = when (enterIndex) {
@@ -55,10 +56,11 @@ fun DailyScreen(
     var index by rememberSaveable {
         mutableIntStateOf(enterIndex ?: 0)
     }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
             .systemBarsPadding()
     ) {
         ScreenHeader(
@@ -94,14 +96,14 @@ fun DailyScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             state.current?.let {
                 SummaryBanner(
                     dailyList[index].tempDay,
                     dailyList[index].description
                 )
             }
-            
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -142,6 +144,6 @@ fun SingleDay(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        
+
     }
 }

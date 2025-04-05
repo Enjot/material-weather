@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.first
 
 const val UPDATE_WEATHER_WORK = "UpdateWeatherWork"
 
-
 class UpdateWeatherWorker(
     private val updateWeatherUseCase: UpdateWeatherUseCase,
     private val localWeatherFlow: LocalWeatherFlow,
@@ -22,7 +21,7 @@ class UpdateWeatherWorker(
             val coordinates = weatherInfo.place!!.coordinates
             updateWeatherUseCase(coordinates)
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.failure()
         }
     }
