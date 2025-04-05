@@ -54,6 +54,7 @@ fun SearchResultItem(
                 text = searchResult.postCode,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiaryContainer)
@@ -64,6 +65,7 @@ fun SearchResultItem(
         Text(
             text = searchResult.countryCode,
             style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
             modifier = Modifier
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.tertiaryContainer)
