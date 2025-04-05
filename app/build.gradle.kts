@@ -52,11 +52,6 @@ android {
                 "\"${localProperties.getProperty("api_key_geoapify")}\""
             )
         }
-        
-        ksp {
-            arg("room.generateKotlin", "true")
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
     }
     
     buildTypes {
@@ -176,4 +171,9 @@ dependencies {
 
     // Logging
     implementation(libs.timber)
+}
+
+ksp {
+    arg("room.generateKotlin", "true")
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
