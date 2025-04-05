@@ -3,7 +3,6 @@ package com.enjot.materialweather.presentation.ui.screen.overview
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
@@ -19,34 +18,29 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.R
-import com.enjot.materialweather.presentation.ui.core.WeatherProviderButton
 import com.enjot.materialweather.presentation.ui.component.banner.airpollution.AirPollutionBanner
 import com.enjot.materialweather.presentation.ui.component.banner.conditions.ConditionsBanner
 import com.enjot.materialweather.presentation.ui.component.banner.dailyforecast.DailyBanner
 import com.enjot.materialweather.presentation.ui.component.banner.hourlyforecast.HourlyBanner
 import com.enjot.materialweather.presentation.ui.component.banner.summary.SummaryBanner
+import com.enjot.materialweather.presentation.ui.core.WeatherProviderButton
 import com.enjot.materialweather.presentation.ui.screen.overview.search.ExpandableSearchBanner
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OverviewScreen(
     onNavigateToDailyWeather: (Int) -> Unit,
     onNavigateToSettings: () -> Unit,
-    viewModel: OverviewViewModel = hiltViewModel()
+    viewModel: OverviewViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val weatherInfo by viewModel.weatherInfo.collectAsStateWithLifecycle()
@@ -54,18 +48,18 @@ fun OverviewScreen(
     
     val scrollState = rememberScrollState()
     
-    val pullRefreshState = rememberPullToRefreshState { weatherInfo.place != null }
-    
-    if (pullRefreshState.isRefreshing) {
-        LaunchedEffect(true) {
-            weatherInfo.place?.let { viewModel.pullRefresh() }
-            pullRefreshState.endRefresh()
-        }
-    }
-    
-    val scaleFraction = if (pullRefreshState.isRefreshing) 1f else
-        LinearOutSlowInEasing.transform(pullRefreshState.progress).coerceIn(0f, 1f)
-    
+//    val pullRefreshState = rememberPullToRefreshState { weatherInfo.place != null }
+//
+//    if (pullRefreshState.isRefreshing) {
+//        LaunchedEffect(true) {
+//            weatherInfo.place?.let { viewModel.pullRefresh() }
+//            pullRefreshState.endRefresh()
+//        }
+//    }
+//
+//    val scaleFraction = if (pullRefreshState.isRefreshing) 1f else
+//        LinearOutSlowInEasing.transform(pullRefreshState.progress).coerceIn(0f, 1f)
+//
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -90,7 +84,7 @@ fun OverviewScreen(
         Box(
             Modifier
                 .fillMaxSize()
-                .nestedScroll(pullRefreshState.nestedScrollConnection)
+//                .nestedScroll(pullRefreshState.nestedScrollConnection)
         ) {
             
             Column(Modifier.fillMaxSize()) {
@@ -166,12 +160,12 @@ fun OverviewScreen(
 
             }
             
-            PullToRefreshContainer(
-                state = pullRefreshState,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .graphicsLayer(scaleX = scaleFraction, scaleY = scaleFraction),
-            )
+//            PullToRefreshContainer(
+//                state = pullRefreshState,
+//                modifier = Modifier
+//                    .align(Alignment.TopCenter)
+//                    .graphicsLayer(scaleX = scaleFraction, scaleY = scaleFraction),
+//            )
         }
     }
     

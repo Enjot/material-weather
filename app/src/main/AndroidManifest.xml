@@ -30,18 +30,24 @@
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
-            android:multiprocess="true"
-            tools:node="remove" />
+            android:exported="false"
+            tools:node="merge">
 
-        <receiver android:name=".presentation.overviewscreen.widget.WeatherWidgetReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
             <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/weather_widget_info" />
-        </receiver>
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+<!--        <receiver android:name=".presentation.overviewscreen.widget.WeatherWidgetReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/weather_widget_info" />-->
+<!--        </receiver>-->
 
     </application>
 

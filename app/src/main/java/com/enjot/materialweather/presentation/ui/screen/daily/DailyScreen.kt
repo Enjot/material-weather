@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enjot.materialweather.R
 import com.enjot.materialweather.presentation.ui.core.ScreenHeader
@@ -35,12 +34,13 @@ import com.enjot.materialweather.presentation.ui.component.banner.conditions.Con
 import com.enjot.materialweather.presentation.ui.component.banner.summary.SummaryBanner
 import com.enjot.materialweather.presentation.utils.toDayOfWeekId
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DailyScreen(
     enterIndex: Int?,
     onNavigateBack: () -> Unit,
-    viewModel: DailyViewModel = hiltViewModel()
+    viewModel: DailyViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     

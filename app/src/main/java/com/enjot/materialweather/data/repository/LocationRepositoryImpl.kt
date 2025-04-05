@@ -19,7 +19,7 @@ class LocationRepositoryImpl @Inject constructor(
     private val client: FusedLocationProviderClient,
 ) : LocationRepository {
     
-    @SuppressLint("MissingPermission") // UI checks it
+    @SuppressLint("MissingPermission") // UI checks it TODO check it anyway
     override suspend fun getCoordinates(): Resource<Coordinates?> {
         return try {
             suspendCancellableCoroutine { continuation ->

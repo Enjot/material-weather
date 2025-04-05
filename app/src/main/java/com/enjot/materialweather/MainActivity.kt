@@ -9,10 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.enjot.materialweather.presentation.navigation.AppNavigation
 import com.enjot.materialweather.presentation.ui.theme.MaterialWeatherTheme
-import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-@AndroidEntryPoint
+
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

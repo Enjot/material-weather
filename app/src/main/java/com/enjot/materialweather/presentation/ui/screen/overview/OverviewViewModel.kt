@@ -17,18 +17,16 @@ import com.enjot.materialweather.domain.usecase.weather.UpdateWeatherUseCase
 import com.enjot.materialweather.domain.utils.Resource
 import com.enjot.materialweather.presentation.utils.UiText
 import com.enjot.materialweather.presentation.utils.toUiText
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-@HiltViewModel
-class OverviewViewModel @Inject constructor(
+
+class OverviewViewModel(
     localWeatherFlow: LocalWeatherFlow,
     savedLocationsFlow: SavedLocationsFlow,
     private val getSearchResultsUseCase: GetSearchResultsUseCase,

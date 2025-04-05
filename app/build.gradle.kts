@@ -4,7 +4,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlin)
-    alias(libs.plugins.daggerHilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.junit5)
@@ -28,7 +27,7 @@ android {
         versionCode = 1
         versionName = "1.0.0-beta01"
         
-        testInstrumentationRunner = "com.enjot.materialweather.HiltTestRunner"
+        testInstrumentationRunner = "com.enjot.materialweather.KoinTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -78,7 +77,6 @@ android {
     }
 
     composeCompiler {
-        enableStrongSkippingMode = true
         includeSourceInformation = true
     }
 
@@ -107,7 +105,6 @@ dependencies {
     implementation (libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.hilt.work)
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.androidx.glance)
     implementation(libs.androidx.glance.material3)
@@ -125,7 +122,6 @@ dependencies {
     testImplementation(libs.mockk.agent)
     testImplementation(libs.mockwebserver)
     testImplementation(libs.turbine)
-    testImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     
@@ -144,7 +140,6 @@ dependencies {
     androidTestImplementation(libs.androidx.rules)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.assertk)
-    androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.turbine)
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
@@ -167,14 +162,11 @@ dependencies {
     kspAndroidTest(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.androidx.room.testing)
-    
-    // Dagger-Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    kspAndroidTest(libs.hilt.compiler)
-    ksp(libs.androidx.hilt.compiler)
-    kspAndroidTest(libs.androidx.hilt.compiler)
-    implementation (libs.androidx.hilt.navigation.compose)
+
+    // Dependency Injection
+    implementation(libs.bundles.koin)
+    testImplementation(libs.bundles.koin.test)
+    androidTestImplementation(libs.koin.test.android)
     
     // Location services
     implementation (libs.play.services.location)

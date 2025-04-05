@@ -43,7 +43,7 @@ class RemoteRepositoryImplTest {
             )
         }
 
-        httpClient = HttpClientFactory().build(mockEngine)
+        httpClient = HttpClientFactory.build(mockEngine)
 
         val testDispatchers = TestDispatchers(mainCoroutineExtension.testDispatcher)
 
@@ -60,5 +60,4 @@ class RemoteRepositoryImplTest {
 
         assertThat(result.errorType).isEqualTo(ErrorType.HTTP)
     }
-
 }

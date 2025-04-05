@@ -1,23 +1,14 @@
 package com.enjot.materialweather.di
 
-import android.app.Application
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
 
-@Module
-@InstallIn(SingletonComponent::class)
-object LocationModule {
-    
-    @Provides
-    @Singleton
-    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(app)
-    }
-    
+val locationModule = module {
+    single {
+        LocationServices.getFusedLocationProviderClient(androidContext())
+    }.bind<FusedLocationProviderClient>()
 }
