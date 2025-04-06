@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.junit5)
     alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.firebase.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -146,6 +147,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     // Networking
     implementation(libs.kotlinx.serialization.json)
