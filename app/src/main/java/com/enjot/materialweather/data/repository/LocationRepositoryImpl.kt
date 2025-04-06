@@ -18,21 +18,22 @@ import kotlin.coroutines.resumeWithException
 class LocationRepositoryImpl @Inject constructor(
     private val client: FusedLocationProviderClient,
 ) : LocationRepository {
-    
+
     @SuppressLint("MissingPermission") // UI checks it TODO check it anyway
     override suspend fun getCoordinates(): Resource<Coordinates?> {
         return try {
             suspendCancellableCoroutine { continuation ->
                 client.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                     .addOnSuccessListener { location: Location? ->
-                        val coordinates =   location?.toCoordinates() // possible location as null but not sure yet
+                        val coordinates =
+                            location?.toCoordinates() // possible location as null but not sure yet
                         continuation.resume(Resource.Success(coordinates))
                     }
                     .addOnFailureListener { exception ->
                         continuation.resumeWithException(exception)
                     }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             return Resource.Error(ErrorType.LOCATION)
         }
     }

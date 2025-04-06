@@ -3,3 +3,5 @@
 /workspace.xml
 /runConfigurations.xml
 /AndroidProjectSystem.xml
+appInsightsSettings.xml
+deploymentTargetSelector.xml
