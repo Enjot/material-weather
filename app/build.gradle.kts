@@ -173,6 +173,8 @@ dependencies {
 
     // Logging
     implementation(libs.timber)
+
+    debugImplementation(libs.leakCanary)
 }
 
 ksp {

@@ -41,6 +41,7 @@ googleServices = "4.4.2"
 ktor = "3.1.1"
 timber = "5.0.1"
 koin = "4.0.3"
+leakCanary = "2.14"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -115,6 +116,7 @@ koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "
 koin-test-android = { module = "io.insert-koin:koin-android-test", version.ref = "koin" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 
 [plugins]
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "deMannodermausAndroidJunit5GradlePlugin" }

@@ -32,6 +32,6 @@ My main goal was to make a pleasant-looking app, that has some small unique func
 - dependency injection with inversion of control
 
 ### Tech Stack:
-- Kotlin, Jetpack Compose including Canvas, Material 3, Dagger/Hilt, Room, Retrofit, WorkManager, Preferences DataStore, JUnit5, Mockk
+- Kotlin, Jetpack Compose including Canvas, Material 3, Ktor, Room, Koin, WorkManager, Preferences DataStore, JUnit5, Mockk
 ### Helpers libraries:
-- KSP, Gson, Location Services, Accompanist, OkHttp, Kotlin Serialization and Converter for Retrofit, Turbine
+- Firebase Crashlytics, KSP, Location Services, Accompanist, Kotlin Serialization, Turbine, Timber, LeakCanary
