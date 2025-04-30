@@ -27,6 +27,7 @@ import com.enjot.materialweather.domain.usecase.weather.UpdateWeatherUseCase
 import com.enjot.materialweather.presentation.ui.screen.daily.DailyViewModel
 import com.enjot.materialweather.presentation.ui.screen.overview.OverviewViewModel
 import com.enjot.materialweather.presentation.ui.screen.settings.SettingsViewModel
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.dsl.workerOf
@@ -46,7 +47,19 @@ class MaterialWeatherApplication : Application(), KoinStartup, KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(
+                object : Timber.DebugTree() {
+                    override fun createStackElementTag(element: StackTraceElement): String {
+                        return with(element) { "$fileName:$lineNumber $methodName()" }
+                    }
+                }
+            )
+
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.isCrashlyticsCollectionEnabled = false
+        }
     }
 
     override fun onKoinStartup() = koinConfiguration {
