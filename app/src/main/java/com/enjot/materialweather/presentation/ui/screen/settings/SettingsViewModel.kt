@@ -2,56 +2,34 @@ package com.enjot.materialweather.presentation.ui.screen.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enjot.materialweather.domain.model.UserPreferences
-import com.enjot.materialweather.domain.usecase.settings.ManageWeatherUpdateUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.enjot.materialweather.domain.model.Settings
+import com.enjot.materialweather.domain.repository.SettingsManager
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 
 class SettingsViewModel(
-    private val manageWeatherUpdateUseCase: ManageWeatherUpdateUseCase
+    private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
-    val userPreferences: StateFlow<UserPreferences> = manageWeatherUpdateUseCase.userPreferences
+    val state: StateFlow<Settings> = settingsManager.settingsStateFlow()
         .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = UserPreferences(60)
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000L),
+            Settings()
         )
 
-    private var _state = MutableStateFlow(SettingsUiState())
-    val state: StateFlow<SettingsUiState> = _state.asStateFlow()
-
-    init {
-        setUpdateWeatherWorkState()
-    }
-
-    fun scheduleBackgroundWeather() {
-        if (state.value.isWorkScheduled) manageWeatherUpdateUseCase.cancel()
-        else runBlocking { manageWeatherUpdateUseCase.schedule() }
-        setUpdateWeatherWorkState()
-    }
-
-    fun setIntervals(minutes: Long) {
-        runBlocking { manageWeatherUpdateUseCase.updateRepeatInterval(minutes) }
-        if (state.value.isWorkScheduled) {
-            manageWeatherUpdateUseCase.cancel()
-            runBlocking {
-                manageWeatherUpdateUseCase.schedule()
-            }
-            setUpdateWeatherWorkState()
+    fun toggleBackgroundUpdatesEnabled() {
+        viewModelScope.launch {
+            settingsManager.toggleBackgroundUpdates()
         }
     }
 
-    private fun setUpdateWeatherWorkState() {
-        runBlocking {
-            val isWorkScheduled = manageWeatherUpdateUseCase.isWorkScheduled()
-            _state.update { it.copy(isWorkScheduled = isWorkScheduled) }
+    fun setBackgroundUpdatesInterval(minutes: Long) {
+        viewModelScope.launch {
+            settingsManager.setBackgroundUpdatesRepeatInterval(minutes)
         }
     }
 }

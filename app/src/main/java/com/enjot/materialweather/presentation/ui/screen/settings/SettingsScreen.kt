@@ -24,8 +24,6 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
-
-    val userPreferences by viewModel.userPreferences.collectAsStateWithLifecycle()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Column(
@@ -42,12 +40,12 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         BackgroundWorkSection(
-            isWorkScheduled = state.isWorkScheduled,
-            repeatInterval = userPreferences.backgroundUpdatesRepeatInterval,
-            isLocationBased = state.isLocationBased,
-            onBackgroundWeatherUpdatesClick = viewModel::scheduleBackgroundWeather,
+            areBackgroundUpdatesEnabled = state.backgroundUpdatesEnabled,
+            repeatInterval = state.backgroundUpdatesRepeatInterval,
+            isLocationBased = state.areLocationBasedBackgroundUpdatesEnabled,
+            toggleBackgroundUpdates = viewModel::toggleBackgroundUpdatesEnabled,
             onLocationBasedUpdatesClick = { TODO() },
-            onSetInterval = viewModel::setIntervals
+            onSetInterval = viewModel::setBackgroundUpdatesInterval
         )
 
     }

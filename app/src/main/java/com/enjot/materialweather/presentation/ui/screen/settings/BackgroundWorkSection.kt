@@ -36,17 +36,17 @@ import com.enjot.materialweather.R
 
 @Composable
 fun BackgroundWorkSection(
-    isWorkScheduled: Boolean,
+    areBackgroundUpdatesEnabled: Boolean,
     repeatInterval: Long,
     isLocationBased: Boolean,
-    onBackgroundWeatherUpdatesClick: () -> Unit,
+    toggleBackgroundUpdates: () -> Unit,
     onLocationBasedUpdatesClick: () -> Unit,
     onSetInterval: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     
     var showDialog by remember { mutableStateOf(false) }
-    
+
     Column(
         modifier = modifier
     ) {
@@ -55,7 +55,7 @@ fun BackgroundWorkSection(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onBackgroundWeatherUpdatesClick() }
+                .clickable { toggleBackgroundUpdates() }
                 .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             Column(
@@ -70,9 +70,9 @@ fun BackgroundWorkSection(
             Spacer(modifier = Modifier.width(16.dp))
             
             Switch(
-                checked = isWorkScheduled,
-                onCheckedChange = { onBackgroundWeatherUpdatesClick() },
-                thumbContent = if (isWorkScheduled) {
+                checked = areBackgroundUpdatesEnabled,
+                onCheckedChange = { toggleBackgroundUpdates() },
+                thumbContent = if (areBackgroundUpdatesEnabled) {
                     {
                         Icon(
                             imageVector = Icons.Filled.Check,
@@ -265,11 +265,11 @@ fun IntervalDialogPreview() {
 @Composable
 fun BackgroundWorkSectionPreview() {
     BackgroundWorkSection(
-        isWorkScheduled = true,
+        areBackgroundUpdatesEnabled = true,
         repeatInterval = 120L,
         isLocationBased = false,
-        onBackgroundWeatherUpdatesClick = { /*TODO*/ },
-        onLocationBasedUpdatesClick = { /*TODO*/ },
-        onSetInterval = { /*TODO*/ }
+        toggleBackgroundUpdates = { },
+        onLocationBasedUpdatesClick = { },
+        onSetInterval = { }
     )
 }

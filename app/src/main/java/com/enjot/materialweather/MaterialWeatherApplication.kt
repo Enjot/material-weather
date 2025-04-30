@@ -2,11 +2,11 @@ package com.enjot.materialweather
 
 import android.app.Application
 import androidx.work.WorkManager
+import com.enjot.materialweather.data.SettingsManagerImpl
 import com.enjot.materialweather.data.background.UpdateWeatherWorker
 import com.enjot.materialweather.data.remote.openweathermap.KtorRepository
 import com.enjot.materialweather.data.repository.LocalRepositoryImpl
 import com.enjot.materialweather.data.repository.LocationRepositoryImpl
-import com.enjot.materialweather.data.repository.WorkSchedulerImpl
 import com.enjot.materialweather.di.dataStoreModule
 import com.enjot.materialweather.di.databaseModule
 import com.enjot.materialweather.di.dispatchersModule
@@ -15,12 +15,11 @@ import com.enjot.materialweather.di.networkModule
 import com.enjot.materialweather.domain.repository.LocalRepository
 import com.enjot.materialweather.domain.repository.LocationRepository
 import com.enjot.materialweather.domain.repository.RemoteRepository
-import com.enjot.materialweather.domain.repository.WorkScheduler
+import com.enjot.materialweather.domain.repository.SettingsManager
 import com.enjot.materialweather.domain.usecase.savedlocation.AddSavedLocationUseCase
 import com.enjot.materialweather.domain.usecase.savedlocation.DeleteSavedLocationUseCase
 import com.enjot.materialweather.domain.usecase.savedlocation.SavedLocationsFlow
 import com.enjot.materialweather.domain.usecase.search.GetSearchResultsUseCase
-import com.enjot.materialweather.domain.usecase.settings.ManageWeatherUpdateUseCase
 import com.enjot.materialweather.domain.usecase.weather.GetWeatherFromLocationUseCase
 import com.enjot.materialweather.domain.usecase.weather.LocalWeatherFlow
 import com.enjot.materialweather.domain.usecase.weather.UpdateWeatherUseCase
@@ -80,14 +79,13 @@ class MaterialWeatherApplication : Application(), KoinStartup, KoinComponent {
 val weatherModule = module {
     single { WorkManager.getInstance(androidContext()) }
 
-    singleOf(::WorkSchedulerImpl) { bind<WorkScheduler>() }
+    singleOf(::SettingsManagerImpl) { bind<SettingsManager>() }
     singleOf(::LocalRepositoryImpl) { bind<LocalRepository>() }
     singleOf(::KtorRepository) { bind<RemoteRepository>() }
     singleOf(::LocationRepositoryImpl) { bind<LocationRepository>() }
 
     singleOf(::LocalWeatherFlow)
     singleOf(::SavedLocationsFlow)
-    singleOf(::ManageWeatherUpdateUseCase)
     singleOf(::GetSearchResultsUseCase)
     singleOf(::UpdateWeatherUseCase)
     singleOf(::AddSavedLocationUseCase)
