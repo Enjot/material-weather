@@ -14,7 +14,7 @@ val databaseModule = module {
                 WeatherDatabase::class.java,
                 "weather_db"
             )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(true)
             .build()
     }
 
