@@ -26,7 +26,7 @@ android {
         minSdk = 31
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0.0-beta01"
+        versionName = "1.0.0-beta02"
 
         testInstrumentationRunner = "com.enjot.materialweather.KoinTestRunner"
 
@@ -120,6 +120,7 @@ dependencies {
     testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.work.testing)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
