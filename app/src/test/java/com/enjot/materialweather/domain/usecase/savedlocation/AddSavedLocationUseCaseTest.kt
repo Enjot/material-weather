@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEmpty
 import com.enjot.materialweather.domain.util.searchResult
 import com.enjot.materialweather.fakes.LocalRepositoryFake
+import com.enjot.materialweather.weather.domain.mapper.toSavedLocation
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -12,18 +13,16 @@ import org.junit.jupiter.api.Test
 class AddSavedLocationUseCaseTest {
 
     private lateinit var localRepository: LocalRepositoryFake
-    private lateinit var addSavedLocationUseCase: AddSavedLocationUseCase
 
     @BeforeEach
     fun setUp() {
         localRepository = LocalRepositoryFake()
-        addSavedLocationUseCase = AddSavedLocationUseCase(localRepository)
     }
 
     @Test
     fun `Save location, saved correctly`() = runTest {
 
-        addSavedLocationUseCase(searchResult())
+        localRepository.addSavedLocation(searchResult().toSavedLocation())
 
         assertThat(localRepository.savedLocations.value).isNotEmpty()
     }
@@ -33,7 +32,7 @@ class AddSavedLocationUseCaseTest {
 
         val searchResult = searchResult()
 
-        addSavedLocationUseCase(searchResult)
+        localRepository.addSavedLocation(searchResult.toSavedLocation())
 
         val savedLocation = localRepository.savedLocations.value[0]
 

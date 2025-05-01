@@ -1,8 +1,7 @@
 package com.enjot.materialweather.domain.util
 
-import com.enjot.materialweather.domain.repository.DispatcherProvider
+import com.enjot.materialweather.core.domain.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 

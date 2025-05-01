@@ -1,7 +1,7 @@
 package com.enjot.materialweather.fakes
 
-import com.enjot.materialweather.data.database.WeatherDao
-import com.enjot.materialweather.data.database.WeatherEntity
+import com.enjot.materialweather.weather.data.database.WeatherDao
+import com.enjot.materialweather.weather.data.database.entity.WeatherEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow

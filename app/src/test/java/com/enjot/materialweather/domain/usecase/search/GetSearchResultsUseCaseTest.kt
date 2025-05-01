@@ -1,7 +1,7 @@
 package com.enjot.materialweather.domain.usecase.search
 
-import com.enjot.materialweather.domain.repository.RemoteRepository
-import com.enjot.materialweather.domain.utils.Resource
+import com.enjot.materialweather.core.domain.utils.Resource
+import com.enjot.materialweather.weather.domain.repository.RemoteRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -13,12 +13,10 @@ import org.junit.jupiter.api.Test
 class GetSearchResultsUseCaseTest {
 
     private lateinit var remoteRepository: RemoteRepository
-    private lateinit var getSearchResultsUseCase: GetSearchResultsUseCase
 
     @BeforeEach
     fun setUp() {
         remoteRepository = mockk(relaxed = true)
-        getSearchResultsUseCase = GetSearchResultsUseCase(remoteRepository)
     }
 
     @Test
@@ -28,7 +26,7 @@ class GetSearchResultsUseCaseTest {
 
         coEvery { remoteRepository.getSearchResults(any()) } returns Resource.Success(emptyList())
 
-        getSearchResultsUseCase(query)
+        remoteRepository.getSearchResults(query)
 
         coVerify {
             remoteRepository.getSearchResults(query)

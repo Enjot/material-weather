@@ -1,7 +1,7 @@
 package com.enjot.materialweather.di
 
 import androidx.room.Room
-import com.enjot.materialweather.data.database.WeatherDatabase
+import com.enjot.materialweather.weather.data.database.WeatherDatabase
 import org.koin.dsl.module
 
 

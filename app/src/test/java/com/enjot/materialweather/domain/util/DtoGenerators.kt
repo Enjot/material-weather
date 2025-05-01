@@ -1,7 +1,7 @@
 package com.enjot.materialweather.domain.util
 
-import com.enjot.materialweather.data.remote.openweathermap.dto.OneCallDto
-import com.enjot.materialweather.data.remote.openweathermap.dto.ReverseGeocodingDto
+import com.enjot.materialweather.weather.data.remote.dto.OneCallDto
+import com.enjot.materialweather.weather.data.remote.dto.ReverseGeocodingDto
 
 fun reverseGeocodingDto() = ReverseGeocodingDto(
     results = listOf(

@@ -1,7 +1,7 @@
 package com.enjot.materialweather.fakes
 
-import com.enjot.materialweather.domain.model.Settings
-import com.enjot.materialweather.domain.repository.SettingsManager
+import com.enjot.materialweather.settings.domain.Settings
+import com.enjot.materialweather.settings.domain.SettingsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

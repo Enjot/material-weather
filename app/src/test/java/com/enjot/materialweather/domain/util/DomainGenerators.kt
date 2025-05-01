@@ -1,13 +1,14 @@
 package com.enjot.materialweather.domain.util
 
-import com.enjot.materialweather.domain.model.AirPollution
-import com.enjot.materialweather.domain.model.Coordinates
-import com.enjot.materialweather.domain.model.CurrentWeather
-import com.enjot.materialweather.domain.model.DailyWeather
-import com.enjot.materialweather.domain.model.HourlyWeather
-import com.enjot.materialweather.domain.model.SavedLocation
-import com.enjot.materialweather.domain.model.SearchResult
-import com.enjot.materialweather.domain.model.WeatherInfo
+import com.enjot.materialweather.core.domain.Coordinates
+import com.enjot.materialweather.weather.domain.model.AirPollution
+import com.enjot.materialweather.weather.domain.model.CurrentWeather
+import com.enjot.materialweather.weather.domain.model.DailyWeather
+import com.enjot.materialweather.weather.domain.model.HourlyWeather
+import com.enjot.materialweather.weather.domain.model.SavedLocation
+import com.enjot.materialweather.weather.domain.model.SearchResult
+import com.enjot.materialweather.weather.domain.model.WeatherInfo
+
 
 fun savedLocation() = SavedLocation(
     id = 1,

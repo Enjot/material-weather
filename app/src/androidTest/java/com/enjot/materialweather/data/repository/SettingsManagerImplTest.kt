@@ -19,11 +19,11 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.enjot.materialweather.data.SettingsManagerImpl
-import com.enjot.materialweather.data.SettingsManagerImpl.Companion.BACKGROUND_UPDATES_REPEAT_INTERVAL
-import com.enjot.materialweather.data.SettingsManagerImpl.Companion.DEFAULT_BACKGROUND_UPDATES_REPEAT_INTERVAL
-import com.enjot.materialweather.data.background.UPDATE_WEATHER_WORK
-import com.enjot.materialweather.data.util.isEnqueuedOrRunning
+import com.enjot.materialweather.settings.data.SettingsManagerImpl
+import com.enjot.materialweather.settings.data.SettingsManagerImpl.Companion.BACKGROUND_UPDATES_REPEAT_INTERVAL
+import com.enjot.materialweather.settings.data.SettingsManagerImpl.Companion.DEFAULT_BACKGROUND_UPDATES_REPEAT_INTERVAL
+import com.enjot.materialweather.settings.data.UPDATE_WEATHER_WORK
+import com.enjot.materialweather.settings.data.isEnqueuedOrRunning
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job

@@ -1,0 +1,257 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "a451fd290512726e8fddb85132200be1",
+    "entities": [
+      {
+        "tableName": "weather_info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `hourly` TEXT, `daily` TEXT, `city` TEXT, `postCode` TEXT, `countryCode` TEXT, `lat` REAL, `lon` REAL, `localFormattedTime` TEXT, `temp` INTEGER, `minTemp` INTEGER, `maxTemp` INTEGER, `feelsLike` INTEGER, `clouds` INTEGER, `windGust` REAL, `rainPrecipitation` REAL, `snowPrecipitation` REAL, `weather` TEXT, `description` TEXT, `icon` TEXT, `sunrise` TEXT, `sunset` TEXT, `windSpeed` INTEGER, `windDeg` INTEGER, `humidity` INTEGER, `dewPoint` INTEGER, `pressure` INTEGER, `uvi` INTEGER, `aqi` INTEGER, `nh3` INTEGER, `no` INTEGER, `co` INTEGER, `no2` INTEGER, `o3` INTEGER, `pm10` INTEGER, `pm25` INTEGER, `so2` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourly",
+            "columnName": "hourly",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "daily",
+            "columnName": "daily",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "place.city",
+            "columnName": "city",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "place.postCode",
+            "columnName": "postCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "place.countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "place.coordinates.lat",
+            "columnName": "lat",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "place.coordinates.lon",
+            "columnName": "lon",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "current.localFormattedTime",
+            "columnName": "localFormattedTime",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.temp",
+            "columnName": "temp",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.minTemp",
+            "columnName": "minTemp",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.maxTemp",
+            "columnName": "maxTemp",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.feelsLike",
+            "columnName": "feelsLike",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.clouds",
+            "columnName": "clouds",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.windGust",
+            "columnName": "windGust",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "current.rainPrecipitation",
+            "columnName": "rainPrecipitation",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "current.snowPrecipitation",
+            "columnName": "snowPrecipitation",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "current.weather",
+            "columnName": "weather",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.icon",
+            "columnName": "icon",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.conditions.sunrise",
+            "columnName": "sunrise",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.conditions.sunset",
+            "columnName": "sunset",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "current.conditions.windSpeed",
+            "columnName": "windSpeed",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.conditions.windDeg",
+            "columnName": "windDeg",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.conditions.humidity",
+            "columnName": "humidity",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.conditions.dewPoint",
+            "columnName": "dewPoint",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.conditions.pressure",
+            "columnName": "pressure",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "current.conditions.uvi",
+            "columnName": "uvi",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.aqi",
+            "columnName": "aqi",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.nh3",
+            "columnName": "nh3",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.no",
+            "columnName": "no",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.co",
+            "columnName": "co",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.no2",
+            "columnName": "no2",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.o3",
+            "columnName": "o3",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.pm10",
+            "columnName": "pm10",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.pm25",
+            "columnName": "pm25",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "airPollution.so2",
+            "columnName": "so2",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "saved_location",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `postCode` TEXT, `countryCode` TEXT NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postCode",
+            "columnName": "postCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lon",
+            "columnName": "lon",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a451fd290512726e8fddb85132200be1')"
+    ]
+  }
+}
