@@ -1,7 +1,7 @@
 package com.enjot.materialweather.fakes
 
-import com.enjot.materialweather.data.database.SavedLocationDao
-import com.enjot.materialweather.data.database.SavedLocationEntity
+import com.enjot.materialweather.weather.data.database.SavedLocationDao
+import com.enjot.materialweather.weather.data.database.entity.SavedLocationEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

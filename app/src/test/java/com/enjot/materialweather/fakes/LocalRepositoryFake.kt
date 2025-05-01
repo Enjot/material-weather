@@ -1,8 +1,8 @@
 package com.enjot.materialweather.fakes
 
-import com.enjot.materialweather.domain.model.SavedLocation
-import com.enjot.materialweather.domain.model.WeatherInfo
-import com.enjot.materialweather.domain.repository.LocalRepository
+import com.enjot.materialweather.weather.domain.model.SavedLocation
+import com.enjot.materialweather.weather.domain.model.WeatherInfo
+import com.enjot.materialweather.weather.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

@@ -12,12 +12,10 @@ import org.junit.jupiter.api.Test
 class SavedLocationsFlowTest {
 
     private lateinit var localRepository: LocalRepositoryFake
-    private lateinit var getSavedLocationUseCase: SavedLocationsFlow
 
     @BeforeEach
     fun setUp() {
         localRepository = LocalRepositoryFake()
-        getSavedLocationUseCase = SavedLocationsFlow(localRepository)
     }
 
     @Test
@@ -30,7 +28,7 @@ class SavedLocationsFlowTest {
             listOf(savedLocation1, savedLocation2)
         )
 
-        val result = getSavedLocationUseCase().first()
+        val result = localRepository.getSavedLocations().first()
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result[0]).isEqualTo(savedLocation1)

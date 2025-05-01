@@ -1,7 +1,7 @@
 package com.enjot.util
 
-import com.enjot.materialweather.domain.model.Coordinates
-import com.enjot.materialweather.domain.model.SavedLocation
+import com.enjot.materialweather.core.domain.Coordinates
+import com.enjot.materialweather.weather.domain.model.SavedLocation
 
 fun savedLocation() = SavedLocation(
     id = 1,

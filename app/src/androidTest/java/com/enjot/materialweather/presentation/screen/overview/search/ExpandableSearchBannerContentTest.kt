@@ -8,10 +8,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import com.enjot.materialweather.R
-import com.enjot.materialweather.domain.model.SavedLocation
-import com.enjot.materialweather.presentation.ui.screen.overview.SearchState
-import com.enjot.materialweather.presentation.ui.theme.MaterialWeatherTheme
-import com.enjot.materialweather.presentation.ui.screen.overview.search.ExpandableSearchBannerContent
+import com.enjot.materialweather.weather.domain.model.SavedLocation
+import com.enjot.materialweather.weather.presentation.ui.screen.overview.SearchState
+import com.enjot.materialweather.weather.presentation.ui.screen.overview.search.ExpandableSearchBannerContent
+import com.enjot.materialweather.weather.presentation.ui.theme.MaterialWeatherTheme
 import com.enjot.util.savedLocation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest

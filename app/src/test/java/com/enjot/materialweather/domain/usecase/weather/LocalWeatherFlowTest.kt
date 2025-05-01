@@ -18,18 +18,16 @@ import org.junit.jupiter.api.Test
 class LocalWeatherFlowTest {
 
     private lateinit var localRepository: LocalRepositoryFake
-    private lateinit var localWeatherFlow: LocalWeatherFlow
 
     @BeforeEach
     fun setUp() {
         localRepository = LocalRepositoryFake()
-        localWeatherFlow = LocalWeatherFlow(localRepository)
     }
 
     @Test
     fun `Emit new value, use case collect it properly`() = runTest {
 
-        localWeatherFlow().test {
+        localRepository.getLocalWeather().test {
             val initialWeather = awaitItem()
 
             assertThat(initialWeather.place).isNull()

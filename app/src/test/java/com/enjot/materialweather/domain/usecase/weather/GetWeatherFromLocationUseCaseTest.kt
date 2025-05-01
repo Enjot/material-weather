@@ -2,13 +2,14 @@ package com.enjot.materialweather.domain.usecase.weather
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.enjot.materialweather.domain.repository.LocalRepository
-import com.enjot.materialweather.domain.repository.LocationRepository
-import com.enjot.materialweather.domain.repository.RemoteRepository
+import com.enjot.materialweather.core.domain.LocationRepository
+import com.enjot.materialweather.core.domain.utils.ErrorType
+import com.enjot.materialweather.core.domain.utils.Resource
 import com.enjot.materialweather.domain.util.coordinates
 import com.enjot.materialweather.domain.util.weatherInfo
-import com.enjot.materialweather.domain.utils.ErrorType
-import com.enjot.materialweather.domain.utils.Resource
+import com.enjot.materialweather.weather.domain.repository.LocalRepository
+import com.enjot.materialweather.weather.domain.repository.RemoteRepository
+import com.enjot.materialweather.weather.domain.usecase.weather.GetWeatherFromLocationUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified

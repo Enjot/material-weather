@@ -2,13 +2,13 @@ package com.enjot.materialweather.data.repository
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.enjot.materialweather.data.remote.openweathermap.HttpClientFactory
-import com.enjot.materialweather.data.remote.openweathermap.KtorRepository
-import com.enjot.materialweather.domain.repository.RemoteRepository
+import com.enjot.materialweather.core.domain.utils.ErrorType
 import com.enjot.materialweather.domain.util.MainCoroutineExtension
 import com.enjot.materialweather.domain.util.TestDispatchers
 import com.enjot.materialweather.domain.util.coordinates
-import com.enjot.materialweather.domain.utils.ErrorType
+import com.enjot.materialweather.core.data.remote.HttpClientFactory
+import com.enjot.materialweather.weather.data.remote.KtorRepository
+import com.enjot.materialweather.weather.domain.repository.RemoteRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
