@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_access_location">Unable to access location</string>
+    <string name="server_not_responding">Server related problem</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="no_results_found">No results</string>
+    <string name="unknown_error">Unknown error</string>
+</resources>

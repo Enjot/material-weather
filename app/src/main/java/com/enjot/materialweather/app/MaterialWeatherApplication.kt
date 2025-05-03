@@ -2,9 +2,10 @@ package com.enjot.materialweather.app
 
 import android.app.Application
 import com.enjot.materialweather.BuildConfig
-import com.enjot.materialweather.core.coreModule
-import com.enjot.materialweather.settings.settingsModule
-import com.enjot.materialweather.weather.weatherModule
+import com.enjot.materialweather.settings.data.di.settingsDataModule
+import com.enjot.materialweather.settings.presentation.di.settingsPresentationModule
+import com.enjot.materialweather.weather.data.di.weatherDataModule
+import com.enjot.materialweather.weather.presentation.di.weatherPresentationModule
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -13,6 +14,7 @@ import org.koin.androix.startup.KoinStartup
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.component.KoinComponent
 import org.koin.dsl.koinConfiguration
+import pl.audiotocom.enjot.materialweather.core.data.di.coreDataModule
 import timber.log.Timber
 
 @OptIn(KoinExperimentalAPI::class)
@@ -39,9 +41,11 @@ class MaterialWeatherApplication : Application(), KoinStartup, KoinComponent {
         androidLogger()
         androidContext(this@MaterialWeatherApplication)
         modules(
-            coreModule,
-            weatherModule,
-            settingsModule
+            coreDataModule,
+            settingsDataModule,
+            settingsPresentationModule,
+            weatherDataModule,
+            weatherPresentationModule
         )
         workManagerFactory()
     }

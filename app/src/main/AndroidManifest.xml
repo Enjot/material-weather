@@ -27,18 +27,6 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-        </provider>
-
 <!--        <receiver android:name=".presentation.overviewscreen.widget.WeatherWidgetReceiver"-->
 <!--            android:exported="true">-->
 <!--            <intent-filter>-->
@@ -50,5 +38,4 @@
 <!--        </receiver>-->
 
     </application>
-
 </manifest>

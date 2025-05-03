@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -16,5 +17,15 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "MaterialWeather"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
- 
+include(":settings:data")
+include(":settings:domain")
+include(":settings:presentation")
+include(":core:domain")
+include(":core:data")
+include(":core:presentation:designsystem")
+include(":core:presentation:ui")
+include(":weather:data")
+include(":weather:domain")
+include(":weather:presentation")

@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.enjot.materialweather.weather.presentation.ui.theme.MaterialWeatherTheme
+import com.enjot.materialweather.core.presentation.designsystem.theme.MaterialWeatherTheme
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {

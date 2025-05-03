@@ -11,9 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.enjot.materialweather.settings.presentation.SettingsScreen
 import com.enjot.materialweather.weather.presentation.ui.screen.daily.DailyScreen
 import com.enjot.materialweather.weather.presentation.ui.screen.overview.OverviewScreenRoot
-import com.enjot.materialweather.weather.presentation.ui.screen.settings.SettingsScreen
 
 @Composable
 fun AppNavigation() {
