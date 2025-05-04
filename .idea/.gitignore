@@ -4,5 +4,16 @@
 /workspace.xml
 /runConfigurations.xml
 /AndroidProjectSystem.xml
+/modules
+/dictionaries
+/codeStyles
 appInsightsSettings.xml
 deploymentTargetSelector.xml
+androidTestResultsUserPreferences.xml
+compiler.xml
+deploymentTargetDropDown.xml
+gradle.xml
+kotlinc.xml
+other.xml
+render.experimental.xml
+vcs.xml
