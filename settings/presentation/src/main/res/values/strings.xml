@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="background_updates">Background weather updates</string>
+    <string name="background_updates_interval">Background weather updates interval</string>
+    <string name="minutes">%1$s minutes</string>
+    <string name="hours">%1$s hours</string>
+    <string name="location_based_background_updates">Location based background weather updates</string>
+    <string name="currently_not_supported">Currently not supported</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+</resources>

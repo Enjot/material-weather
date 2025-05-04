@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="background_updates">Aktualizuj pogodę w tle</string>
+    <string name="background_updates_interval">Interwał aktualizacji pogody w tle</string>
+    <string name="minutes">%1$s minut</string>
+    <string name="hours">%1$s godziny</string>
+    <string name="location_based_background_updates">Aktualizacja pogody w tle oparta na lokalizacji urządzenia</string>
+    <string name="currently_not_supported">Funkcja obecnie niewspierana</string>
+    <string name="cancel">Anuluj</string>
+    <string name="settings">Ustawienia</string>
+</resources>
