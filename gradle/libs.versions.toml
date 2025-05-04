@@ -49,8 +49,8 @@ jetbrainsKotlinJvm = "2.1.20"
 
 # Project versions
 projectApplicationId = "com.enjot.materialweather"
-projectVersionName="1.0.0-beta02"
-projectVersionCode = "2"
+projectVersionName="1.0.0-rc01"
+projectVersionCode = "3"
 projectMinSdk = "31"
 projectTargetSdk = "35"
 projectCompileSdk = "35"
