@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.weather.presentation.R
 import com.enjot.materialweather.weather.presentation.ui.core.indicator.MoonPhaseIndicator
-import com.enjot.materialweather.weather.presentation.utils.moonPhaseText
+import com.enjot.materialweather.weather.presentation.util.moonPhaseText
 
 @Composable
 fun MoonPhaseCard(

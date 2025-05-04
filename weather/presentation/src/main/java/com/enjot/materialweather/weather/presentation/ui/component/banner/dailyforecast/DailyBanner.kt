@@ -21,7 +21,7 @@ import com.enjot.materialweather.core.presentation.ui.components.Banner
 import com.enjot.materialweather.weather.domain.model.DailyWeather
 import com.enjot.materialweather.weather.presentation.R
 import com.enjot.materialweather.weather.presentation.ui.core.WeatherIcon
-import com.enjot.materialweather.weather.presentation.utils.toDayOfWeekId
+import com.enjot.materialweather.weather.presentation.util.toDayOfWeekId
 import kotlin.math.roundToInt
 
 @Composable

@@ -6,6 +6,7 @@ import com.enjot.materialweather.settings.data.di.settingsDataModule
 import com.enjot.materialweather.settings.presentation.di.settingsPresentationModule
 import com.enjot.materialweather.weather.data.di.weatherDataModule
 import com.enjot.materialweather.weather.presentation.di.weatherPresentationModule
+import com.enjot.materialweather.widget.widgetModule
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -45,7 +46,8 @@ class MaterialWeatherApplication : Application(), KoinStartup, KoinComponent {
             settingsDataModule,
             settingsPresentationModule,
             weatherDataModule,
-            weatherPresentationModule
+            weatherPresentationModule,
+            widgetModule
         )
         workManagerFactory()
     }

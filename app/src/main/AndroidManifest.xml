@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:name=".app.MaterialWeatherApplication"
         android:allowBackup="true"
@@ -17,7 +13,7 @@
         android:theme="@style/Theme.materialweather"
         tools:targetApi="32">
         <activity
-            android:name=".app.presentation.MainActivity"
+            android:name=".app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.materialweather">
             <intent-filter>
@@ -26,16 +22,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<!--        <receiver android:name=".presentation.overviewscreen.widget.WeatherWidgetReceiver"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-<!--            </intent-filter>-->
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/weather_widget_info" />-->
-<!--        </receiver>-->
-
     </application>
 </manifest>

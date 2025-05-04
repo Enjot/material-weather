@@ -31,6 +31,8 @@ dependencies {
     implementation(projects.settings.domain)
     implementation(projects.settings.presentation)
 
+    implementation(projects.widget)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

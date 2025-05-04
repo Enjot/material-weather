@@ -1,4 +1,4 @@
-package com.enjot.materialweather.weather.presentation.utils
+package com.enjot.materialweather.weather.presentation.util
 
 import com.enjot.materialweather.weather.presentation.R
 

@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enjot.materialweather.core.presentation.ui.components.Banner
 import com.enjot.materialweather.weather.presentation.R
-import com.enjot.materialweather.weather.presentation.utils.conditionCodeToDescriptionStringRes
+import com.enjot.materialweather.weather.presentation.util.conditionCodeToDescriptionStringRes
 
 @Composable
 fun SummaryBanner(
@@ -38,9 +38,7 @@ fun SummaryBanner(
                 style = MaterialTheme.typography.displayLarge
             )
             Text(
-                text = stringResource(
-                    conditionCodeToDescriptionStringRes(description)
-                ),
+                text = stringResource(conditionCodeToDescriptionStringRes(description)),
                 style = MaterialTheme.typography.titleLarge
             )
         }

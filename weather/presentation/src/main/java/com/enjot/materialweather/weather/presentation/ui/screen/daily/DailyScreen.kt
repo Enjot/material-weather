@@ -33,7 +33,7 @@ import com.enjot.materialweather.core.presentation.ui.components.ScreenHeader
 import com.enjot.materialweather.weather.presentation.R
 import com.enjot.materialweather.weather.presentation.ui.component.banner.conditions.ConditionsBanner
 import com.enjot.materialweather.weather.presentation.ui.component.banner.summary.SummaryBanner
-import com.enjot.materialweather.weather.presentation.utils.toDayOfWeekId
+import com.enjot.materialweather.weather.presentation.util.toDayOfWeekId
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 

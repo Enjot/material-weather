@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
     implementation(projects.weather.domain)
+    implementation(projects.widget)
 
     implementation(libs.bundles.koin)
     implementation(libs.timber)

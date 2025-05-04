@@ -1,4 +1,4 @@
-package com.enjot.materialweather.app.presentation
+package com.enjot.materialweather.app
 
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.End
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Start

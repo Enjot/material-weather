@@ -7,12 +7,14 @@ import com.enjot.materialweather.weather.data.mapper.toWeatherInfo
 import com.enjot.materialweather.weather.domain.model.SavedLocation
 import com.enjot.materialweather.weather.domain.model.WeatherInfo
 import com.enjot.materialweather.weather.domain.repository.LocalRepository
+import com.enjot.materialweather.widget.WidgetManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class LocalRepositoryImpl(
     private val savedLocationsDao: SavedLocationDao,
-    private val weatherDao: WeatherDao
+    private val weatherDao: WeatherDao,
+    private val widgetManager: WidgetManager
 ): LocalRepository {
     override fun getLocalWeather(): Flow<WeatherInfo> =
         weatherDao.getWeather().map { it?.toWeatherInfo() ?: WeatherInfo() }
@@ -20,6 +22,7 @@ class LocalRepositoryImpl(
     override suspend fun saveLocalWeather(weatherInfo: WeatherInfo) {
         val weatherEntity = weatherInfo.toWeatherEntity()
         weatherDao.insertWeather(weatherEntity)
+        widgetManager.updateWidgets()
     }
 
     override fun getSavedLocations(): Flow<List<SavedLocation>> {

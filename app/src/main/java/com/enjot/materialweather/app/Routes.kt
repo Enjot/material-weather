@@ -1,4 +1,4 @@
-package com.enjot.materialweather.app.presentation
+package com.enjot.materialweather.app
 
 import kotlinx.serialization.Serializable
 
