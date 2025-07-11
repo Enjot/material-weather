@@ -4,7 +4,7 @@
 My main goal was to make a pleasant-looking app, that has some small, unique functionality I didn't find in other weather apps in the Play Store:
 - getting info about postcodes in search results for the same-named places (other apps can put the region, but quite often it's not enough in my area to recognize which place I should choose from the list, some places can be named the same while being in the same region)
 
-### Features:  
+# Features:  
 ✅ current, hourly and daily weather data  
 ✅ air pollution data  
 ✅ sun and moon data  
@@ -23,16 +23,35 @@ My main goal was to make a pleasant-looking app, that has some small, unique fun
 ✅ edge-to-edge design  
 ✅ horizontal responsive widget  
 
-### Architecture
-- multi-module
-- extra layer modules inside feature modules
-- use cases and repositories
-- coroutines for async programming
-- kotlin flows for reactive programming
-- unidirectional data flow
-- dependency injection with inversion of control
+# Tests
+Instrumental tests  
+[Settings data module (WorkManager)](https://github.com/Enjot/material-weather/tree/master/settings/data/src/androidTest/java/com/enjot/materialweather)  
+  
+Unit tests  
+[Weather data module](https://github.com/Enjot/material-weather/tree/master/weather/data/src/test/java/com/enjot/materialweather/weather/data)  
+[Weather domain module](https://github.com/Enjot/material-weather/tree/master/weather/domain/src/test/java/com/enjot/materialweather/weather/domain)  
+  
+UI tests  
+[Weather presentation module](https://github.com/Enjot/material-weather/tree/master/weather/presentation/src/androidTest/java/com/enjot/materialweather)  
 
-### Tech Stack:
+# Architecture
+- Multi-module
+- Extra layer modules inside feature modules
+- Gradle convention plugins
+- Use cases and repositories
+- Coroutines for async programming
+- Kotlin flows for reactive programming
+- Unidirectional data flow
+- Dependency injection with inversion of control
+
+# Tech Stack:
 - Kotlin, Jetpack Compose including Canvas and Glance, Material 3, Ktor, Room, Koin, WorkManager, Preferences DataStore, JUnit5, Mockk
 ### Helpers libraries:
 - Firebase Crashlytics, KSP, Location Services, Accompanist, Kotlin Serialization, Turbine, Timber, LeakCanary
+
+# Instructions to build this repo
+### Add those API keys to your `local.properties` file:  
+api_key_openweathermap=[OpenWeatherMap API](https://openweathermap.org/api/one-call-3)  
+api_key_geoapify=[Geoapify API](https://www.geoapify.com/geocoding-api/)  
+
+add `google-services.json` to `/app` dir (need to create new Firebase project)
