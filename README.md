@@ -54,4 +54,4 @@ UI tests
 api_key_openweathermap=[OpenWeatherMap API](https://openweathermap.org/api/one-call-3)  
 api_key_geoapify=[Geoapify API](https://www.geoapify.com/geocoding-api/)  
 
-add `google-services.json` to `/app` dir (need to create new Firebase project)
+add `google-services.json` to `/app` dir (create new Firebase project)
