@@ -12,6 +12,7 @@ import com.enjot.materialweather.weather.data.util.weatherInfo
 import com.enjot.materialweather.weather.domain.model.WeatherInfo
 import com.enjot.materialweather.weather.domain.repository.LocalRepository
 import com.enjot.materialweather.widget.WidgetManager
+import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -30,7 +31,9 @@ class LocalRepositoryImplTest {
     fun setUp() {
         weatherDao = WeatherDaoFake()
         savedLocationDao = SavedLocationDaoFake()
-        widgetManager = mockk()
+        widgetManager = mockk {
+            coEvery { updateWidgets() } returns Unit
+        }
         repository = LocalRepositoryImpl(savedLocationDao, weatherDao, widgetManager)
     }
     
