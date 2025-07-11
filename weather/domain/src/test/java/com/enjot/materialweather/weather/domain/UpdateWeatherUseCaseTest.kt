@@ -5,11 +5,11 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import com.enjot.materialweather.core.domain.utils.ErrorType
 import com.enjot.materialweather.core.domain.utils.Resource
-import com.enjot.materialweather.weather.data.util.coordinates
-import com.enjot.materialweather.weather.data.util.weatherInfo
 import com.enjot.materialweather.weather.domain.repository.LocalRepository
 import com.enjot.materialweather.weather.domain.repository.RemoteRepository
 import com.enjot.materialweather.weather.domain.usecase.UpdateWeatherUseCase
+import com.enjot.materialweather.weather.domain.util.coordinates
+import com.enjot.materialweather.weather.domain.util.weatherInfo
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified

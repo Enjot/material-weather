@@ -13,7 +13,6 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.weather.domain)
 
-
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.timber)
     implementation(libs.androidx.work.runtime)

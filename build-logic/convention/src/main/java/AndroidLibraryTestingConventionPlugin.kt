@@ -14,6 +14,7 @@ class AndroidLibraryTestingConventionPlugin : Plugin<Project> {
             pluginManager.run {
                 apply("materialweather.jvm.testing")
                 apply("com.google.devtools.ksp")
+                apply("de.mannodermaus.android-junit5")
             }
 
             extensions.configure<LibraryExtension> {

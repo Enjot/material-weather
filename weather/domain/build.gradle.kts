@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.materialweather.jvm.library)
+    alias(libs.plugins.materialweather.jvm.testing)
 }
 
 dependencies {
